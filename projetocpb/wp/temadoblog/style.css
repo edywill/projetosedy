@@ -1,0 +1,351 @@
+/*
+Theme Name: Gluttony
+Theme URI: http://www.wpdesigner.com/2007/11/25/gluttony-wordpress-theme/
+Description: Gluttony of the Seven Deadly Sins series, a food menu style theme by Small Potato of <a href="http://www.wpdesigner.com/">Wpdesigner.com</a>.
+Version: 0.1.1
+Author: Small Potato
+Author: http://www.wpdesigner.com/
+*/
+
+body, h1, h2, h3, h4, h5, h6, address, blockquote, dd, dl, hr, p, form, input{ margin: 0; padding: 0; }
+
+body{
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 12px;
+	text-align: center;
+	vertical-align: top;
+	background: #e5f0f0;
+	color: #ccc;
+}
+
+form, input, textarea, table{ font-family: verdana, arial, helvetica, sans-serif; font-size: 12px; }
+
+h1, h2, h3, h4, h5, h6{ font-family: arial, helvetica, sans-serif; }
+h2, h3{ font-size: 16px; }
+
+a{ text-decoration: underline; color: #fff; }
+a:hover{ text-decoration: none; }
+a img{ border: 0; }
+
+address, dl, p{ padding: 10px 0 5px; }
+
+blockquote{
+	margin: 10px 0 0;
+	background: #f5f5f5;
+}
+blockquote p{ padding: 10px; }
+blockquote blockquote{
+	margin: 0 10px;
+	background: #fff;
+}
+
+img.centered{ display: block; margin-left: auto; margin-right: auto; }
+img.alignleft{ margin: 3px 10px 2px 0;}
+img.alignright{ margin: 3px 0 2px 10px;}
+
+img.alignleft, img.alignright{
+	padding: 9px;
+	border: 1px solid #eee;
+	display: inline;
+}
+
+p img{max-width: 100%;width: expression(this.width > 560 ? 560: true);}
+
+small{ font-size: 11px; }
+
+.alignleft{float: left;}
+.alignright{float: right;}
+
+.clear{margin: 0; padding: 0; clear: both;}
+
+.tl, .tr, .bl, .br{
+	width: 10px;
+	height: 10px;
+	overflow: hidden;
+}
+
+.tl, .bl{float: left; clear: left;}
+.tr, .br{float: right; clear: right;}
+
+#wrapper{margin: 0 auto; width: 830px;}
+
+#container{
+	float: left;
+	width: 830px;
+	margin: 10px 0 0;
+	text-align: left;
+	background: #e5f0f0;
+}
+
+.maincolumn{
+	float: left;
+	width: 620px;
+	margin: 10px 0 0 10px;
+	background:#e5f0f0;
+	display: inline;
+}
+
+#menu{
+	float: left;
+	width: 620px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+#menu ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#menu ul li{
+	float: left;
+	margin: 0 1px 0 0;
+	height: 29px;
+	overflow: hidden;
+	background: url(images/bg_tab_right.gif) no-repeat right top;
+	display: inline;
+}
+
+#menu ul li a{
+	display: block;
+	padding: 8px 10px 10px;
+	text-decoration: none;
+	background: url(images/bg_tab_left.gif) no-repeat;
+}
+
+#menu ul li a:hover{
+	text-decoration: underline;
+}
+
+#menu ul li span.feed{
+	padding: 0 17px 0 0;
+	background: url(images/feed.gif) no-repeat right top;
+}
+
+#menu ul li.current_page_item{
+	background: #fff url(images/bg_tab_current_right.gif) no-repeat right top;
+}
+
+#menu ul li.current_page_item a{
+	background: url(images/bg_tab_current_left.gif) no-repeat;
+	color: #000;
+}
+
+#content{
+	float: left;
+	width: 620px;
+	margin: 0 0 10px;
+	background: #e5f0f0;
+	color: #000;
+}
+
+#banner{
+	float: left;
+	width: 600px;
+	height: 150px;
+	overflow: hidden;
+	margin: 10px 10px 9px;
+	display: inline;
+	background: #e5f0f0;
+	color: #fff;
+}
+
+.post{
+	margin: 0 10px;
+}
+
+.entry-head, .entry-wrap{
+	margin: 1px 0 0;
+}
+
+.entry-head{
+	background: #eee url(images/bg_entry_head.gif) no-repeat left bottom;
+	color: #666;
+}
+
+.entry-head h2{
+	padding: 10px;
+	background:#e5f0f0
+}
+
+.entry-head h2 a{text-decoration: none; color: #666;}
+.entry-head h2 a:hover{color: #000;}
+
+.entry-date{
+	padding: 0 0 0 10px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	position: relative;
+}
+
+.entry-wrap{
+	background: #e5f0f0;
+}
+
+.entry-wrap .rc{
+	height: 14px;
+	overflow: hidden;
+	background: #e5f0f0;
+}
+
+.entry-content{
+	padding: 3px 20px 0;
+	line-height: 24px;
+	background: #e5f0f0;
+}
+
+.entry-content a{
+	color: #000;
+}
+
+.entry-content h1, .entry-content h2, .entry-content h3, .entry-content h4, .entry-content h5, .entry-content h6{
+	padding: 10px 0 0;
+	font-size: 14px;
+}
+.entry-content h5{font-size: 11px;}
+.entry-content h6{font-size: 10px;}
+
+.entry-meta{
+	padding: 10px 0 0;
+	font-family: arial, helvetica, sans-serif;
+}
+
+.entry-meta a{
+	font-weight: bold;
+}
+
+.navigation{
+	padding: 15px 20px 5px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 18px;
+}
+
+.navigation a{color: #000;}
+
+.sidebar{
+	float: left;
+	width: 180px;
+	margin: 0 0 0 10px;
+	font-family: arial, helvetica, sans-serif;
+	display: inline;
+}
+
+.sidebar ul{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	font-size: 11px;
+}
+
+.sidebar ul a{
+	font-weight: bold;
+}
+
+.sidebar ul li{
+	margin: 10px 0 0;
+}
+
+.sidebar ul li#search form{
+	height: 29px;
+	overflow: hidden;
+	background: url(images/bg_searchform.png) ;
+}
+
+.sidebar ul li#search form input#s{
+	margin: 7px 10px 0 30px;
+	border: 0;
+	font-family: arial, helvetica, sans-serif;
+	background-color: transparent;
+	color: #fff;
+}
+
+.sidebar ul li h3{
+	padding: 7px 10px;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #ccc;
+	background: #333 url(images/bg_sidebar_title.gif) no-repeat;	
+}
+
+.sidebar ul ul{
+	padding: 0 10px 10px;
+	line-height: 18px;
+	background: #404040 url(images/bg_sidebar_block.gif) no-repeat left bottom;
+}
+
+.sidebar ul ul li{
+	margin: 0;
+	padding: 3px 0 0;
+}
+
+.sidebar ul ul ul{
+	padding: 0 10px 0;
+	background-color: transparent;
+	background-image: none;
+}
+
+/* Sidebar Widgets */
+
+#calendar_wrap{
+	padding: 10px;
+	background: #404040 url(images/bg_sidebar_block.gif) no-repeat left bottom;
+}
+
+#calendar_wrap table{
+	width: 100%;
+}
+
+#calendar_wrap th, #calendar_wrap table td{
+	padding: 3px 0;
+}
+
+/* End Sidebar Widgets */
+
+#comments h3{
+	margin: 10px 0 0;
+	padding: 7px 10px;
+	background: #f5f5f5;
+}
+
+ol.commentlist{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+ol.commentlist li .comment-entry{
+	margin: 10px 0 0;
+	border: 1px solid #eee;
+	padding: 3px 10px 0;
+	line-height: 24px;
+}
+
+#commentform{
+	margin: 0 0 7px;
+	padding: 0 10px 6px;
+	border-top: 1px solid #fff;
+	background: #eee;
+}
+
+#footer{
+	float: left;
+	width: 830px;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 11px;
+	text-align: center;
+	background: url(images/bg_footer.gif) no-repeat;
+}
+
+#footer p{
+	line-height: 18px;
+	padding: 30px 20px 20px;
+}
+
+#footer a{ text-decoration: none; }
+#footer a:hover{ text-decoration: underline; }

@@ -1,0 +1,8 @@
+-Analisar limpeza de campos;
+-Testar internacional;
+-Testar retirada de hospedagem e translado
+-Concluir página final de visualização/resumo
+-Criar PDF para impressão;
+-Implementar/testar vinculação da hospedagem no cálculo das diárias
+-Implementar/testar aprovação dos 3 gestores
+-Implementar função de excluir semelhante a de inserir, sem atualizar página
