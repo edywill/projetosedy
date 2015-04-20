@@ -1,0 +1,62 @@
+@charset "utf-8";
+img {
+   max-width: 70%;
+}
+body {
+   font-size: 62.5%;
+   background:#f1f1f1;
+}
+@media screen and (max-width: 1920px) {
+   /*estilos*/
+}
+.responsive { 
+           max-width: 1920px; 
+           width: 100%; 
+           height: auto; 
+  }
+  .responsive  img{
+          max-width: 1920px;   /* Máximo da largura da imagem */
+          width: 100%;
+          max-height: 848px;  /* Máximo da altura da imagem */
+          min-height: auto;      /* Mínimo da altura, por padrão "auto" */
+  }
+div#conteudo {
+	max-width:1920px;
+	width:100%;
+	height:auto;
+	margin:0 auto;	
+	}
+div#centro {
+	max-width:1920px;
+	width:100%;
+	max-height:878px;
+	height:auto;
+	margin:0 auto;
+	background-image: url(imagens/centro.png);
+	background-repeat: no-repeat;
+	-moz-background-size: 100% 100%;
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;	
+	}
+.responsiveLogin { 
+           max-width: 710px; 
+           width: 100%; 
+           height: auto; 
+  }
+  .responsiveLogin img{
+          max-width: 710px;   /* Máximo da largura da imagem */
+          width: 36.3%;
+          max-height: 378px;
+		  height:33.5%  /* Máximo da altura da imagem */
+  }
+  .responsiveMarc { 
+           max-width: 249px; 
+           width: 80%; 
+           height: auto; 
+  }
+  .responsiveMarc img{
+          max-width: 220px;   /* Máximo da largura da imagem */
+          width: 19%;
+          max-height: 450px;
+		  height:40.8%  /* Máximo da altura da imagem */
+  }
