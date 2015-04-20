@@ -89,9 +89,10 @@ include "menu.php";
 <table id="example" width="100%" cellpadding='0' cellspacing='0' border='0' class='display' name='tabela2'>
   <thead>
   <tr>
-    <td><a href='novoAnalista.php' style="border:hidden"><img src="imagens/newuser.png" /></a></td><td colspan="8" align="right"><font size="+3" color="#000066"><strong>USUÁRIOS ANALISTAS</strong></font></tr>
+    <td colspan="2"><a href='novoAnalista.php' style="border:hidden"><img src="imagens/newuser.png" /></a></td><td colspan="7" align="right"><font size="+3" color="#000066"><strong>USUÁRIOS ANALISTAS</strong></font></tr>
 			<tr bgcolor="#FFFFFF">
-					<th width='15%' height="21">Código</th>
+					<th width='5%' height="21">Código</th>
+                    <th width='10%' height="21">Estado</th>
 					<th width='20%'>Nome</th>
 					<th width='20%'>Usuário</th>
 					<th width='20%'>E-mail</th>
@@ -101,13 +102,13 @@ include "menu.php";
 			</thead>
             <?php 
 			require ("conexaobd/conectbd.php");
-			$sql = "SELECT * FROM login ORDER BY nome";
+			$sql = "SELECT login.id_login,login.nome,login.email,login.usuario,estado.nome AS estnome,estado.sigla FROM login LEFT JOIN estado ON login.estado=estado.id ORDER BY login.nome";
    			$query = odbc_exec($conCab,$sql);
 			echo "<tbody>";
 			while ($resultado = odbc_fetch_object($query)){
 					if(!empty($resultado->nome)){
 						$nome=$resultado->nome;		
-            	echo "<tr><td><font size='-2'>".strtoupper($resultado->id_login)."</font></td><td><font size='-1'>".utf8_encode($nome)."</font></td><td><font size='-1'>".utf8_decode($resultado->usuario)."</font></td><td><font size='-1'>".trim($resultado->email)."</font></td><td align='center'><form action='editarAnalista.php' method='post' name='edit'><input type='hidden' name='iduser' value='".$resultado->id_login."'/><input type='submit' name='edit' value='Editar' style='background-color:#9F9'/></form></td><td align='center'><a href='removeAnalista.php?cod=".$resultado->id_login."'><input type='button' name='remove' value='Remover' style='background-color:#FCC'/></a></td></tr>";
+            	echo "<tr><td><font size='-2'>".strtoupper($resultado->id_login)."</font></td><td><font size='-1'>".utf8_encode($resultado->sigla)."</font></td><td><font size='-1'>".utf8_encode($nome)."</font></td><td><font size='-1'>".utf8_decode($resultado->usuario)."</font></td><td><font size='-1'>".trim($resultado->email)."</font></td><td align='center'><form action='editarAnalista.php' method='post' name='edit'><input type='hidden' name='iduser' value='".$resultado->id_login."'/><input type='submit' name='edit' value='Editar' style='background-color:#9F9'/></form></td><td align='center'><a href='removeAnalista.php?cod=".$resultado->id_login."'><input type='button' name='remove' value='Remover' style='background-color:#FCC'/></a></td></tr>";
 				}
 			}
 			?>

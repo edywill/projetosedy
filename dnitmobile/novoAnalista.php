@@ -127,6 +127,19 @@ include "menu.php";
             <td bgcolor="#FFFFFF">
             <input type="radio" name="perfil" value="usr" checked="checked"/> - Usuário Comum <br />
             <input type="radio" name="perfil" value="adm"/> - Administrador</td></tr>
+            <tr align="left">
+            <th height="32" bgcolor="#DCDBDB"><font size="+1" color="#000066">Localização:</font></th>
+            <td bgcolor="#FFFFFF">
+            <select name="estado">
+            <option value="0" selected="selected">Selecione</option>
+            <?php 
+			$sqlEstados=odbc_exec($conCab,"SELECT * FROM estado");
+			while($objEstados=odbc_fetch_object($sqlEstados)){
+				echo "<option value='".$objEstados->id."'>".utf8_encode($objEstados->nome)."/".$objEstados->sigla."</option>";
+				}
+			?>
+            </select>
+            </td></tr>
             <tr align="left"><td height="33"><a href="admin.php"><input type="button" name="voltar" value='<<Voltar'/></a></td><td align="right"><input class="botao" type="submit" name="atualiza" value='Cadastrar'/></td></tr>
 		    </tbody>
             </table>

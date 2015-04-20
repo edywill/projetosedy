@@ -12,8 +12,10 @@ $anonimo=$_SESSION['anonimoSession'];
 $novoanalista=$_POST['novoanalista'];
 $mensagem=$_POST['mensagem'];
 $_SESSION['mensagemSession']=$mensagem;
+$mensagemAc=$_POST['mensagemAc'];
+$_SESSION['mensagemAcSession']=$mensagemAc;
 
-if((empty($status)) && (empty($novoanalista)) && empty($mensagem)){
+if((empty($status)) && (empty($novoanalista)) && empty($mensagem) && empty($mensagemAc)){
 	$counError++;
 	$mensagemErro.="Erro[".$counError."]: Necessario alterar alguma informacao.\\n";
 	$valida=1;
@@ -154,6 +156,9 @@ if(!empty($_POST['status'])){
 if(!empty($novoanalista)){
 	$novaAnalista=odbc_fetch_array(odbc_exec($conCab,"SELECT nome FROM login WHERE id_login='".$novoanalista."'"));
 	$andamentoAcomp.=" Encaminhada para analista: ".utf8_encode($novaAnalista['nome']).".";
+	}
+if(!empty($mensagemAc)){
+	$andamentoAcomp.=" Mensagem de acompanhamento: ".addslashes($mensagemAc).".";
 	}
 	$sqlMaxAcomp=odbc_fetch_array(odbc_exec($conCab,"SELECT MAX(id) AS idmax FROM acompanhamento"));
 	$novoIdAcomp=$sqlMaxAcomp['idmax']+1;

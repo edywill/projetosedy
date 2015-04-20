@@ -78,11 +78,6 @@ LEFT JOIN login ON protocolo.id_analista=login.id_login
 LEFT JOIN device ON protocolo.device_id=device.id 
 INNER JOIN tipostatus ON protocolo.status_id=tipostatus.id 
 WHERE protocolo.id='".$_SESSION['protocoloSession']."'"));
-			if($sqlProtocolo['id_analista']<>$_SESSION['usuarioID'] && $sqlProtocolo['perfil']<>'adm'){
-				$counError++;
-				$mensagemErro.="Erro[".$counError."]: Protocolo em atendimento por outro operador.\\n";
-				$valida=1;
-				}
 		if($valida==0){				
 				
 ?>
@@ -116,6 +111,19 @@ $(document).ready(function() {
 } );
 
 	</script>
+    <script type="text/javascript">
+function limitaCaractere(textareaId,limite,exibeRestante){
+var caracterDigitado = document.getElementById(textareaId).value;
+var caracterRestante = limite - caracterDigitado.length;
+document.getElementById(exibeRestante).innerHTML = "<span style='color:green'>Você ainda pode digitar " + caracterRestante + " caracteres.</span>";
+if(caracterDigitado.length == limite - 1)
+document.getElementById(exibeRestante).innerHTML = "<span style='color:green'>Você ainda pode digitar " + caracterRestante + " caractere.</span>";
+if(caracterDigitado.length >= limite){
+document.getElementById(textareaId).value = document.getElementById(textareaId).value.substr(0, limite);
+document.getElementById(exibeRestante).innerHTML = "<span style='color:red'>Você já atingiu o limite de caracteres permitido!</span>";
+}
+}
+</script>
     <style type="text/css">
   .botao{
         font-size:12px;
@@ -201,17 +209,22 @@ include "menu.php";
   <thead>
   			<tr bgcolor="#FFFFFF">	
             		<th width='15%' height="21">Rod./UF<br />KM</th>
-                    <th width='15%'>Lat/Long<br />Mapa</th>				
-					<th width='20%'>Ocorrências</th>
+                    <th width='10%'>Lat/Long<br />Mapa</th>				
+					<th width='15%'>Ocorrências</th>
                     <th width='30%'>Detalhes da Ocorrência<br />(Ouvidoria)</th>
                     <th width='5%'>Foto</th>
 					<th width='15%'>Data</th> 
+                    <th width='10%'>Status</th> 
 				</tr>				
 			</thead>
             <tbody>
             <?php
 			$tabela='';
+			if($_SESSION['estadoSession']=='28'){
 			$sqlOcorAnalise=odbc_exec($conCab,"SELECT report.*,estado.sigla FROM report LEFT JOIN estado ON report.estado_id=estado.id WHERE protocolo='".$_SESSION['protocoloSession']."'");
+			}else{
+				$sqlOcorAnalise=odbc_exec($conCab,"SELECT report.*,estado.sigla FROM report LEFT JOIN estado ON report.estado_id=estado.id WHERE protocolo='".$_SESSION['protocoloSession']."' AND report.estado_id='".$_SESSION['estadoSession']."'");
+				}
 			while($objOcorAnalise=odbc_fetch_object($sqlOcorAnalise)){
 				$uf='';
 				$estrada='N/D';
@@ -247,15 +260,24 @@ include "menu.php";
 					$km="<br>".$objOcorAnalise->br_km;
 					}
 				$foto='';
+				$statusOc="<font color='green'>Válido</font><br>";
+				$opcaoInv="I";
+				$iconeInv="<img src='imagens/invalida.png' alt='Marcar como inválida' title='Marcar como inválida' width='30px' height='30px'/>";
+				if($objOcorAnalise->invalido=='1'){
+					$statusOc="<font color='red'>Inválido</font><br>";
+					$opcaoInv="V";
+					$iconeInv="<img src='imagens/valida.png' alt='Marcar como válida' title='Marcar como válida' width='30px' height='30px'/>";
+					}
 				if(!empty($objOcorAnalise->photo)){
 							$foto="<a class='iframe' href='foto.php?end=".$objOcorAnalise->photo."'><img src='imagens/cam.png' width='25px' height='25px'/></a>";
 							}
-			echo "<tr align='center'><td>".$objOcorAnalise->br_km.$estrada.$uf.$km."<br><a href='dadosManuais.php?id=".$objOcorAnalise->id."'><input type='button' name='bruf' value='Informar Manualmente'/></a></td><td align='center'>".$latLong."</td><td>".utf8_encode($ocorrenciasDesc)."</td><td>".utf8_encode($objOcorAnalise->messages)."</td><td>".$foto."</td><td>".$dtCriac."</td></tr>";
+			echo "<tr align='center'><td>".$estrada.$uf.$km."<br><a href='dadosManuais.php?id=".$objOcorAnalise->id."'><input type='button' name='bruf' value='Informar Manualmente'/></a></td><td align='center'>".$latLong."</td><td>".utf8_encode($ocorrenciasDesc)."</td><td>".utf8_encode($objOcorAnalise->messages)."</td><td>".$foto."</td><td>".$dtCriac."</td><td><strong>".$statusOc."</strong>
+			<a href='atualizaOcorr.php?id=".$objOcorAnalise->id."&acao=".$opcaoInv."'>".$iconeInv."</a><a href='atualizaOcorr.php?id=".$objOcorAnalise->id."&acao=R'><img src='imagens/remove.png' width='30px' height='30px' alt='Remover deste protocolo' title='Remover deste protocolo'/></a>
+			</td></tr>";
 			}
             ?>
 			</tbody>
             </table>
-             
            </td></tr>
            <tr align="left"><th colspan="4" width="15%" height="33" bgcolor="#DCDBDB"><font color="#000066" size="+1">Atualizar Análise</font></th></tr>
             <tr align="left">
@@ -266,7 +288,13 @@ include "menu.php";
 			<?php 
 			$sqlStatusProtocolos=odbc_exec($conCab,"SELECT id,descricao FROM tipostatus ORDER BY id");
 			while($objStatusProtocolos=odbc_fetch_object($sqlStatusProtocolos)){
+				if($objStatusProtocolos->id=='7'){
+					if($_SESSION['perfilSession']=='adm' || $_SESSION['estadoSession']=='SD'){			
 				echo "<option value='".$objStatusProtocolos->id."'>".utf8_encode($objStatusProtocolos->descricao)."</option>";
+					}
+				  }else{
+					 echo "<option value='".$objStatusProtocolos->id."'>".utf8_encode($objStatusProtocolos->descricao)."</option>"; 
+					  }
 				}
 			?>
             </select>
@@ -280,9 +308,26 @@ include "menu.php";
 				echo "<option value='".$objStatusProtocolos->id_login."'>".utf8_encode($objStatusProtocolos->nome)."</option>";
 				}
 			?>
-            </select></strong></td></tr>   
+            </select></strong>
+            </td></tr>
+            <?php 
+			if($_SESSION['perfilSession']=='adm' || $_SESSION['estadoSession']=='SD' ){
+			?>  
             <tr align="left"><th colspan="4" width="15%" height="33" bgcolor="#DCDBDB"><font color="#000066" size="+1">Mensagem para Usuário:</font></th></tr>
-            <tr align="left"><td colspan="4" width="15%" height="33" bgcolor="#FFFFFF"><textarea name="mensagem" cols="120" rows="15"><?php echo $_SESSION['mensagemSession']; ?></textarea></td></tr>
+            <tr align="center"><td colspan="4" width="15%" height="33" bgcolor="#DCDBDB">
+            <a href="#" onclick="window.open('faq.php?id=<?php echo $_SESSION['protocoloSession'];?>', 'FAQ DNIT Móvel', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=870, HEIGHT=700');"><strong>BUSCAR RESPOSTA</strong></a></td></tr>
+            <tr align="left"><td colspan="4" width="15%" height="33" bgcolor="#FFFFFF">
+            <textarea name="mensagem" id="mensagem" cols="120" rows="15" alt="Preencha esse campo para enviar mensagem ao usuário!" title="Preencha esse campo para enviar mensagem ao usuário!"><?php echo $_SESSION['mensagemSession']; ?></textarea></td></tr>
+            <?php 
+			}else{
+				echo "<input type='hidden' name='mensagem' value=''/>";
+				}
+			?>
+            <tr align="left"><th colspan="4" width="15%" height="33" bgcolor="#DCDBDB"><font color="#000066" size="+1">Mensagem de Acompanhamento:</font></th></tr>
+            <tr align="left"><td colspan="4" width="15%" height="33" bgcolor="#FFFFFF">
+            <textarea name="mensagemAc" id="mensagemAc" cols="120" rows="15" alt="Preencha esse campo para registrar informação adicional! Essa mensagem não irá para o usuário!" title="Preencha esse campo para registrar informação adicional! Essa mensagem não irá para o usuário!" onkeyup="limitaCaractere('mensagemAc',4000,'exibeLimite');"><?php echo $_SESSION['mensagemAcSession']; ?></textarea>
+            <div align="center"><strong><span id="exibeLimite"></span></strong></div>
+</td></tr>
             <tr align="left"><td height="33" colspan="2"><a href="principal.php"><input type="button" name="voltar" value='<<Voltar'/></a></td><td align="right" colspan="2"><input class="botao" type="submit" name="atualiza" value='Atualizar'/></td></tr>
 		    </tbody>
             </table>

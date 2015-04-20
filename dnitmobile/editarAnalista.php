@@ -113,7 +113,7 @@ include "menu.php";
 					}else{
 						echo "<script>alert('Selecione um usuário!');top.location.href='usuarios.php';</script>";
 						}
-			$sql = "SELECT * FROM login WHERE id_login='".$idUser."'";
+			$sql = "SELECT login.id_login,login.estado,login.perfil,login.nome,login.email,login.usuario,estado.nome AS estnome,estado.sigla FROM login LEFT JOIN estado ON login.estado=estado.id WHERE login.id_login='".$idUser."'";
    			$query = odbc_fetch_array(odbc_exec($conCab,$sql));
 			?>
 			<tbody>
@@ -150,6 +150,25 @@ include "menu.php";
 				
 				}
 			?>
+            <tr align="left">
+            <th height="32" bgcolor="#DCDBDB"><font size="+1" color="#000066">Localização:</font></th>
+            <td bgcolor="#FFFFFF">
+            <select name="estado">
+            <?php
+			if(empty($query['estnome'])){
+				echo "<option value='0' selected='selected'>Selecione</select>";
+				}else{
+					echo "<option value='".$query['estado']."' selected='selected'>".utf8_encode($query['estnome'])."/".$query['sigla']."</option>";
+					}
+			$sqlEstados=odbc_exec($conCab,"SELECT * FROM estado");
+			while($objEstados=odbc_fetch_object($sqlEstados)){
+				if($objEstados->id<>$query['estado']){
+				echo "<option value='".$objEstados->id."'>".utf8_encode($objEstados->nome)."/".$objEstados->sigla."</option>";
+				  }
+				}
+			?>
+            </select>
+            </td></tr>
             <tr align="left"><td height="33"><a href="admin.php"><input type="button" name="voltar" value='<<Voltar'/></a></td><td align="right"><input class="botao" type="submit" name="atualiza" value='Atualizar'/></td></tr>
 		    </tbody>
             </table>

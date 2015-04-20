@@ -3,11 +3,17 @@ require("valida.php");
 $_SESSION['protocoloSession']='';
 $_SESSION['idUserSession']='';
 $_SESSION['mensagemSession']='';
-$perfil=odbc_fetch_array(odbc_exec($conCab,"SELECT perfil,nome FROM login WHERE id_login='".$_SESSION['usuarioID']."'"));
+$perfil=odbc_fetch_array(odbc_exec($conCab,"SELECT perfil,nome,estado FROM login WHERE id_login='".$_SESSION['usuarioID']."'"));
 $_SESSION['perfilSession']=$perfil['perfil'];
+$_SESSION['estadoSession']=$perfil['estado'];
 
 $tabela[]='';
+			if($_SESSION['estadoSession']=='28'){
 			$sqlGeral="SELECT device_id FROM report WHERE protocolo IS NULL GROUP BY device_id";
+			}else{
+				$sqlGeral="SELECT device_id FROM report WHERE protocolo IS NULL
+				AND estado_id='".$_SESSION['estadoSession']."' GROUP BY device_id";
+				}
 			$queryGeral = odbc_exec($conCab,$sqlGeral) or die("<p>".odbc_errormsg());
 			$count=0;
 			while ($resultadoGeral = odbc_fetch_object($queryGeral)){
@@ -38,8 +44,10 @@ $tabela[]='';
 						}
 						
 				if($resultadoGeral->device_id>0){
+					if($countReports>0){
 				$tabela[$count]="<tr><td>Novo</td><td>".utf8_encode($nome)."</td><td align='center'>".$countReports."</td><td>".$dataPrimOcorr."</td><td>Não Direcionado</td><td align='center'>Novo</td><td><form name='detalhar' action='analiseOcorr.php' method='POST'><input type='hidden' name='idUser' value='".$resultadoGeral->device_id."'/><input type='submit' name='analisar' value='Analisar'/></form></td></tr>";
 			$count++;
+					}
 				}
 			}
 			
@@ -55,7 +63,11 @@ $tabela[]='';
 				$countReportsProt=0;
 				$dataPrimOcorrProt='';
 				
+				if($_SESSION['estadoSession']=='28'){
 				$sqlReportsProt=odbc_exec($conCab,"SELECT datetime_2 FROM report WHERE protocolo='".$resultado->idprot."' AND device_id='".$resultado->device_id."'");
+				}else{
+					$sqlReportsProt=odbc_exec($conCab,"SELECT datetime_2 FROM report WHERE protocolo='".$resultado->idprot."' AND device_id='".$resultado->device_id."' AND estado_id='".$_SESSION['estadoSession']."'");
+					}
 				
 				while($objReportsProt=odbc_fetch_object($sqlReportsProt)){
 					$countReportsProt++;
@@ -74,8 +86,10 @@ $tabela[]='';
 					if(empty($dataPrimOcorrProt)){
 						$dataPrimOcorrProt='Criacao Protocolo<br>'.$resultado->dt_criacao;
 						}
+					if($countReportsProt>0){	
 				$tabela[$count]="<tr><td>".$resultado->idprot."</td><td>".utf8_encode($nome2)."</td><td>".$countReportsProt."</td><td>".$dataPrimOcorrProt."</td><td>".utf8_encode($resultado->analista)."</td><td>".utf8_encode($resultado->descricao)."</td><td><form name='detalharProt' action='analiseOcorr.php' method='POST'><input type='hidden' name='idProt' value='".$resultado->idprot."'/><input type='submit' name='analisarProt' value='Analisar'/></form></td></tr>";
 			$count++;
+					}
 			}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -3,22 +3,31 @@ require("valida.php");
 $_SESSION['protocoloSession']='';
 $_SESSION['idUserSession']='';
 $_SESSION['mensagemSession']='';
+$_SESSION['mensagemAcSession']='';
 $_SESSION['anonimoSession']='';
-$perfil=odbc_fetch_array(odbc_exec($conCab,"SELECT perfil,nome FROM login WHERE id_login='".$_SESSION['usuarioID']."'"));
+$perfil=odbc_fetch_array(odbc_exec($conCab,"SELECT perfil,nome,estado FROM login WHERE id_login='".$_SESSION['usuarioID']."'"));
 $_SESSION['perfilSession']=$perfil['perfil'];
+$_SESSION['estadoSession']=$perfil['estado'];
 
 $tabela[]='';
+			if($_SESSION['estadoSession']=='28'){
 			$sqlGeral="SELECT device_id FROM report WHERE protocolo IS NULL GROUP BY device_id";
+			}else{
+				$sqlGeral="SELECT device_id FROM report WHERE protocolo IS NULL
+				AND estado_id='".$_SESSION['estadoSession']."' GROUP BY device_id";
+				}
 			$queryGeral = odbc_exec($conCab,$sqlGeral) or die("<p>".odbc_errormsg());
 			$count=0;
+			$estadoPredominante1='N/D';
 			while ($resultadoGeral = odbc_fetch_object($queryGeral)){
 				$sqlDevice=odbc_fetch_array(odbc_exec($conCab,"SELECT * FROM device WHERE id='".$resultadoGeral->device_id."'"));
 				$nome='Indefinido';
 				if(!empty($sqlDevice)){
 					$nome=$sqlDevice['name'];
 					}
-				$sqlReports=odbc_exec($conCab,"SELECT datetime_2 FROM report WHERE protocolo IS NULL AND device_id='".$resultadoGeral->device_id."'");
+				$sqlReports=odbc_exec($conCab,"SELECT report.datetime_2,(SELECT sigla FROM estado WHERE id=report.estado_id) AS sigla FROM report WHERE report.protocolo IS NULL AND report.device_id='".$resultadoGeral->device_id."'");
 				$dataPrimOcorr='';
+				$latLong='';
 				$countReports=0;
 				while($objReports=odbc_fetch_object($sqlReports)){
 					$countReports++;
@@ -33,19 +42,31 @@ $tabela[]='';
 					 }else{
 						 $dataPrimOcorr=$objReports->datetime_2;
 						 }
+						$estadoPredominante1=$objReports->sigla;
 					}
 					if(empty($dataPrimOcorr)){
 						$dataPrimOcorr='N/D';
 						}
-						
+					if(empty($estadoPredominante1)){
+						$estadoPredominante1='N/D';
+						}
 				if($resultadoGeral->device_id>0){
-				$tabela[$count]="<tr><td>Novo</td><td>".utf8_encode($nome)."</td><td align='center'>".$countReports."</td><td>".$dataPrimOcorr."</td><td>Não Direcionado</td><td align='center'>Novo</td><td><form name='detalhar' action='analiseOcorr.php' method='POST'><input type='hidden' name='idUser' value='".$resultadoGeral->device_id."'/><input type='submit' name='analisar' value='Analisar'/></form></td></tr>";
+					if($countReports>0){
+				$tabela[$count]="<tr><td>Novo</td><td>".utf8_encode($nome)."</td><td align='center'>".$estadoPredominante1."</td><td align='center'>".$countReports."</td><td>".$dataPrimOcorr."</td><td>Não Direcionado</td><td align='center'>Novo</td><td><form name='detalhar' action='analiseOcorr.php' method='POST'><input type='hidden' name='idUser' value='".$resultadoGeral->device_id."'/><input type='submit' name='analisar' value='Analisar'/></form></td></tr>";
 			$count++;
-				}
+					}
+				}else{
+					if($countReports>0){
+				$tabela[$count]="<tr><td>Novo</td><td>".utf8_encode($nome)."</td><td align='center'>".$estadoPredominante1."</td><td align='center'>".$countReports."</td><td>".$dataPrimOcorr."</td><td>Não Direcionado</td><td align='center'>Novo</td><td>N/D</td></tr>";
+			$count++;
+					}
+					}
 			}
+			
 			
 			$sql = "SELECT protocolo.id AS idprot,protocolo.device_id,protocolo.dt_criacao,protocolo.status_id, login.nome AS analista,tipostatus.descricao FROM protocolo LEFT JOIN login ON protocolo.id_analista=login.id_login LEFT JOIN tipostatus ON protocolo.status_id=tipostatus.id WHERE protocolo.status_id<>7 ORDER BY protocolo.status_id";
    			$query = odbc_exec($conCab,$sql) or die("<p>".odbc_errormsg());
+			$estadoPredominante='N/D';
 			echo "<tbody>";
 			while ($resultado = odbc_fetch_object($query)){
 				$sqlDevice2=odbc_fetch_array(odbc_exec($conCab,"SELECT * FROM device WHERE id='".$resultado->device_id."'"));
@@ -56,8 +77,11 @@ $tabela[]='';
 				$countReportsProt=0;
 				$dataPrimOcorrProt='';
 				
-				$sqlReportsProt=odbc_exec($conCab,"SELECT datetime_2 FROM report WHERE protocolo='".$resultado->idprot."' AND device_id='".$resultado->device_id."'");
-				
+				if($_SESSION['estadoSession']=='28'){
+				$sqlReportsProt=odbc_exec($conCab,"SELECT datetime_2,(SELECT sigla FROM estado WHERE id=report.estado_id) AS sigla FROM report WHERE protocolo='".$resultado->idprot."' AND device_id='".$resultado->device_id."'");
+				}else{
+					$sqlReportsProt=odbc_exec($conCab,"SELECT datetime_2,(SELECT sigla FROM estado WHERE id=report.estado_id) AS nome FROM report WHERE protocolo='".$resultado->idprot."' AND device_id='".$resultado->device_id."' AND estado_id='".$_SESSION['estadoSession']."'");
+					}
 				while($objReportsProt=odbc_fetch_object($sqlReportsProt)){
 					$countReportsProt++;
 					if(!empty($dataPrimOcorrProt)){
@@ -71,12 +95,18 @@ $tabela[]='';
 					 }else{
 						 $dataPrimOcorrProt=$objReportsProt->datetime_2;
 						 }
+						 $estadoPredominante=$objReportsProt->sigla;
 					}
 					if(empty($dataPrimOcorrProt)){
 						$dataPrimOcorrProt='Criacao Protocolo<br>'.$resultado->dt_criacao;
 						}
-				$tabela[$count]="<tr><td>".$resultado->idprot."</td><td>".utf8_encode($nome2)."</td><td>".$countReportsProt."</td><td>".$dataPrimOcorrProt."</td><td>".utf8_encode($resultado->analista)."</td><td>".utf8_encode($resultado->descricao)."</td><td><form name='detalharProt' action='analiseOcorr.php' method='POST'><input type='hidden' name='idProt' value='".$resultado->idprot."'/><input type='submit' name='analisarProt' value='Analisar'/></form></td></tr>";
+						if(empty($estadoPredominante)){
+						$estadoPredominante='N/D';
+						}
+				if($countReportsProt>0){
+				$tabela[$count]="<tr><td>".$resultado->idprot."</td><td>".utf8_encode($nome2)."</td><td>".utf8_encode($estadoPredominante)."</td><td>".$countReportsProt."</td><td>".$dataPrimOcorrProt."</td><td>".utf8_encode($resultado->analista)."</td><td>".utf8_encode($resultado->descricao)."</td><td><form name='detalharProt' action='analiseOcorr.php' method='POST'><input type='hidden' name='idProt' value='".$resultado->idprot."'/><input type='submit' name='analisarProt' value='Analisar'/></form></td></tr>";
 			$count++;
+				}
 			}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -102,7 +132,7 @@ $tabela[]='';
 
 $(document).ready(function() {
 	 $('#example').dataTable( {
-        "order": [[ 3, "asc" ]],
+        "order": [[ 4, "asc" ]],
 		"pagingType": "full_numbers"
     } );
 } );
@@ -148,13 +178,14 @@ include "menu.php";
   <thead>
   <tr><td colspan="11" align="right"><font size="+3" color="#000066"><strong>PAINEL DE REGISTROS</strong></font></tr>
 			<tr bgcolor="#FFFFFF">	
-            		<th width='10%'>Protocolo</th>
-                    <th width='20%'>Usuário</th>				
+            		<th width='8%'>Protocolo</th>
+                    <th width='20%'>Usuário</th>
+                    <th width='8%' height="21">UF Princ.</th>				
 					<th width='8%' height="21">Qtd. Ocorr.</th>
 					<th width='13%'>Prim. Ocor.</th>
-                    <th width='15%'>Analista</th>
-                    <th width='15%'>Status</th>
-                    <th width='12%'>Analisar</th>  
+                    <th width='13%'>Analista</th>
+                    <th width='13%'>Status</th>
+                    <th width='10%'>Analisar</th>  
 				</tr>				
 			</thead>
             <?php
@@ -167,7 +198,20 @@ include "menu.php";
             </table>
             <table border="0" width="100%">
             <tr bgcolor="#FBF7F7">
-              <td colspan="11" align="right"><a href='finalizados.php'><strong>PROTOCOLOS FINALIZADOS</strong></a></td></tr></table>
+            <td colspan="2" align="left">          
+           
+           
+            <a href="#" onclick="window.open('faq.php?id=0', 'FAQ DNIT Móvel', 'STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=10, WIDTH=870, HEIGHT=700');"><strong>FAQ</strong></a>
+            </td>
+              <td colspan="9" align="right"><a href='finalizados.php'><strong>PROTOCOLOS FINALIZADOS</strong></a></td></tr>
+              <tr><td colspan="11" align="right" height="10px"></tr>
+              <tr bgcolor="#E7E5E5"><td colspan="11" align="right"><font size="+3" color="#000066"><strong>MAPA DE OCORRÊNCIAS</strong></font></tr>
+              <td colspan="11" align="left">          
+              <iframe width="940" height="600" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://dnit-v-esri.intranet/portaldnitgeo/apps/OnePane/basicviewer/embed.html?webmap=7ad00fa080194e67a320a2c323fd8d03&amp;gcsextent=-81.771,-31.5848,-16.8638,3.9008&amp;displayslider=true&amp;displayscalebar=true&amp;displaylegend=true&amp;displaysearch=true&amp;searchextent=true&amp;displaybasemaps=true"></iframe>
+               </td></tr>
+              <tr bgcolor="#E7E5E5">
+                <td colspan="11" align="center"><a href="http://dnit-v-esri.intranet/portaldnitgeo/home/webmap/viewer.html?webmap=7ad00fa080194e67a320a2c323fd8d03&amp;extent=-81.771,-31.5848,-16.8638,3.9008" style="color:#0000FF;text-align:left" target="_blank"><strong>AMPLIAR MAPA</strong></a></tr>
+              </table>
             </td></tr></table>
 </td></tr>
 <tr>
