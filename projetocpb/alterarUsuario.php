@@ -1,0 +1,45 @@
+<?php
+include 'function.php';
+require('conexaomysql.php');
+$funcionario=trim($_POST['funcionario']);
+$controle=$_POST['controle'];
+$cigam=$_POST['cigam'];
+$perfil=0;
+$cont=0;
+$modulo[]='';
+if(isset($_POST['gest'])){
+	$cont++;
+	$modulo[$cont]='gest';
+	$perfil=1;
+	}
+if(isset($_POST['presi'])){
+	$cont++;
+	$modulo[$cont]='presi';
+	}
+if(isset($_POST['prestcont'])){
+	$cont++;
+	$modulo[$cont]='prestcont';
+	}
+if(isset($_POST['rh'])){
+	$cont++;
+	$modulo[$cont]='rh';
+}
+if(isset($_POST['conv'])){
+	$cont++;
+	$modulo[$cont]='conv';
+	}
+if(isset($_POST['aquis'])){
+	$cont++;
+	$modulo[$cont]='aquis';
+	}
+if(isset($_POST['prest'])){
+	$cont++;
+	$modulo[$cont]='prest';
+	}
+if(isset($_POST['atletas'])){
+	$cont++;
+	$modulo[$cont]='atletas';
+	}
+atualizaUsuario($funcionario,$perfil,$controle,$cigam,$modulo,$cont);
+
+?>
