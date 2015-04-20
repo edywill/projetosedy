@@ -1,0 +1,20 @@
+<!-- INCLUDE overall_header.html -->
+
+<form id="confirm" action="{S_CONFIRM_ACTION}" method="post">
+
+{$BS_BOX_START}
+<h3 class="panel-header">{MESSAGE_TITLE}</h3>
+{$BS_BOX_CONTENT}
+<div class="panel">
+	<p>{MESSAGE_TEXT}</p>
+	<fieldset class="submit-buttons">
+		{S_HIDDEN_FIELDS}
+		<input type="submit" name="cancel" value="{L_NO}" class="button2" />&nbsp; 
+		<input type="submit" name="confirm" value="{L_YES}" class="button1" />
+	</fieldset>
+</div>
+{$BS_BOX_END}
+
+</form>
+
+<!-- INCLUDE overall_footer.html -->

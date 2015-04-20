@@ -1,0 +1,32 @@
+<!-- INCLUDE ucp_header.html -->
+
+<!-- IF S_DRAFT_LOADED -->
+<div class="panel cp-content no-border">
+	{$BS_BOX_START}
+	<h3 class="panel-header">{L_INFORMATION}</h3>
+	{$BS_BOX_CONTENT}
+	<div class="panel ">
+		<p>{L_DRAFT_LOADED_PM}</p>
+	</div>
+	{$BS_BOX_END}
+</div>
+<!-- ENDIF -->
+
+<!-- IF S_SHOW_DRAFTS --><!-- INCLUDE drafts.html --><!-- ENDIF -->
+
+<!-- IF S_DISPLAY_PREVIEW --><!-- INCLUDE posting_preview.html --><!-- ENDIF -->
+
+<h2>{L_TITLE}</h2>
+
+<div class="panel cp-content">
+	<!-- DEFINE $EXTRA_POSTING_OPTIONS = 1 -->
+	<!-- INCLUDE posting_editor.html -->
+</div>
+
+<!-- IF S_SHOW_ATTACH_BOX --><!-- INCLUDE posting_attach_body.html --><!-- ENDIF -->
+
+<!-- IF S_DISPLAY_REVIEW --><!-- INCLUDE posting_topic_review.html --><!-- ENDIF -->
+
+<!-- IF S_DISPLAY_HISTORY --><!-- INCLUDE ucp_pm_history.html --><!-- ENDIF -->
+
+<!-- INCLUDE ucp_footer.html -->

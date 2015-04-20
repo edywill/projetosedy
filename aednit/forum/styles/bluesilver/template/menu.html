@@ -1,0 +1,65 @@
+<ul class="main-menu">
+	<li><a class="first<!-- IF SCRIPT_NAME == 'index' --> active<!-- ENDIF -->" href="{U_INDEX}">{L_INDEX}</a></li>
+
+	<li><a<!-- IF SCRIPT_NAME == 'faq' --> class="active"<!-- ENDIF --> href="{U_FAQ}">{L_FAQ}</a></li>
+
+	<!-- IF not S_IS_BOT -->
+		<!-- IF S_DISPLAY_MEMBERLIST --><li><a<!-- IF SCRIPT_NAME == 'memberlist' --> class="active"<!-- ENDIF --> href="{U_MEMBERLIST}">{L_MEMBERLIST}</a></li><!-- ENDIF -->
+		<!-- IF not S_USER_LOGGED_IN and S_REGISTER_ENABLED and not (S_SHOW_COPPA or S_REGISTRATION) --><li><a href="{U_REGISTER}">{L_REGISTER}</a></li><!-- ENDIF -->
+		<!-- IF S_USER_LOGGED_IN --><li><a<!-- IF S_IN_UCP --> class="active"<!-- ENDIF --> href="{U_PROFILE}" accesskey="e">{L_PROFILE}</a></li><!-- ENDIF -->
+
+		<!-- IF U_RESTORE_PERMISSIONS --><li><a href="{U_RESTORE_PERMISSIONS}">{L_RESTORE_PERMISSIONS}</a></li><!-- ENDIF -->
+	<!-- ENDIF -->
+
+	<!-- IF S_DISPLAY_SEARCH and not S_IN_SEARCH -->
+	<li id="search-box">
+		<form action="{U_SEARCH}" method="get" id="search">
+			<fieldset>
+			<input name="keywords" id="keywords" type="text" maxlength="128" class="inputbox search tiny" value="<!-- IF SEARCH_WORDS-->{SEARCH_WORDS}<!-- ELSE -->{L_SEARCH_MINI}<!-- ENDIF -->" onclick="if(this.value=='{LA_SEARCH_MINI}')this.value='';" onblur="if(this.value=='')this.value='{LA_SEARCH_MINI}';" />
+			<input class="button3" value="{L_SEARCH}" type="submit" />
+			{S_SEARCH_HIDDEN_FIELDS}
+			</fieldset>
+		</form>
+	</li>
+	<!-- ENDIF -->
+
+	<li><div class="clear"></div></li>
+</ul>
+
+<!-- IF not S_IS_BOT -->
+<div class="sub-menu">
+	<ul class="link-menu">
+		<li class="rightside"><a href="{U_LOGIN_LOGOUT}" accesskey="x"<!-- IF S_USER_LOGGED_IN --> class="logout-forum" onclick="return confirm('{L_CONFIRM_OPERATION}');"<!-- ELSE --> class="login-forum"<!-- ENDIF -->>{L_LOGIN_LOGOUT}</a></li>
+		<!-- IF S_DISPLAY_PM --><li class="rightside"><a href="{U_PRIVATEMSGS}" class="<!-- IF S_USER_NEW_PRIVMSG -->pm-new<!-- ELSEIF S_USER_UNREAD_PRIVMSG -->pm-unread<!-- ELSE -->pm-icon<!-- ENDIF -->"><!-- IF S_USER_NEW_PRIVMSG -->{PRIVATE_MESSAGE_INFO}<!-- ELSEIF S_USER_UNREAD_PRIVMSG -->{PRIVATE_MESSAGE_INFO_UNREAD}<!-- ELSE -->{L_PRIVATE_MESSAGES}<!-- ENDIF --></a></li><!-- ENDIF -->
+		<!-- IF U_MARK_FORUMS --><li class="rightside"><a href="{U_MARK_FORUMS}" accesskey="m" class="mark-forum"><!-- IF SCRIPT_NAME == 'viewforum' -->{L_MARK_SUBFORUMS_READ}<!-- ELSE -->{L_MARK_FORUMS_READ}<!-- ENDIF --></a></li><!-- ENDIF -->
+		<!-- IF U_MCP and not S_IN_MCP --><li class="rightside"><a href="{U_MCP}" class="mod-cp">{L_MODERATOR}</a></li><!-- ENDIF -->
+
+		<!-- IF S_DISPLAY_SEARCH -->
+		<li><a href="{U_SEARCH}" class="adv-search" title="{L_SEARCH_ADV_EXPLAIN}">{L_SEARCH}</a>
+			<ul>
+				<li><a href="{U_SEARCH_UNANSWERED}">{L_SEARCH_UNANSWERED}</a></li>
+				<li><a href="{U_SEARCH_ACTIVE_TOPICS}">{L_SEARCH_ACTIVE_TOPICS}</a></li>
+				<!-- IF S_LOAD_UNREADS --><li><a href="{U_SEARCH_UNREAD}">{L_SEARCH_UNREAD}</a></li><!-- ENDIF -->
+				<!-- IF S_USER_LOGGED_IN -->
+				<li><a href="{U_SEARCH_NEW}">{L_SEARCH_NEW}</a></li>
+				<li><a href="{U_SEARCH_SELF}">{L_SEARCH_SELF}</a></li>
+				<!-- ENDIF -->
+			</ul>
+		</li>
+		<!-- ENDIF -->
+
+		<!--
+		<li><a href="/" class="custom-item" title="Custom item title">Custom item 1</a>
+			<ul>
+				<li><a href="/">Custom item 1_1</a></li>
+				<li><a href="/">Custom item 1_2</a></li>
+				<li><a href="/">Custom item 1_3</a></li>
+				<li><a href="/">Custom item 1_4</a></li>
+			</ul>
+		</li>
+		-->
+
+	</ul>
+<div class="clear"></div>
+</div>
+<!-- ENDIF -->

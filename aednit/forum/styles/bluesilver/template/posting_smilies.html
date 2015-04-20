@@ -1,0 +1,23 @@
+<!-- INCLUDE simple_header.html -->
+
+<script type="text/javascript">
+// <![CDATA[
+	var form_name = 'postform';
+	var text_name = 'message';
+// ]]>
+</script>
+<script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/editor.js"></script>
+
+{$BS_BOX_START}
+<h3 class="panel-header">{L_SMILIES}</h3>
+{$BS_BOX_CONTENT}
+<div class="panel">
+	<!-- BEGIN smiley --> 
+		<a href="#" onclick="initInsertions(); insert_text('{smiley.A_SMILEY_CODE}', true, true); return false;"><img class="smile-popup" src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a> 
+	<!-- END smiley	-->
+</div>
+{$BS_BOX_END}
+
+<p><span class="right-box">{PAGINATION}</span><a href="#" onclick="window.close(); return false;">{L_CLOSE_WINDOW}</a></p>
+
+<!-- INCLUDE simple_footer.html -->

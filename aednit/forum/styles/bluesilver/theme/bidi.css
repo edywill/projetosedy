@@ -1,0 +1,991 @@
+/* RTL definitions
+---------------------------------------- */
+.rtl h1 {
+	float: right;
+	margin-left: 8px;
+	margin-right: 0;
+}
+
+.rtl h2 span.rside {
+	float: left;
+}
+
+.rtl h3.panel-header.lside {
+	text-align: left;
+}
+
+.rtl h3.panel-header span.rside {
+	float: left;
+	margin-left: -8px;
+	margin-right: 0;
+}
+
+.rtl h3.panel-header span.lside {
+	float: right;
+	margin-right: -8px;
+	margin-left: 0;
+}
+
+.rtl h3.panel-header span.lside {
+	float: right;
+}
+
+.rtl h3.cat-header span.rside {
+	float: left;
+}
+
+.rtl h3.cat-header span.lside {
+	float: right;
+}
+
+.rtl h3.cat-header .post-subject {
+	float: right;
+}
+
+.rtl h3.panel-header span.online, .rtl h3.cat-header span.online, .rtl h3.panel-header span.offline, .rtl h3.cat-header span.offline {
+	padding-right: 20px;
+	padding-left: 0;
+}
+
+.rtl h3.cat-header span.online, .rtl h3.cat-header span.offline {
+	margin-left: 20px;
+	margin-right: 0;
+}
+
+.rtl h3.panel-header span.online, .rtl h3.cat-header span.online, .rtl h3.panel-header span.offline, .rtl h3.cat-header span.offline {
+	background-position: 100% 50%;
+}
+
+.rtl h3.panel-header span.user-stats {
+	text-align: left;
+	margin-left: 0;
+}
+
+.rtl h3.information {
+	padding-right: 18px;
+	padding-left: 0;
+	background-position: 100% 0;
+}
+
+.rtl h3.login		{background-position: 100% 0;}
+.rtl h3.statistics	{background-position: 100% -16px;}
+.rtl h3.birthday		{background-position: 100% -32px;}
+.rtl h3.whosonline	{background-position: 100% -48px;}
+.rtl h3.permissions	{background-position: 100% -64px;}
+.rtl h3.locked		{background-position: 100% -80px;}
+.rtl h3.legend		{background-position: 100% -96px;}
+
+.rtl p.right {
+	text-align: left;
+}
+
+.rtl div.rules h4, .rtl div#information.rules h4 {
+	padding: 3px 25px 1px 0;
+}
+
+.rtl div.rules h4 {
+	background-position: 100% -530px;
+}
+
+div#information.rules h4 {
+	background-position: 100% -506px;
+}
+
+.rtl div.rules ul, .rtl div.rules ol {
+	margin-left: 0;
+	margin-right: 20px;
+}
+
+.rtl .left-sidebar {
+	float: right;
+}
+
+.rtl .right-sidebar {
+	float: left;
+}
+
+/* Search box
+--------------------------------------------- */
+.rtl #search-box {
+	float: left;
+	margin-right: 10px;
+	margin-left: 0;
+	text-align: left;
+}
+
+.rtl #search-box li {
+	text-align: left;
+}
+
+.rtl #site-description {
+	float: right;
+}
+
+.rtl #site-description h1 {
+	margin-left: 0;
+}
+
+/* Forums and topics layout
+----------------------------------------*/
+.rtl div.icon {
+	background-position: 100% 50%;		/* Position of folder icon */
+}
+
+.rtl div.lside {
+	margin-left: 330px;
+	margin-right: 0;
+	padding: 4px 5px 2px 5px;
+}
+
+.rtl div.lside p {
+	padding-right: 40px;
+	padding-left: 0;
+	background-position: 10px 50%;		/* Position of topic icon */
+}
+
+.rtl div.lside p.topic-img {
+	padding-left: 40px;					/* Space for topic icon */
+}
+
+.rtl .subforum-unread, .rtl .subforum-read {
+	float: right;
+	margin-left: 1%;
+	margin-right: 0;
+}
+
+.rtl a.subforum, .rtl .subforum-unread a, .rtl .subforum-read a {
+	display: inline-block;
+	padding-right: 17px;
+	padding-left: 0;
+	line-height: 1.2em;
+}
+
+.rtl .subforum-unread a, .rtl .subforum-read a {
+	display: inline !important;
+	line-height: 1.5em !important;
+}
+
+.rtl a.subforum.read, .rtl .subforum-read a {
+	background-position: 100% -128px;
+}
+
+.rtl a.subforum.unread, .rtl .subforum-unread a {
+	background-position: 100% -144px;
+}
+
+.rtl div.rside {
+	float: left;
+}
+
+.rtl span.statistics, .rtl p.statistics {
+	float: right;
+}
+
+/* Horizontal lists
+----------------------------------------*/
+.rtl ul.linklist li {
+	float: right;
+}
+
+.rtl ul.linklist li.rightside, .rtl p.rightside {
+	float: left;
+	margin-left: 0;
+	text-align: left;
+}
+
+.rtl ul.leftside li, .rtl ul.rightside li {
+	float: left;
+}
+
+.rtl .navbar ul.linklist li {
+	padding-right: 20px;
+	padding-left: 0;
+	background-position: 100% 50%;
+}
+
+.rtl .navbar ul.linklist li.rightside {
+	padding-left: 20px;
+	padding-right: 0;
+	background-position: 0 50%;
+}
+
+.rtl ul.leftside {
+	float: right;
+	margin-left: 5px;
+	margin-right: 0;
+	text-align: right;
+}
+
+.rtl ul.rightside {
+	float: left;
+	margin-left: -5px;
+	margin-right: 5px;
+	text-align: left;
+}
+
+/* Table styles
+----------------------------------------*/
+.rtl table.table1 thead th {
+	padding: 8px 3px 8px 0;
+}
+
+.rtl table.table1 thead th span {
+	padding-left: 0;
+	padding-right: 7px;
+}
+
+.rtl table.table1 tbody th {
+	text-align: right;
+}
+
+/* Specific column styles */
+.rtl table.table1 .name		{ text-align: right; padding-right: 5px; padding-left: 0;}
+.rtl table.table1 .joined		{ text-align: right; }
+.rtl table.table1 .active		{ text-align: right; }
+.rtl table.table1 .info		{ text-align: right; }
+.rtl table.table1 thead .autocol { padding-left: 0; padding-right: 1em; }
+
+.rtl table.table1 span.rank-img {
+	float: left;
+}
+
+.rtl table.info tbody th {
+	text-align: left;
+}
+
+/* Misc layout styles
+---------------------------------------- */
+.rtl .column1 {
+	float: right;
+	clear: right;
+}
+
+.rtl .column2 {
+	float: left;
+	clear: left;
+}
+
+/* General classes for placing floating blocks */
+.rtl .left-box {
+	float: right;
+	text-align: right;
+}
+
+.rtl .right-box {
+	float: left;
+	text-align: left;
+}
+
+.rtl dl.left-box.details {
+	margin-right: 1em;
+	margin-left: 0;
+}
+
+.rtl dl.details dt {
+	float: right;
+	clear: right;
+	text-align: left;
+}
+
+.rtl dl.details dd {
+	margin-right: 15em;
+	margin-left: 0;
+	padding-right: 5px;
+	padding-left: 0;
+}
+
+/* Pagination
+---------------------------------------- */
+.rtl .pagination {
+	text-align: left;
+	float: left;
+	margin-right: 10px;
+	margin-left: 0;
+}
+
+/* Pagination in viewforum for multipage topics */
+.rtl .row .pagination {
+	float: none;
+	display: inline-block;
+	padding: 1px 18px 1px 0;
+	background-position: 100% -160px;
+}
+
+.rtl .pagination span {
+	direction: ltr;
+}
+
+.rtl .pagination span.page-sep {
+	display: inline;
+	visibility: hidden;
+	position: absolute;
+}
+
+/* Miscellaneous styles
+---------------------------------------- */
+.rtl #forum-permissions {
+	float: left;
+	padding-right: 5px;
+	padding-left: 0;
+	margin-right: 5px;
+	margin-left: 0;
+	text-align: left;
+}
+
+.rtl .copyright .column2 {
+	text-align: left;
+}
+
+/* Back to top of page */
+.rtl .back2top {
+	margin-left: 10px;
+	margin-right: 0;
+	text-align: left;
+}
+
+.rtl .post.right .back2top {
+	margin-left: 0;
+}
+
+.rtl a {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+.rtl a.top {
+	float: left;
+}
+
+.rtl ul.topiclist dt {
+	float: right;
+}
+
+.rtl ul.topiclist dl {
+	position: static;
+}
+
+.rtl ul.topiclist dd {
+	float: right;
+	border-left: none;
+}
+
+.rtl .forum-image {
+	float: right;
+	margin-right: 0;
+	margin-left: 5px;
+}
+
+.rtl .forum-table .forum-image {
+	float: none;
+	padding-left: 5px;
+	padding-right: 0;
+}
+
+.rtl dl.icon {
+	background-position: 100% 50%;
+}
+
+.rtl li.header dl.icon dt {
+	/* Tweak for headers alignment when folder icon used */
+	padding-right: 5px;
+	padding-left: 75px;
+}
+
+.rtl dl.icon dt {
+	padding-right: 45px;					/* Space for folder icon */
+	padding-left: 35px;						/* Space for topic icon */
+	background-position: 10px 50%;			/* Position of topic icon */
+}
+
+.rtl dd.lastpost span, .rtl ul.topiclist dd.info span, .rtl ul.topiclist dd.option span, .rtl ul.topiclist dd.time span, .rtl dd.redirect span, .rtl dd.moderation span {
+	padding-left: 0;
+	padding-right: 5px;
+}
+
+.rtl dd.mark {
+	float: left !important;
+}
+
+.rtl ul.topiclist dd.searchextra {
+	margin-left: 0;
+	margin-right: 5px;
+	border-right: none;
+}
+
+/* Post body styles
+----------------------------------------*/
+.rtl .post, .rtl .post.right .postbody {
+	padding-right: 10px;
+	padding-left: 0;
+}
+
+.rtl .post.right, .rtl .post .postbody {
+	padding-left: 10px;
+	padding-right: 0;
+}
+
+/* Topic review panel
+----------------------------------------*/
+.rtl #topicreview {
+	padding-left: 5px;
+	padding-right: 0;
+}
+
+.rtl #expand {
+	clear: left;
+}
+
+/* MCP Post details
+----------------------------------------*/
+.rtl #post_details {
+	padding-left: 5px !important;
+	padding-right: 0 !important;
+}
+
+/* Content container styles
+----------------------------------------*/
+.rtl .content ul, .rtl .content ol {
+	margin-right: 3em;
+	margin-left: 0;
+}
+
+/* Post author */
+.rtl p.author {
+	margin: 0 0 0.6em 15em;
+}
+
+.rtl img.topic-icon {
+	float: right;
+	margin-left: 5px;
+	margin-right: 0;
+}
+
+.rtl .signature-preview {
+	border-left: 0;
+}
+
+/* BB Code styles
+----------------------------------------*/
+/* Quote block */
+.rtl blockquote {
+	margin: 0.5em 25px 0 1px;
+	border-right-width: 5px;
+	border-left-width: 1px;
+	border-right-color: #DDDDC5;
+	border-left-color: #e5e5e5;
+	border-right-style: solid;
+	border-left-style: dotted;
+}
+
+.rtl blockquote blockquote {
+	/* Nested quotes */
+	margin: 0.5em 10px 0 1px;
+}
+
+.rtl blockquote cite {
+	/* Username/source of quoter */
+	padding-right: 18px;
+	padding-left: 0;
+}
+
+.rtl blockquote cite, .rtl blockquote .uncited {
+	background-position: 100% -752px;
+}
+
+.rtl blockquote img:hover {
+	cursor: ne-resize;
+}
+
+.rtl code {
+	direction: ltr;
+}
+
+/* Code block */
+.rtl dl.codebox {
+	border-right-width: 5px;
+	border-left-width: 1px;
+	border-right-color: #B5CFC0;
+	border-left-color: #e5e5e5;
+	border-right-style: solid;
+	border-left-style: dotted;
+}
+
+.rtl dl.codebox dt {
+	padding-right: 20px;
+	padding-left: 0;
+	background-position: 100% -736px;
+}
+
+/* Attachments
+----------------------------------------*/
+.rtl .attachbox {
+	float: right;
+	margin: 5px 0 5px 5px;
+}
+
+.rtl dt.bg-attachbox {
+	padding-right: 18px;
+	padding-left: 0;
+	background-position: 100% -176px;
+}
+
+.rtl .attachbox dt.attach-archive, .rtl div.inline-attachment dt.attach-archive {
+	margin-right: 0;
+	padding-right: 18px;
+	padding-left: 0;
+	background-position: 100% -112px;
+}
+
+.rtl .attachbox dd {
+	clear: right;
+}
+
+.rtl .attachbox p {
+	clear: right;
+}
+
+.rtl .attachbox p.stats {
+	clear: right;
+}
+
+/* Post poll styles
+----------------------------------------*/
+.rtl fieldset.polls dl.voted dt {
+	background-position: 0 5px;
+}
+
+.rtl fieldset.polls dt {
+	float: right;
+	padding-left: 20px;
+	padding-right: 0;
+	text-align: right;
+}
+
+.rtl fieldset.polls dd {
+	float: right;
+	margin-right: 0;
+}
+
+.rtl fieldset.polls dd div {
+	padding-left: 3px;
+	padding-right: 0;
+	text-align: left;
+}
+
+.rtl fieldset.polls div.pollresults {
+	text-align: right;
+	border-left: 1px solid #fff;
+	border-top-color: #aaa;
+	border-right: none;
+}
+
+/* Poster profile block
+----------------------------------------*/
+.rtl .postprofile {
+	float: left;
+	background-position: 100% 0;
+/*	text-align: right; */
+}
+
+.rtl .postprofile.right {
+	float: right;
+	background-position: 0 0;
+/*	text-align: right; */
+}
+
+.rtl .postprofile dt.author {
+	text-align: right;
+}
+
+.rtl dl.pmlist dd {
+	margin-right: 61% !important;
+	margin-left: 0 !important;
+}
+
+/* Buttons
+----------------------------------------*/
+.rtl .buttons {
+	float: right;
+}
+
+.rtl .buttons div {
+	margin: 0 0 0 10px;
+	background-position: 0 -120px;
+}
+
+.rtl .buttons div a {
+	padding: 0 30px 0 14px;
+	background-position: 100% 0;
+}
+
+.rtl div.post-icon a, .rtl div.newpm-icon a	{background-position: 100% -24px;}
+.rtl div.forwardpm-icon a					{background-position: 100% -48px;}
+.rtl div.locked-icon a						{background-position: 100% -72px;}
+.rtl div.reply-all a, .rtl div.qr-icon a		{background-position: 100% -96px;}
+
+/* Sub-header (navigation bar)
+--------------------------------------------- */
+.rtl .main-menu li a {
+	float: right;
+	border-left: 1px solid #536DA5;
+	border-right: 0;
+}
+
+.rtl .main-menu li a.first {
+	border-right: 1px solid #536DA5;
+}
+
+.rtl .link-menu li {
+	float: right;
+}
+
+.rtl .link-menu li a {
+	margin-left: 5px;
+	margin-right: 0;
+	padding-left: 18px;
+	padding-right: 0;
+}
+
+.rtl .link-menu li.rightside {
+	float: left;
+}
+
+.rtl .link-menu li.rightside a {
+	margin-right: 5px;
+	margin-left: 0;
+	padding-left: 0;
+	padding-right: 18px;
+}
+
+.rtl .link-menu li a.login-forum 	{background-position: 100% -224px;}
+.rtl .link-menu li a.logout-forum 	{background-position: 100% -240px;}
+.rtl .link-menu li a.mark-forum 	{background-position: 100% -256px;}
+.rtl .link-menu li a.adv-search 	{background-position: 0 -272px;}
+.rtl .link-menu li a.mod-cp 		{background-position: 100% -288px;}
+.rtl .link-menu li a.pm-icon 		{background-position: 100% -304px;}
+.rtl .link-menu li a.pm-new 		{background-position: 100% -320px;}
+.rtl .link-menu li a.pm-unread	{background-position: 100% -336px;}
+.rtl .link-menu li a.custom-item	{background-position: 0 -480px;}		/* Need updated ie6/icons.gif */
+
+.rtl .link-menu li ul {
+	right: -5px;
+}
+
+.rtl .link-menu li ul li a  {
+	padding: 5px;
+	background-image: none;	
+}
+
+/* Poster profile icons
+----------------------------------------*/
+.rtl ul.profile-icons li {
+	float: right;
+	margin: 0 0 4px 4px;
+}
+
+.rtl ul.post-icons {
+	text-align: left;
+}
+
+.rtl ul.post-icons.top-row {
+	float: left;
+}
+
+.rtl ul.post-icons li {
+	margin-right: 10px;
+	margin-left: 0;
+}
+
+.rtl ul.post-icons.top-row li {
+	margin-right: 5px;
+}
+
+.rtl ul.post-icons li a {
+	padding-right: 20px;
+	padding-left: 0;
+}
+
+.rtl ul.post-icons li a.post-report, .rtl ul.post-icons li a.post-warn, .rtl ul.post-icons li a.post-info, .rtl ul.post-icons li a.post-details {
+	padding: 0;
+}
+
+.rtl ul.post-icons li a.post-edit 			{background-position: 100% -496px;}
+.rtl ul.post-icons li a.post-delete 		{background-position: 100% -528px;}
+.rtl ul.post-icons li a.post-quote 		{background-position: 100% -560px;}
+.rtl ul.post-icons li a.post-report 		{background-position: 100% -592px;}
+.rtl ul.post-icons li a.post-warn 			{background-position: 100% -624px;}
+.rtl ul.post-icons li a.post-info 			{background-position: 100% -656px;}
+.rtl ul.post-icons li a.post-details 		{background-position: 100% -688px;}
+
+.rtl ul.post-icons li a.post-edit:hover 	{background-position: 100% -512px;}
+.rtl ul.post-icons li a.post-delete:hover 	{background-position: 100% -544px;}
+.rtl ul.post-icons li a.post-quote:hover 	{background-position: 100% -576px;}
+.rtl ul.post-icons li a.post-report:hover 	{background-position: 100% -608px;}
+.rtl ul.post-icons li a.post-warn:hover 	{background-position: 100% -640px;}
+.rtl ul.post-icons li a.post-info:hover	{background-position: 100% -672px;}
+.rtl ul.post-icons li a.post-details:hover	{background-position: 100% -704px;}
+
+/* Main CP box
+----------------------------------------*/
+.rtl #cp-menu li.cp-options {
+	float: right;
+}
+
+.rtl .cp-mini li.cp-options {
+	margin-left: 4px;
+	margin-right: 0;
+}
+
+.rtl #cp-main .panel ol {
+	margin-right: 2em;
+	margin-left: 0;
+}
+
+.rtl #cp-main .pagination {
+	float: left;
+}
+
+.rtl #cp-main .row .pagination {
+	float: none;
+}
+
+.rtl #cp-main ul.topic-options li a {
+	margin-right: 6px;
+	margin-left: 0;
+}
+
+/* CP tabbed menu
+----------------------------------------*/
+.rtl #tabs a {
+	float: right;
+	border-left: 1px solid #E0E2E9;
+	border-right: 0;
+}
+
+/* Mini tabbed menu used in MCP
+----------------------------------------*/
+.rtl #minitabs {
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+.rtl #minitabs li {
+	float: left;
+	margin-right: 4px;
+	margin-left: 0;
+}
+
+/* UCP navigation menu
+----------------------------------------*/
+.rtl #navigation a {
+	float: right;
+	border-left: 1px solid #E0E2E9;
+	border-right-width: 0;
+}
+
+/* MCP Navlinks
+----------------------------------------*/
+.rtl ul.mcp-navlinks li {
+	float: right;
+	padding-right: 20px;
+	padding-left: 0;
+	background-position: 100% 50%;
+}
+
+/* Preferences pane layout
+----------------------------------------*/
+.rtl #cp-main h2 {
+	margin-left: 0;
+	margin-right: 10px;
+}
+
+.rtl .cp-mini li {
+	padding-right: 20px;
+	padding-left: 0;
+}
+
+.rtl .friend-online, .rtl .friend-offline {
+	background-position: 100% 50%;
+}
+
+/* PM Styles
+----------------------------------------*/
+.rtl ol.def-rules {
+	padding-right: 0;
+}
+
+/* PM marking colours */
+.rtl li.pm-legend {
+	margin-right: 6px;
+	margin-left: 0;
+	padding-right: 2px;
+	padding-left: 0;
+	border-right-width: 10px;
+	border-right-style: solid;
+	border-left-width: 0;
+}
+
+/* Avatar gallery */
+.rtl #gallery label {
+	float: right;
+	margin: 5px 0 5px 10px;
+}
+
+/* General form styles
+----------------------------------------*/
+.rtl option {
+	padding-right: 0;
+	padding-left: 1em;
+}
+
+.rtl label {
+	padding-right: 0;
+	padding-left: 5px;
+}
+
+/* Definition list layout for forms
+---------------------------------------- */
+.rtl fieldset dt {
+	float: right;
+	text-align: right;
+}
+
+.rtl fieldset dd {
+	margin-left: 0;
+	margin-right: 41%;
+}
+
+/* Specific layout 1 */
+.rtl fieldset.fields1 dd {
+	margin-right: 16em;
+	margin-left: 0;
+}
+
+/* Specific layout 2 */
+.rtl fieldset.fields2 dl {
+	float: right;
+}
+
+.rtl fieldset.fields2 dd {
+	margin-right: 0;
+}
+
+.rtl fieldset.fields2 .button4 {
+	margin-left: 5px;
+	margin-right: 0;
+}
+
+/* Form elements */
+.rtl dt label {
+	text-align: right;
+}
+
+.rtl dd input, .rtl dd textarea {
+	margin-left: 3px;
+	margin-right: 0;
+}
+
+/* Quick-login on index page */
+.rtl fieldset.quick-login label {
+	padding-left: 2px;
+	padding-right: 0;
+}
+
+.rtl fieldset.quick-login input.inputbox {
+	margin-left: 5px;
+	margin-right: 0;
+}
+
+/* Display options on viewtopic/viewforum pages  */
+.rtl fieldset.display-options label {
+	padding-left: 2px;
+	padding-right: 0;
+}
+
+/* Display actions for ucp and mcp pages */
+.rtl fieldset.display-actions {
+	text-align: left;
+	padding-left: 1em;
+	padding-right: 0;
+}
+
+.rtl fieldset.display-actions label {
+	padding-left: 2px;
+	padding-right: 0;
+}
+
+/* Jumpbox */
+.rtl fieldset.jumpbox {
+	float: left;
+}
+
+.rtl fieldset.forum-selection, .rtl .forum-selection fieldset.jumpbox {
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+.rtl fieldset.quickmod {
+	float: right;
+}
+
+/* Posting page styles
+----------------------------------------*/
+.rtl #format-buttons input.button4 {
+	margin-left: 2px;
+	margin-right: 0;
+}
+
+/* Emoticons panel */
+.rtl .smiley-box img {
+	margin-left: 2px;
+	margin-right: 0;
+}
+
+/* Form button styles
+---------------------------------------- */
+.rtl a.button1, .rtl input.button1, .rtl a.button2, .rtl input.button2 {
+	padding: 2px 18px 2px 5px;
+	background-position: 100% 50%;
+}
+
+/* Topic and forum Search */
+.rtl input.search {
+	background-position: 100% -270px;
+	padding: 3px 17px 3px 3px;
+}
+
+/* TipTip CSS - Version 1.2 */
+.rtl  #tiptip_arrow {
+	display: none;
+}
+
+/* Forum legend */
+.rtl ul.legend {
+	float: right;
+	margin: 0 -10px 5px 10px;
+}
+
+.rtl ul.legend li {
+	clear: right;
+	padding-right: 46px;
+	padding-left: 0;
+	background-position: 100% 0;
+}
+
+/* Share buttons */
+.rtl .share-buttons strong {
+	float: right;
+	margin-left: 2px;
+	margin-right: 0;
+	line-height: 1.8em;
+}
+
+.rtl .share-buttons a {
+	float: right;
+}
+
+/* Topic icons */
+.rtl ul.topic-options li a.next	 		{background-position: 0 -192px;}
+.rtl ul.topic-options li a.previous 		{background-position: 0 -168px;}
+.rtl ul.topic-options li a.next:hover 		{background-position: -24px -192px;}
+.rtl ul.topic-options li a.previous:hover 	{background-position: -24px -168px;}

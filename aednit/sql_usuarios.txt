@@ -1,0 +1,62 @@
+http://dbmy0035.whservidor.com/
+aednit_2
+drupal11aednit
+
+SELECT du.uid,
+du.name,du.mail,
+cargo.field_cargo_value,
+dtadm.field_dataadmdnit_value,
+dtnas.field_datanasc_value
+
+FROM drupal_users AS du LEFT JOIN (
+drupal_field_data_field_cargo AS cargo,
+drupal_field_data_field_dataadmdnit AS dtadm,
+drupal_field_data_field_datanasc AS dtnas)
+ON(
+cargo.entity_id=du.uid AND
+dtadm.entity_id=du.uid AND
+dtnas.entity_id=du.uid )
+
+
+SELECT du.uid,
+end.field_endereco_value,
+cidade.field_enderecocidade_value,
+comp.field_enderecocomplemento_value,
+numero.field_endereconumero_value,
+uf.field_enderecouf_value,
+lot.field_lotacao_value,
+mat.field_matdnit_value,
+nome.field_nome_value,
+sexo.field_sexo_value,
+siape.field_siape_value,
+telcelular.field_telcelular_value,
+telresidencial.field_telresidencial_value,
+teltrabalho.field_teltrabalho_value
+FROM drupal_users AS du LEFT JOIN (
+drupal_field_data_field_endereco AS end,
+drupal_field_data_field_enderecocidade AS cidade,
+drupal_field_data_field_enderecocomplemento AS comp,
+drupal_field_data_field_endereconumero AS numero,
+drupal_field_data_field_enderecouf AS uf,
+drupal_field_data_field_lotacao AS lot,
+drupal_field_data_field_matdnit AS mat,
+drupal_field_data_field_nome AS nome,
+drupal_field_data_field_sexo AS sexo,
+drupal_field_data_field_siape AS siape,
+drupal_field_data_field_telcelular AS telcelular,
+drupal_field_data_field_telresidencial AS telresidencial,
+drupal_field_data_field_teltrabalho AS teltrabalho)
+ON(
+end.entity_id=du.uid AND
+cidade.entity_id=du.uid AND
+comp.entity_id=du.uid AND
+numero.entity_id=du.uid AND
+uf.entity_id=du.uid AND
+lot.entity_id=du.uid AND
+mat.entity_id=du.uid AND
+nome.entity_id=du.uid AND
+sexo.entity_id=du.uid AND
+siape.entity_id=du.uid AND
+telcelular.entity_id=du.uid AND
+telresidencial.entity_id=du.uid AND
+teltrabalho.entity_id=du.uid)

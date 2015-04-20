@@ -1,0 +1,45 @@
+<!-- IF S_HAS_POLL_OPTIONS -->
+{$BS_BOX_START}
+<h3 class="panel-header"<!-- IF not S_POST_REVIEW --> id="preview"<!-- ENDIF -->>{L_PREVIEW}: {POLL_QUESTION}</h3>
+{$BS_BOX_CONTENT}
+<div class="post <!-- IF S_PRIVMSGS -->pm<!-- ELSE -->bg1<!-- ENDIF -->">
+	<div class="content">
+		<p><!-- IF L_POLL_LENGTH -->{L_POLL_LENGTH} - <!-- ENDIF -->{L_MAX_VOTES}</p>
+		<fieldset class="polls">
+		<!-- BEGIN poll_option -->
+			<dl>
+				<dt><label for="vote_{poll_option.POLL_OPTION_ID}">{poll_option.POLL_OPTION_CAPTION}</label></dt>
+				<dd style="width: auto;"><!-- IF S_IS_MULTI_CHOICE --><input type="checkbox" name="vote_id[]" id="vote_{poll_option.POLL_OPTION_ID}" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> /><!-- ELSE --><input type="radio" name="vote_id[]" id="vote_{poll_option.POLL_OPTION_ID}" value="{poll_option.POLL_OPTION_ID}"<!-- IF poll_option.POLL_OPTION_VOTED --> checked="checked"<!-- ENDIF --> /><!-- ENDIF --></dd>
+			</dl>
+		<!-- END poll_option -->
+		</fieldset>
+	</div>
+</div>
+{$BS_BOX_END}
+<hr />
+<!-- ENDIF -->
+
+<!-- IF S_PRIVMSGS --><div class="panel cp-content no-border">{$BS_BOX_START}<!-- ELSE -->{$BS_BOX_START}<!-- ENDIF -->
+<h3 class="panel-header"<!-- IF not S_HAS_POLL_OPTIONS and not S_POST_REVIEW --> id="preview"<!-- ENDIF -->>{L_PREVIEW}: {PREVIEW_SUBJECT}</h3>
+{$BS_BOX_CONTENT}
+<div class="post bg2">
+	<div class="postbody preview">
+		<div class="content">{PREVIEW_MESSAGE}</div>
+		<!-- IF .attachment -->
+		<div class="attachment">
+			<dl class="attachbox">
+				<dt class="bg-attachbox">{L_ATTACHMENTS}</dt>
+				<!-- BEGIN attachment -->
+				<dd>{attachment.DISPLAY_ATTACHMENT}</dd>
+				<!-- END attachment -->
+			</dl>
+		</div>
+		<!-- ENDIF -->
+
+		<!-- IF PREVIEW_SIGNATURE -->
+			<div class="signature">{PREVIEW_SIGNATURE}</div>
+		<!-- ENDIF -->
+	</div>
+	<div class="clear"></div>
+</div>
+<!-- IF S_PRIVMSGS -->{$BS_BOX_END}</div><!-- ELSE -->{$BS_BOX_END}<hr /><!-- ENDIF -->

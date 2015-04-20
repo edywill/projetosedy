@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{S_CONTENT_DIRECTION}" lang="{S_USER_LANG}" xml:lang="{S_USER_LANG}">
+<head>
+<meta http-equiv="content-type" content="text/html; charset={S_CONTENT_ENCODING}" />
+<meta http-equiv="content-language" content="{S_USER_LANG}" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+{META}
+<title>{SITENAME} &bull; <!-- IF S_IN_MCP -->{L_MCP} &bull; <!-- ELSEIF S_IN_UCP -->{L_UCP} &bull; <!-- ENDIF -->{PAGE_TITLE}</title>
+
+<!-- IF S_ENABLE_FEEDS -->
+	<!-- IF S_ENABLE_FEEDS_OVERALL --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {SITENAME}" href="{U_FEED}" /><!-- ENDIF -->
+	<!-- IF S_ENABLE_FEEDS_NEWS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_NEWS}" href="{U_FEED}?mode=news" /><!-- ENDIF -->
+	<!-- IF S_ENABLE_FEEDS_FORUMS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_ALL_FORUMS}" href="{U_FEED}?mode=forums" /><!-- ENDIF -->
+	<!-- IF S_ENABLE_FEEDS_TOPICS --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_TOPICS_NEW}" href="{U_FEED}?mode=topics" /><!-- ENDIF -->
+	<!-- IF S_ENABLE_FEEDS_TOPICS_ACTIVE --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FEED_TOPICS_ACTIVE}" href="{U_FEED}?mode=topics_active" /><!-- ENDIF -->
+	<!-- IF S_ENABLE_FEEDS_FORUM and S_FORUM_ID --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_FORUM} - {FORUM_NAME}" href="{U_FEED}?f={S_FORUM_ID}" /><!-- ENDIF -->
+	<!-- IF S_ENABLE_FEEDS_TOPIC and S_TOPIC_ID --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_TOPIC} - {TOPIC_TITLE}" href="{U_FEED}?f={S_FORUM_ID}&amp;t={S_TOPIC_ID}" /><!-- ENDIF -->
+<!-- ENDIF -->
+
+<!--
+	phpBB style name:	bluesilver
+	Based on style:		prosilver (this is the default phpBB3 style)
+	Original author:	Tom Beddard ( http://www.subBlue.com/ )
+	Modified by:		pit
+-->
+
+<!-- INCLUDE _bs_config.html -->
+
+<script type="text/javascript">
+// <![CDATA[
+	var jump_page = '{LA_JUMP_PAGE}:';
+	var on_page = '{ON_PAGE}';
+	var per_page = '{PER_PAGE}';
+	var base_url = '{A_BASE_URL}';
+	var style_cookie = 'phpBBstyle';
+	var style_cookie_settings = '{A_COOKIE_SETTINGS}';
+	var onload_functions = new Array();
+	var onunload_functions = new Array();
+
+	<!-- IF S_USER_PM_POPUP and S_NEW_PM -->
+		var url = '{UA_POPUP_PM}';
+		window.open(url.replace(/&amp;/g, '&'), '_phpbbprivmsg', 'height=225,resizable=yes,scrollbars=yes, width=400');
+	<!-- ENDIF -->
+
+	/**
+	* Find a member
+	*/
+	function find_username(url)
+	{
+		popup(url, 760, 570, '_usersearch');
+		return false;
+	}
+
+	/**
+	* New function for handling multiple calls to window.onload and window.unload by pentapenguin
+	*/
+	window.onload = function()
+	{
+		for (var i = 0; i < onload_functions.length; i++)
+		{
+			eval(onload_functions[i]);
+		}
+	};
+
+	window.onunload = function()
+	{
+		for (var i = 0; i < onunload_functions.length; i++)
+		{
+			eval(onunload_functions[i]);
+		}
+	};
+
+// ]]>
+</script>
+
+<script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/forum_fn.js"></script>
+<script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/jquery.tipTip.js"></script>
+
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:600" rel="stylesheet" type="text/css" />
+<link href="{T_STYLESHEET_LINK}" rel="stylesheet" type="text/css" media="screen, projection" />
+<link href="{T_THEME_PATH}/print.css" rel="stylesheet" type="text/css" media="print" title="printonly" />
+
+<!-- IF S_CONTENT_DIRECTION eq 'rtl' -->
+	<link href="{T_THEME_PATH}/bidi.css" rel="stylesheet" type="text/css" media="screen, projection" />
+<!-- ENDIF -->
+
+<!--[if IE 6]>
+	<link href="{T_THEME_PATH}/images/ie6/ie6.css" rel="stylesheet" type="text/css" media="screen, projection" />
+	<script type="text/javascript" src="{T_THEME_PATH}/images/ie6/ie6.js"></script>
+<![endif]-->
+
+<script type="text/javascript">
+// <![CDATA[
+$(function(){
+$(".tip").tipTip({maxWidth: "auto", edgeOffset: 5});
+});
+<!-- IF SCRIPT_NAME == 'faq' -->
+var faq_save = false;
+function faq_highlight(elem) {
+	elem = document.getElementById(elem).parentNode;
+	if (faq_save) {
+		faq_save.className = 'faq';
+	}
+	elem.className = 'faq rules';
+	faq_save = elem;
+}
+<!-- ENDIF -->
+// ]]>
+</script>
+
+</head>
+
+<body id="phpbb" class="section-{SCRIPT_NAME} {S_CONTENT_DIRECTION}"<!-- IF $BS_FORUM_WIDTH or $BS_LEFT_SIDEBAR or $BS_RIGHT_SIDEBAR --> style="<!-- IF $BS_FORUM_WIDTH -->width: {$BS_FORUM_WIDTH};<!-- ENDIF --><!-- IF $BS_LEFT_SIDEBAR or $BS_RIGHT_SIDEBAR --> min-width: 980px;<!-- ENDIF -->"<!-- ENDIF -->>
+
+<p class="skiplink"><a href="#start_here">{L_SKIP}</a></p>
+
+<div id="top" class="site-description">
+	<h1>{SITENAME}</h1>
+	<span>{SITE_DESCRIPTION}</span>
+	<div class="clear"></div>
+</div>
+
+<div class="headerbar">
+	<!-- IF $BS_ADS_BANNER --><div class="ads right-box">{$BS_ADS_BANNER}</div><!-- ENDIF -->
+	<!-- IF $BS_CLICKABLE_HEADER -->
+		<a href="{U_INDEX}" class="logo-full" title="{L_INDEX}"></a>
+	<!-- ELSE -->
+		<a href="{U_INDEX}" class="logo" title="{L_INDEX}"></a>
+	<!-- ENDIF -->
+</div>
+
+<!-- INCLUDE menu.html -->
+
+<div id="wrap">
+
+<!-- IF not $BS_SIDEBAR_INDEX or ($BS_SIDEBAR_INDEX and (SCRIPT_NAME == 'index' or SCRIPT_NAME == 'viewforum')) -->
+	<!-- IF $BS_LEFT_SIDEBAR -->
+			<!-- INCLUDE left_sidebar.html -->
+		<!-- ENDIF -->
+
+	<!-- IF $BS_RIGHT_SIDEBAR -->
+			<!-- INCLUDE right_sidebar.html -->
+	<!-- ENDIF -->
+<!-- ENDIF -->
+
+<!-- IF (($BS_LEFT_SIDEBAR or $BS_RIGHT_SIDEBAR) and not $BS_SIDEBAR_INDEX) or ($BS_LEFT_SIDEBAR or $BS_RIGHT_SIDEBAR) and ($BS_SIDEBAR_INDEX and (SCRIPT_NAME == 'index' or SCRIPT_NAME == 'viewforum')) -->
+	<div id="page-body-<!-- IF $BS_LEFT_SIDEBAR and not $BS_RIGHT_SIDEBAR -->{S_CONTENT_FLOW_BEGIN}<!-- ELSEIF $BS_RIGHT_SIDEBAR and not $BS_LEFT_SIDEBAR  -->{S_CONTENT_FLOW_END}<!-- ELSE -->both<!-- ENDIF -->-sidebar">
+<!-- ELSE -->
+	<div id="page-body">
+<!-- ENDIF -->
+
+<!-- IF $BS_ADS_HEADER != '' and not (S_PRIVMSGS or S_IN_MCP or SCRIPT_NAME == 'posting') -->
+	{$BS_BOX_START}
+	<h3 class="panel-header">{$BS_ADS_TITLE}</h3>
+	{$BS_BOX_CONTENT}
+	<div class="panel ads">
+		{$BS_ADS_HEADER}
+	</div>
+	{$BS_BOX_END}
+	<div style="height: 9px;"></div>
+<!-- ENDIF -->
+
+<!-- IF .navlinks -->
+	<ul class="navlinks">
+		<li><a href="{U_INDEX}">{L_INDEX}</a></li><!-- BEGIN navlinks --><li class="sep">&nbsp;</li><li><a href="{navlinks.U_VIEW_FORUM}">{navlinks.FORUM_NAME}</a></li><!-- END navlinks -->
+	</ul>
+<!-- ENDIF -->
+
+<!-- IF S_BOARD_DISABLED and S_USER_LOGGED_IN and (U_MCP or U_ACP) -->
+	<div id="information" class="rules">
+		<h4>{L_INFORMATION}</h4>
+		{L_BOARD_DISABLED}
+	</div>
+<!-- ENDIF -->
+
+<a id="start_here"></a>

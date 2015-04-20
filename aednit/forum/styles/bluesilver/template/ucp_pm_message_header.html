@@ -1,0 +1,45 @@
+<h2>{L_TITLE}<!-- IF CUR_FOLDER_NAME -->: {CUR_FOLDER_NAME}<!-- ENDIF --></h2>
+
+<form id="viewfolder" method="post" action="{S_PM_ACTION}">
+
+<!-- IF not S_NO_AUTH_SEND_MESSAGE -->
+	<div class="panel pm-panel-header cp-content">
+
+		<!-- IF U_EMAIL_PM or U_PRINT_PM or S_VIEW_MESSAGE or (S_DISPLAY_HISTORY and (U_VIEW_PREVIOUS_HISTORY or U_VIEW_NEXT_HISTORY)) -->
+			<ul class="linklist right-box topic-options">
+				<!-- IF S_VIEW_MESSAGE --><li><a href="{U_CURRENT_FOLDER}" class="return tip" title="{L_RETURN_TO} {CUR_FOLDER_NAME}"><span>{L_RETURN_TO} {CUR_FOLDER_NAME}</span></a></li><!-- ENDIF -->
+
+				<!-- IF S_DISPLAY_HISTORY and (U_VIEW_PREVIOUS_HISTORY or U_VIEW_NEXT_HISTORY) -->
+					<!-- IF U_VIEW_PREVIOUS_HISTORY --><li><a href="{U_VIEW_PREVIOUS_HISTORY}" class="previous tip" title="{L_VIEW_PREVIOUS_HISTORY}"><span>{L_VIEW_PREVIOUS_HISTORY}</span></a></li><!-- ENDIF -->
+					<!-- IF U_VIEW_NEXT_HISTORY --><li><a href="{U_VIEW_NEXT_HISTORY}" class="next tip" title="{L_VIEW_NEXT_HISTORY}"><span>{L_VIEW_NEXT_HISTORY}</span></a></li><!-- ENDIF -->
+				<!-- ENDIF -->
+
+				<!-- IF U_EMAIL_PM --><li><a href="{U_EMAIL_PM}" title="{L_EMAIL_PM}" class="email tip"></a></li><!-- ENDIF -->
+				<!-- IF U_PRINT_PM --><li><a href="{U_PRINT_PM}" title="{L_PRINT_PM}" accesskey="p" class="print tip"></a></li><!-- ENDIF -->
+			</ul>
+		<!-- ENDIF -->
+
+		<!-- IF FOLDER_STATUS and FOLDER_MAX_MESSAGES neq 0 --><p>{FOLDER_STATUS}</p><!-- ENDIF -->
+
+		<!-- IF U_POST_REPLY_PM or U_POST_NEW_TOPIC or U_FORWARD_PM -->
+			<div class="buttons">
+				<!-- IF U_POST_REPLY_PM --><div class="pmreply-icon"><a href="{U_POST_REPLY_PM}#postingbox">{L_POST_REPLY_PM}</a></div>
+				<!-- ELSEIF U_POST_NEW_TOPIC --><div class="newpm-icon"><a href="{U_POST_NEW_TOPIC}#postingbox" accesskey="n">{L_UCP_PM_COMPOSE}</a></div><!-- ENDIF -->
+				<!-- IF U_FORWARD_PM --><div class="forwardpm-icon"><a href="{U_FORWARD_PM}#postingbox">{L_FORWARD_PM}</a></div><!-- ENDIF -->
+				<!-- IF U_POST_REPLY_PM and S_PM_RECIPIENTS gt 1 --><div class="reply-all"><a href="{U_POST_REPLY_ALL}">{L_REPLY_TO_ALL}</a></div><!-- ENDIF -->
+			</div>
+		<!-- ENDIF -->
+
+		<!-- IF TOTAL_MESSAGES -->
+			<ul class="linklist">
+				<li class="rightside pagination">
+					<!-- IF FOLDER_CUR_MESSAGES neq 0 -->
+						<!-- IF TOTAL_MESSAGES -->{TOTAL_MESSAGES}<!-- ENDIF -->
+						<!-- IF PAGE_NUMBER --><!-- IF PAGINATION --> &bull; <a class="tip" href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE --> &bull; {PAGE_NUMBER}<!-- ENDIF --><!-- ENDIF -->
+					<!-- ENDIF -->
+				</li>
+			</ul>
+		<!-- ENDIF -->
+
+	</div>
+<!-- ENDIF -->

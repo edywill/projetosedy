@@ -1,0 +1,97 @@
+/* These style definitions are IE6 specific tweaks. */
+* html body {behavior: url("./styles/bluesilver/theme/images/ie6/csshover.htc");}
+* html #page-body-left-sidebar {padding-left: 8px;}
+* html #page-body-right-sidebar {padding-right: 8px;}
+* html #page-body-both-sidebar {padding: 0 8px;}
+* html #page-body-left-sidebar, * html #page-body-right-sidebar, * html #page-body-both-sidebar {height: 100%;}
+* html a.logo {background-image: url("./site_logo.gif");}
+* html .link-menu li ul {background-color: #E4E7F0; background-image: none;}
+* html h3.panel-header {margin-bottom: 0;}
+* html h3.information {line-height: 16px;}
+* html ul.post-icons li a {padding-top: 2px;}
+* html h3.panel-header span.online, * html h3.cat-header span.online, * html .friend-online {background-image: url("./bullet_orange.gif");}
+* html h3.panel-header span.offline, * html h3.cat-header span.offline, * html .friend-offline, * html .navbar ul.linklist li, * html ul.mcp-navlinks li, * html ul.navlinks li.sep, * html fieldset.polls dl.voted dt {background-image: url("./bullet_silver.gif");}
+* html .navbar ul.linklist li.unsubscribe {background-image: url("./bullet_orange.gif");}
+* html .share-buttons a {background-image: url("./share_buttons.gif");}
+* html ul.topic-options li a, * html ul.profile-icons li a {background-image: url("./icons_24x24.gif");}
+* html h3.information, * html .link-menu li a, * html .link-menu li.rightside a, * html a.subforum, * html .subforum-unread a, * html .subforum-read a, * html .rtl input.search, * html dt.bg-attachbox, * html .attachbox dt.attach-archive, * html div.inline-attachment dt.attach-archive, * html .row .pagination, * html .friend-add, * html .friend-remove, * html ul.post-icons li a, * html blockquote cite, * html blockquote .uncited, * html dl.codebox dt {background-image: url("./icons_16x16.gif");}
+* html .rtl h3.information, * html .rtl .link-menu li a, * html .rtl .link-menu li.rightside a, * html .rtl a.subforum, * html .rtl .subforum-unread a, * html .rtl .subforum-read a, * html input.search, * html .rtl dt.bg-attachbox, * html .rtl .attachbox dt.attach-archive, * html .rtl div.inline-attachment dt.attach-archive, * html .rtl .row .pagination, * html .rtl .friend-add, * html .rtl .friend-remove, * html .rtl ul.post-icons li a, * html .rtl blockquote cite, * html .rtl blockquote.uncited div, * html .rtl dl.codebox dt {background-image: url("./icons_16x16_rtl.gif");}
+* html div.rules h4 {background: url("./bg_rules.gif") 0 0 no-repeat;}
+* html div#information.rules h4 {background: url("./bg_info.gif") 0 0 no-repeat;}
+* html .rtl div.rules h4, * html .rtl div#information.rules h4 {background-position: 100% 0;}
+* html h3.cat-header, * html div.row, * html #tabs {background-image: url("./bg_row.gif");}
+* html #format-buttons input {background-image: url("./default_buttons.gif");}
+* html .rtl #format-buttons input {background-image: url("./default_buttons_rtl.gif");}
+* html a.left, * html a.right, * html a.up, * html a.down {background-image: url("./arrow.gif");}
+* html a.top, * html .rtl a.top {background: url("./icon_back_top.gif");}
+* html ul.legend {margin-bottom: 0; margin-left: -5px;}
+* html .rtl ul.legend {margin-right: -5px; margin-left: 0;}
+* html ul.legend li.icon-topic-new-posts {background-image: url("../../../imageset/topic_unread.gif");}
+* html ul.legend li.icon-topic-new-posts-hot {background-image: url("../../../imageset/topic_unread_hot.gif");}
+* html ul.legend li.icon-topic-new-posts-locked {background-image: url("../../../imageset/topic_unread_locked.gif");}
+* html ul.legend li.icon-topic-no-new-posts {background-image: url("../../../imageset/topic_read.gif");}
+* html ul.legend li.icon-topic-no-new-posts-hot {background-image: url("../../../imageset/topic_read_hot.gif");}
+* html ul.legend li.icon-topic-no-new-posts-locked {background-image: url("../../../imageset/topic_read_locked.gif");}
+* html ul.legend li.icon-announcement {background-image: url("../../../imageset/announce_read.gif");}
+* html ul.legend li.icon-sticky {background-image: url("../../../imageset/sticky_read.gif");}
+* html ul.legend li.icon-topic-moved {background-image: url("../../../imageset/topic_moved.gif");}
+* html ul.legend li.icon-forum-new-posts {background-image: url("../../../imageset/forum_unread.gif");}
+* html ul.legend li.icon-forum-no-new-posts {background-image: url("../../../imageset/forum_read.gif");}
+* html ul.legend li.icon-subforum {background-image: url("../../../imageset/forum_read_subforum.gif");}
+* html ul.legend li.icon-forum-locked {background-image: url("../../../imageset/forum_read_locked.gif");}
+* html ul.legend li.icon-forum-link {background-image: url("../../../imageset/forum_link.gif");}
+* html hr, * html hr.dashed {margin: 0;}
+* html a.left, * html a.right, * html a.up, * html a.down {padding: 0;}
+* html .subforum-unread, * html .subforum-read {margin-right: 2px;}
+* html .rtl .subforum-unread, * html .rtl .subforum-read {margin-left: 2px; margin-right: 0;}
+* html a.subforum, * html .subforum-unread a, * html .subforum-read a {display: inline-block; line-height: 1.2em;}
+* html a.subforum.unread, * html .subforum-unread, * html .rtl .subforum-unread, * html a.subforum.read, * html .subforum-read, * html .rtl .subforum-read {float: none; width: auto;}
+* html .forum-table .forum-image {float: left; padding-right: 0;}
+* html .rtl .forum-table .forum-image {float: right; padding-left: 0;}
+* html .rtl .forum-image {float: right; padding-left: 3px;}
+* html p.statistics, * html ul.topiclist dd {border-color: #e5e5e5;}
+* html p.redirect {border-left-color: #e5e5e5;}
+* html .rtl p.redirect {border-left-color: #fff; border-right-color: #e5e5e5;}
+* html table, * html select, * html input {font-size: 100%;}
+* html #search-box fieldset {text-align: right; display: inline;}
+* html .sub-menu, * html .link-menu li ul li a:hover, * html #cp-menu li.cp-options, * html .m-l, * html .m-r, * html .b-m {background-image: none;}
+* html .row .pagination {padding-top: 0; padding-bottom: 0;}
+* html .rtl ul.navlinks li.sep {background-position: 50% -3px;}
+* html .rtl ul.navlinks li a {display: inline-block; line-height: 1.2em;}
+
+* html .t-l {margin: 0 -3px 0 -1px; background: url("./t_l.gif") 0 0 no-repeat;}
+* html .t-m {margin: 0; background: url("./t_m.gif") 0 0 repeat-x;}
+* html .t-r {margin: 0 -2px 0 -3px; background: url("./t_r.gif") 100% 0 no-repeat;}
+
+* html .m-l {margin: 0 -1px 0 -1px;}
+* html .m-m {margin: 0 -1px 0 0; border-left: 1px solid #E0E2E9; border-right: 1px solid #E0E2E9;}
+* html .m-r {margin: 0 -2px 0 -1px;}
+
+* html .b-l {display: none;}
+* html .b-m {margin: -12px 1px 0 3px; border-bottom: 1px solid #E0E2E9;}
+* html .b-r {display: none;}
+
+* html ul.topiclist li {position: relative;}
+* html .postbody h3 img {vertical-align: middle;}
+
+* html input.button1, * html input.button2, * html input.button4 {padding-bottom: 0; margin-bottom: 1px;}
+* html .buttons div a, * html h3.panel-header span.online, * html h3.panel-header span.offline {display: inline-block;}
+* html a.button1, * html input.button1, * html a.button2, * html input.button2 {padding: 2px 5px !important; background-image: none !important;}
+* html input.friend-add, * html input.friend-remove {color: #fff; font-size: 0;}
+
+* html .column1, * html .column2 {width: 45%;}
+* html #cp-content {border-top-color: #fff; border-bottom-color: #F2F4F9;}
+* html .cp-mini input {margin: 5px 0;}
+* html .rtl .cp-mini li {zoom: 1;}
+* html .pmlist li.row.bg1, * html .pmlist li.row.bg2 {border-top: 1px solid #e5e5e5;}
+* html .panel, * html .post, * html .post-wrapper, * html div .rules {height: 25%; overflow: hidden;}
+* html .row dl.icon, * html div.icon {height: 40px; overflow: visible;}
+* html ul.topiclist li.header dl {margin-bottom: -3px; overflow: visible;}
+* html .rtl dl.left-box.details dt {margin-left: -15em;}
+* html .rtl dl.left-box.details dd {zoom: 1;}
+* html .postprofile.left, * html .rtl .postprofile.right {background-repeat: repeat-y;}
+* html #format-buttons {margin-bottom: -1px;}
+* html fieldset.forum-selection, * html .forum-selection fieldset.jumpbox {margin: 8px 5px !important;}
+* html .attachment {width: 99%;}
+* html #timezone {width: 50%;}
+* html #tiptip_arrow, * html span.last-post-subject {display: none;}

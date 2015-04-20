@@ -1,0 +1,21 @@
+<!-- IF S_TYPE == 1 -->
+{$BS_BOX_START}
+<h3 class="panel-header">{L_CONFIRMATION}</h3>
+{$BS_BOX_CONTENT}
+<div class="panel">
+	<fieldset class="fields1">
+<!-- ENDIF -->
+
+	<dl>
+	<dt><label>{QA_CONFIRM_QUESTION}:</label><br /><span>{L_CONFIRM_QUESTION_EXPLAIN}</span></dt>
+	<dd>
+		<input type="text" tabindex="{$CAPTCHA_TAB_INDEX}" name="qa_answer" id="answer" size="45"  class="inputbox autowidth" title="{L_ANSWER}" />
+		<input type="hidden" name="qa_confirm_id" id="qa_confirm_id" value="{QA_CONFIRM_ID}" />
+	</dd>
+	</dl>
+
+<!-- IF S_TYPE == 1 -->
+	</fieldset>
+</div>
+{$BS_BOX_END}
+<!-- ENDIF -->

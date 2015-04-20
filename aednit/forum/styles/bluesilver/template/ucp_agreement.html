@@ -1,0 +1,64 @@
+<!-- INCLUDE overall_header.html -->
+
+<!-- IF S_SHOW_COPPA or S_REGISTRATION -->
+
+<!-- IF S_LANG_OPTIONS -->
+<script type="text/javascript">
+// <![CDATA[
+	/**
+	* Change language
+	*/
+	function change_language(lang_iso)
+	{
+		document.forms['register'].change_lang.value = lang_iso;
+		document.forms['register'].submit();
+	}
+
+// ]]>
+</script>
+
+	<form method="post" action="{S_UCP_ACTION}" id="register">
+		<p class="rightside">
+			<label for="lang">{L_LANGUAGE}:</label><select name="lang" id="lang" onchange="change_language(this.value); return false;" title="{L_LANGUAGE}">{S_LANG_OPTIONS}</select>
+			{S_HIDDEN_FIELDS}
+		</p>
+	</form>
+
+	<div class="clear"></div>
+
+<!-- ENDIF -->
+
+	<form method="post" action="{S_UCP_ACTION}" id="agreement">
+	{$BS_BOX_START}
+	<h3 class="panel-header">{SITENAME} - {L_REGISTRATION}</h3>
+	{$BS_BOX_CONTENT}
+		<div class="panel">
+			<p><!-- IF S_SHOW_COPPA -->{L_COPPA_BIRTHDAY}<!-- ELSE -->{L_TERMS_OF_USE}<!-- ENDIF --></p>
+
+			<p class="agreement">
+				<!-- IF S_SHOW_COPPA -->
+				<a href="{U_COPPA_YES}">{L_COPPA_YES}</a> | <strong><a href="{U_COPPA_NO}">{L_COPPA_NO}</a></strong>
+				<!-- ELSE -->
+				<input type="submit" name="not_agreed" value="{L_NOT_AGREE}" /> | <input type="submit" name="agreed" id="agreed" value="{L_AGREE}" />
+				<!-- ENDIF -->
+				{S_HIDDEN_FIELDS}
+				{S_FORM_TOKEN}
+			</p>
+		</div>
+	{$BS_BOX_END}
+	</form>
+
+<!-- ELSEIF S_AGREEMENT -->
+
+	{$BS_BOX_START}
+	<h3 class="panel-header">{SITENAME} - {AGREEMENT_TITLE}</h3>
+	{$BS_BOX_CONTENT}
+		<div class="panel">
+			<p>{AGREEMENT_TEXT}</p>
+			<p><a href="{U_BACK}">{L_BACK}</a></p>
+		</div>
+	{$BS_BOX_END}
+
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->

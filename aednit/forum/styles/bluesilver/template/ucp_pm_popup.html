@@ -1,0 +1,26 @@
+<!-- INCLUDE simple_header.html -->
+
+<script type="text/javascript">
+// <![CDATA[
+/**
+* Jump to inbox
+*/
+function jump_to_inbox(url)
+{
+	opener.document.location.href = url.replace(/&amp;/g, '&');
+	window.close();
+}
+// ]]>
+</script>
+
+{$BS_BOX_START}
+<h3 class="panel-header">{L_INFORMATION}</h3>
+{$BS_BOX_CONTENT}
+<div class="panel">
+	<p><!-- IF S_NOT_LOGGED_IN -->{L_LOGIN_CHECK_PM}<!-- ELSE -->{MESSAGE}<br /><br />{CLICK_TO_VIEW}<!-- ENDIF --></p>
+</div>
+{$BS_BOX_END}
+
+<p><a href="#" onclick="window.close(); return false;">{L_CLOSE_WINDOW}</a></p>
+
+<!-- INCLUDE simple_footer.html -->

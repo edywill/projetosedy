@@ -1,0 +1,62 @@
+<!-- IF .forumrow -->
+{$BS_BOX_START}
+<h3 class="panel-header"><span class="rside"<!-- IF $BS_RSIDE_WIDTH --> style="width: {$BS_RSIDE_WIDTH};"<!-- ENDIF -->><span class="statistics"<!-- IF $BS_STATISTICS_WIDTH --> style="width: {$BS_STATISTICS_WIDTH};"<!-- ENDIF -->>{L_STATISTICS}</span><span class="lastpost">{L_LAST_POST}</span></span>{L_FORUM}</h3>
+{$BS_BOX_CONTENT}
+<!-- BEGIN forumrow -->
+	<!-- IF forumrow.S_IS_CAT or forumrow.S_NO_CAT -->
+	<h3 class="cat-header"><!-- IF forumrow.S_IS_CAT --><a href="{forumrow.U_VIEWFORUM}">{forumrow.FORUM_NAME}</a><!-- ELSE -->{L_FORUM}<!-- ENDIF --></h3>
+	<!-- ENDIF -->
+	<!-- IF not forumrow.S_IS_CAT -->
+		<div class="row">
+			<div class="icon" style="background-image: url({forumrow.FORUM_FOLDER_IMG_SRC});">
+				<!-- IF forumrow.CLICKS or not forumrow.S_IS_LINK -->
+				<div class="rside"<!-- IF $BS_RSIDE_WIDTH --> style="width: {$BS_RSIDE_WIDTH};"<!-- ENDIF -->>
+					<!-- IF forumrow.CLICKS -->
+						<p class="redirect">{L_REDIRECTS}: {forumrow.CLICKS}</p>
+					<!-- ELSEIF not forumrow.S_IS_LINK -->
+						<p class="statistics"<!-- IF $BS_STATISTICS_WIDTH --> style="width: {$BS_STATISTICS_WIDTH};"<!-- ENDIF -->>{L_TOPICS}: {forumrow.TOPICS}<br />{L_POSTS}: {forumrow.POSTS}</p>
+						<p class="lastpost">
+							<!-- IF forumrow.LAST_POST_TIME -->
+								<!-- IF $BS_LAST_POST_TITLE and not S_IS_BOT --><span class="last-post-subject"><a href="{forumrow.U_LAST_POST}" title="{forumrow.LAST_POST_SUBJECT}">{forumrow.LAST_POST_SUBJECT}</a></span><!-- ENDIF -->
+								<!-- IF forumrow.U_UNAPPROVED_TOPICS --><a href="{forumrow.U_UNAPPROVED_TOPICS}">{UNAPPROVED_IMG}</a><!-- ENDIF --> {L_POST_BY_AUTHOR} {forumrow.LAST_POSTER_FULL} <!-- IF not S_IS_BOT --><!-- IF not $BS_LAST_POST_TITLE --><a href="{forumrow.U_LAST_POST}">{LAST_POST_IMG}</a><!-- ELSE --><!--[if IE 6]><a href="{forumrow.U_LAST_POST}">{LAST_POST_IMG}</a><![endif]--><!-- ENDIF --><!-- ENDIF --><br />
+								{forumrow.LAST_POST_TIME}
+							<!-- ELSE -->
+								{L_NO_POSTS}
+							<!-- ENDIF -->
+						</p>
+					<!-- ENDIF -->
+				</div>
+				<!-- ENDIF -->
+
+				<div class="lside"<!-- IF $BS_RSIDE_WIDTH --> style="margin-{S_CONTENT_FLOW_END}: {$BS_RSIDE_WIDTH};"<!-- ENDIF -->>
+					<p<!-- IF forumrow.FORUM_IMAGE and $BS_SUBFORUMS_IN_COLUMNS --> class="forum-table"<!-- ENDIF --> title="{forumrow.FORUM_FOLDER_IMG_ALT}">
+						<!-- IF forumrow.FORUM_IMAGE --><span class="forum-image">{forumrow.FORUM_IMAGE}</span><!-- ENDIF -->
+						<!-- IF S_ENABLE_FEEDS and forumrow.S_FEED_ENABLED --><!-- <a title="{L_FEED} - {forumrow.FORUM_NAME}" href="{U_FEED}?f={forumrow.FORUM_ID}"><img src="{T_THEME_PATH}/images/feed_{S_CONTENT_DIRECTION}.png" alt="{L_FEED} - {forumrow.FORUM_NAME}" /></a> --><!-- ENDIF -->
+						<a href="{forumrow.U_VIEWFORUM}" class="forumtitle">{forumrow.FORUM_NAME}</a>
+						<!-- IF forumrow.FORUM_DESC  --><br /><span>{forumrow.FORUM_DESC}</span><!-- ENDIF -->
+						<!-- IF forumrow.MODERATORS -->
+							<br /><strong>{forumrow.L_MODERATOR_STR}:</strong> {forumrow.MODERATORS}
+						<!-- ENDIF -->
+						<!-- IF forumrow.SUBFORUMS and forumrow.S_LIST_SUBFORUMS -->
+							<br />
+							<!-- IF not $BS_SUBFORUMS_IN_COLUMNS -->
+								<strong>{forumrow.L_SUBFORUM_STR}</strong> {forumrow.SUBFORUMS}
+							<!-- ELSE -->
+								<!-- BEGIN subforum -->
+									<span class="subforum-<!-- IF forumrow.subforum.S_UNREAD -->unread<!-- ELSE -->read<!-- ENDIF -->"><a href="{forumrow.subforum.U_SUBFORUM}" title="{forumrow.subforum.SUBFORUM_NAME} - <!-- IF forumrow.subforum.S_UNREAD -->{L_NEW_POSTS}<!-- ELSE -->{L_NO_NEW_POSTS}<!-- ENDIF -->">{forumrow.subforum.SUBFORUM_NAME}</a></span>
+								<!-- END subforum -->
+							<!-- ENDIF -->
+						<!-- ENDIF -->
+					</p>
+				</div>
+				<!-- IF forumrow.FORUM_IMAGE or $BS_SUBFORUMS_IN_COLUMNS --><div class="clear"></div><!-- ENDIF -->
+			</div>
+		</div>
+	<!-- ENDIF -->
+<!-- END forumrow -->
+{$BS_BOX_END}
+<!-- ELSE -->
+<div class="info-panel">
+	<strong>{L_NO_FORUMS}</strong>
+</div>
+<!-- ENDIF -->
