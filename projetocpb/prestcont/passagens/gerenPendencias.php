@@ -72,16 +72,16 @@ $(document).ready(function() {
     
 <h1 id="h1">Usuários com Pendência - Boarding Pass</h1>
 <?php
-$sqlRegistros=mysql_query("SELECT * FROM prestbloqueados");
+$sqlRegistros=mysql_query("SELECT * FROM prestbloqueados GROUP BY cdempres");
 $countRegistros=mysql_num_rows($sqlRegistros);
 if($countRegistros>0){
 ?>
 <table id="tabela4"  cellpadding='0' cellspacing='0' border='0' class='display' name='tabela4'>
 <thead>
 				<tr>
-					<th width='60%'><strong>Nome</strong></th>
+					<th width='50%'><strong>Nome</strong></th>
                     <th width='20%'><strong>Status</strong></th>
-                    <th width='20%'><strong>Ação</strong></th>
+                    <th width='30%'><strong>Ação</strong></th>
 				</tr>				
 			</thead>
        <tbody>
@@ -94,17 +94,17 @@ $sqlFuncionario=odbc_fetch_array(odbc_exec($conCab2,"select Nome_completo FROM G
 $nomeFuncionario=utf8_encode($sqlFuncionario['Nome_completo']);
 $status='Suspenso';
 if($objRegistros->status==0){
-	$status='Liberado 24h';
+	$status='Liberado';
 	}
 echo "<tr>
 <td>".$nomeFuncionario."</td>
 <td>".$status."</td>";
 if($objRegistros->status==1){
-	echo "<td><input type='button' name='removr' value='Liberar 24h'/>";
+	echo "<td><a href='atualizaPendencia.php?cdemp=$objRegistros->cdempres&tipo=l'><input type='button' name='removr' value='Liberar'/></a>";
 }else{
-	echo "<td><input type='button' name='removr' value='Suspender'/>";
+	echo "<td><a href='atualizaPendencia.php?cdemp=$objRegistros->cdempres&tipo=s'><input type='button' name='removr' value='Suspender'/></a>";
 }
-echo "<input type='button' name='removr' value='Excluir'/></td>
+echo "<a href='atualizaPendencia.php?cdemp=$objRegistros->cdempres&tipo=x'><input type='button' name='removr' value='Excluir'/></a></td>
 </tr>";
 }
 ?>       
