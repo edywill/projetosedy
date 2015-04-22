@@ -211,14 +211,14 @@ Where
 	}
 //Buscar usuario em GEEMXRHP
 
-$sqlBloqUser=odbc_fetch_array(odbc_exec($conCab2,"SELECT Cd_empresa FROM GEEMPRES (nolock) WHERE ltrim(rtrim(Nome_completo))='".trim($_SESSION['nomeSav'])."'"));
+$sqlBloqUser=odbc_fetch_array(odbc_exec($conCab2,"select GEEMXRHP.Cd_empresa from GEEMXRHP (NOLOCK) WHERE GEEMXRHP.Cd_pessoa='".$_SESSION['idFuncSav']."'"));
+echo "Meta: ".$_SESSION['idFuncSav']." Cigam".$sqlBloqUser['Cd_empresa'];
 $sqlBloqueio=mysql_num_rows(mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$sqlBloqUser['Cd_empresa']."' AND status=1"));
-/*if($sqlBloqueio>0){
+if($sqlBloqueio>0){
 		$valida=1;
 		$countError++;
-		$errorMsg.='Erro['.$countError.']: Funcionário com pendência junto ao setor de Prestação de Contas.\\n';	
+		$errorMsg.='Erro['.$countError.']: Funcionário com pendência junto ao setor de Diárias e Passagens.\\n';	
 	}
-*/
 if($valida>0){
 		?>
        <script type="text/javascript">
@@ -600,7 +600,7 @@ if($_SESSION['transladoSav']=='sim'){
 <table border='0' width="100%">
 <tr><td><a href="index.php"><input type="button" class="button" name="voltar" value="<<Voltar" /></a></td><td align="right">
 <div id="formsubmitbutton">
-<input type="submit" id='ok' name="ok" class="button" value="Continuar>>" onclick="ButtonClicked()"/>
+<input type="submit" id='ok' name="ok" class="button" value="Continuar>>" onClick="ButtonClicked()"/>
 </div>
 <div id="buttonreplacement" style="margin-left:30px; display:none;">
 <img src="../imagens/loading.gif" alt="loading...">

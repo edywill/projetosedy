@@ -298,7 +298,7 @@ values
 				if($sqlBloqUser>0){
 					$validaErro=1;
 					$countError++;
-					$errorMsg.='Erro['.$countError.']: Benefici\\u00e1rio com pendência no setor de Prestação de Contas.\\n';
+					$errorMsg.='Erro['.$countError.']: Benefici\\u00e1rio com pendência no setor de Diárias e Passagens.\\n';
 					}
 				$sqlConsdiaCodAtivo="select 1
 							from GEEMPRES (nolock) 

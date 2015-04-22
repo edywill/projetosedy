@@ -312,22 +312,22 @@ require "conexaomysql.php";
 $ciTemp=mysql_query("SELECT id FROM cimulttemp WHERE ci='".$_POST['solicitacao']."' and seq='".$_POST['sequencia']."' AND status=1");
 $contagem = mysql_num_rows($ciTemp);
 $i=0;
+$valida=0;
+$menserro='ATENÇÃO!\\n';
        while ($itens=mysql_fetch_object($ciTemp)) {
+		   $sqlBloqueados=mysql_fetch_array(mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$itens->id."' AND status=1"));
 		   $sqlNome=odbc_exec($conCab,"select GEEMPRES.Nome_completo as nome,
 GEPFISIC.Cargo as cargo
 From
   GEEMPRES with(nolock) left Join
   GEPFISIC with(nolock) On GEEMPRES.Cd_empresa = GEPFISIC.Cd_empresa
-where GEEMPRES.Cd_empresa='".$itens->id."'");
+where GEEMPRES.Cd_empresa='".trim($itens->id)."'");
 		   $nome_completo=odbc_fetch_array($sqlNome);
-		   if(empty($nome_completo)){
-			   ?>
-       <script type="text/javascript">
-       alert("Por favor selecione novamente.");
-       history.back();
-       </script>
-       <?php
+		   if(!empty($sqlBloqueados['cdempres'])){
+			   $valida=1;
+				$menserro.='Funcionário: '.utf8_encode($nome_completo['nome'])." \\n";
 			   }
+		   
             echo "<tr><td><input name='id".$i."' type='hidden' value='".$itens->id."'/>".$itens->id."</td><td>".mb_convert_encoding($nome_completo['nome'],"UTF-8","ISO-8859-1")."</td><td><input name='cargo".$i."' type='text' class='input' value='".trim(mb_convert_encoding($nome_completo['cargo'],"UTF-8","ISO-8859-1"))."' size='45'/></td>";
 			if($tipo=='passagem'){
 				echo "<td><center><input type='checkbox' name='cadeirante".$i."' value='1'/></center></td>";
@@ -339,8 +339,19 @@ where GEEMPRES.Cd_empresa='".$itens->id."'");
 	   }
 //echo "<input type='hidden' name='contagem' value='".$contagem."'/><tr><td><a href='javascript:history.back()'>VOLTAR</a></td><td></td><td><input type='submit' class='button' value='Confirmar'/></td></tr></table></form></div>";
 echo "</table><br/><br/>";
+$menserro.="Está(ão) com pendência(s) junto ao departamento de diárias e passagens.";
 echo "<input type='hidden' name='contagem' value='".$contagem."'/>".$botao."<span style='padding-left:698px'><input type='submit' class='buttonVerde' value='Confirmar'/></form></div>";
+if($valida<>0){
+			   ?>
+       <script type="text/javascript">
+       alert("<?php echo $menserro; ?>");
+       window.location="ciWExcMult.php";
+       </script>
+       <?php
+	   $deleteSelecionados=mysql_query("DELETE FROM FROM cimulttemp WHERE ci='".$_POST['solicitacao']."' and seq='".$_POST['sequencia']."' AND status=1");
+			   }
 ?>
+
 </div>
 </body>
 </html>

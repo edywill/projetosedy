@@ -6,7 +6,9 @@ require "../../conect.php";
 $idGeren=$_GET['idgeren'];
 if($idGeren<>0){
 	$_SESSION['gerenSession']=$idGeren;
-echo "<div id='tabela'>
+echo "
+<h3>Relação de Registros para o Gerencial ".$_SESSION['gerenSession']."</h3>
+<div id='tabela'>
 <form action='autEmLote.php' method='post' name='form'>
 ";
 echo "<table border='1' width='100%'>

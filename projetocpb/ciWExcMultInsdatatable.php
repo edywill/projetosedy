@@ -409,7 +409,8 @@ From
 Where
   GEEMPRES.Nome_completo <> '' And
   GEEMPRES.Ativo = 1 AND
-  GEEMPRES.Divisao<>'20'
+  GEEMPRES.Divisao<>'20' AND
+  GEEMPRES.Pessoa=1
 Order By
   GEEMPRES.Nome_completo ASC";
   $resConsultaUsuarios = odbc_exec($conCab, $consultaUsuarios);
