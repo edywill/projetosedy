@@ -65,7 +65,7 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
   RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$idFunc[0]."'";
@@ -189,7 +189,7 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
   RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$_SESSION['idFuncSav']."'"));
@@ -211,14 +211,9 @@ Where
 	}
 //Buscar usuario em GEEMXRHP
 
-$sqlBloqUser=odbc_fetch_array(odbc_exec($conCab2,"select GEEMXRHP.Cd_empresa from GEEMXRHP (NOLOCK) WHERE GEEMXRHP.Cd_pessoa='".$_SESSION['idFuncSav']."'"));
-echo "Meta: ".$_SESSION['idFuncSav']." Cigam".$sqlBloqUser['Cd_empresa'];
+$sqlBloqUser=odbc_fetch_array(odbc_exec($conCab2,"SELECT Cd_empresa FROM GEEMPRES (nolock) WHERE ltrim(rtrim(Nome_completo))='".trim($_SESSION['nomeSav'])."'"));
 $sqlBloqueio=mysql_num_rows(mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$sqlBloqUser['Cd_empresa']."' AND status=1"));
-if($sqlBloqueio>0){
-		$valida=1;
-		$countError++;
-		$errorMsg.='Erro['.$countError.']: Funcionário com pendência junto ao setor de Diárias e Passagens.\\n';	
-	}
+
 if($valida>0){
 		?>
        <script type="text/javascript">

@@ -186,7 +186,7 @@ if($_SESSION['usuarioAtualSav']<>'-'){
 	$arrayUser=explode("-",$_SESSION['usuarioAtualSav']);
 	echo "<option value='".$arrayUser[0]."-".$arrayUser[1]."' selected='selected'>".$arrayUser[1]."</option>";
 	while($objUsuarios=odbc_fetch_object($sqlUsuarios)){
-		if(($objUsuarios->PESSOA=='9249' && $arrayConsUsuario['PESSOA']=='75') || ($objUsuarios->PESSOA=='4' && $arrayConsUsuario['PESSOA']=='16') || ($objUsuarios->PESSOA=='20' && $arrayConsUsuario['PESSOA']=='16')){
+		if(($objUsuarios->PESSOA=='9249' && $arrayConsUsuario['PESSOA']=='75')|| ($objUsuarios->PESSOA=='20' && $arrayConsUsuario['PESSOA']=='16')){
 				  echo "<option value='".$objUsuarios->PESSOA."-".utf8_encode($objUsuarios->NOME)."'>".utf8_encode($objUsuarios->NOME)."</option>";
 		}
 		if($arrayUser[0]<>$objUsuarios->PESSOA){
