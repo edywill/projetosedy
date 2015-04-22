@@ -213,7 +213,7 @@ if($countRegistros>0){
 <table id="tabela4"  cellpadding='0' cellspacing='0' border='0' class='display' name='tabela4'>
 <thead>
 				<tr>
-					<th width='10%'><strong>SAV<br />CI</strong></th>
+					<th width='10%'><strong>CI</strong></th>
 					<th width='25%'><strong>Nome</strong></th>
                     <th width='30%'><strong>Evento/Abrangência</strong></th>
 					<th width='15%'><strong>Data da<br /> Prestação</strong></th>

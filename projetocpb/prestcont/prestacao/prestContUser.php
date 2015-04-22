@@ -98,6 +98,9 @@ echo "<option value='".$objRegistros->id."'>".utf8_encode($objRegistros->evento)
 
     </select></td><td></td></tr></table>
 <br /><br />
+<?php 
+//Possibilitar a criação de vários arquivos simulâneos
+?>
 Bilhete de IDA: <input type="file" name="ida" /><br />
 Bilhete de VOLTA: <input type="file" name="volta" /><br />
 Descrição das atividades:<br />

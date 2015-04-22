@@ -36,7 +36,13 @@ LEFT JOIN aquigrupo ON aquicadmat.grupo=aquigrupo.id WHERE aquimatlic.idreg='".$
 	  $valorDaOrdem=$arrayOrdemGeral['vlunit'];
 	  $dtlcentrega=html_entity_decode(utf8_encode($arrayOrdemGeral['dtentrega']));
 	  $obsComp=html_entity_decode(utf8_encode($arrayOrdemGeral['comp']));
-	  $complemento="O pagamento será efetuado por meio de ordem bancária ou qualquer outro meio idôneo adotado pelo<br> CPB, mediante a apresentação de Nota Fiscal/Fatura devidamente atestada (responsável pelo recebimento),<br> no prazo de até <u>10 (dez) dias úteis a contar do seu recebimento</u>, devendo ser efetuada a retenção na fonte<br> dos tributos e contribuições determinadas pelos órgãos fiscais e fazendários em conformidade com a<br> legislação vigente, quando for o caso.";
+	  $complemento="O pagamento ser&aacute; efetuado por meio de ordem banc&aacute;ria ou qualquer outro meio id&ocirc;neo adotado pelo CPB, mediante a apresenta&ccedil;&atilde;o de Nota Fiscal / Fatura devidamente atestada (respons&aacute;vel pelo recebimento), no prazo de at&eacute; <u>10 (dez) dias &uacute;teis a contar do seu recebimento</u>, devendo ser efetuada a reten&ccedil;&atilde;o na fonte dos tributos e contribui&ccedil;&otilde;es determinadas pelos &oacute;rg&atilde;os fiscais e fazend&aacute;rios em conformidade com a legisla&ccedil;&atilde;o vigente, quando for o caso.<br>
+Pela inadimpl&ecirc;ncia total ou parcial da presta&ccedil;&atilde;o dos servi&ccedil;os ou entrega do bem, a CONTRATADA se sujeitar&aacute; &aacute;s seguintes san&ccedil;&otilde;es, sendo-lhe assegurado o contradit&oacute;rio e a ampla defesa: <br><br>
+
+I - advert&ecirc;ncia, para os casos de infra&ccedil;&atilde;o de menor potencial, e desde que n&atilde;o haja preju&iacute;zo para o CPB;<br>
+II - multa, administrativa, gradual conforme a gravidade da infra&ccedil;&atilde;o, n&atilde;o excedente a 20% (vinte por cento) do valor do contrato;<br>
+III - multa morat&oacute;ria de 1% (um por cento) do valor do contrato por dia de atraso na execu&ccedil;&atilde;o dos servi&ccedil;os, at&eacute; o 10º dia, e de 2% (dois por cento) a partir do 11&ordm; at&eacute; o 30&ordm;, ap&oacute;s o que ensejar&aacute; a rescis&atilde;o;<br>
+IV - suspens&atilde;o do direito de contratar com o CPB, pelo prazo de 2 (dois) anos.";
 	  $assinaturaEletronica="Assinado Eletronicamente <br><b>".utf8_encode($arrayOrdemGeral['emissor'])."</b> <br><b> ".$arrayOrdemGeral['data']."</b>";
 	  
 	  $codigoHash=geraSenha(15);
