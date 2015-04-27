@@ -10,56 +10,7 @@ if($_SESSION['usuario']=='' || empty($_SESSION['usuario'])){
 require "../../conectsqlserver.php";
 require "../../sav/conectsqlserversav.php";
 require "../../conect.php";
-$_SESSION['gerenSavNome']='';
-$_SESSION['gerenSav']='';
-$_SESSION['ciddestinoPasSav']='';
-$_SESSION['cidorigemPasSav']='';
-$_SESSION['cidHosSav']='';
-$_SESSION['cotacaoDiaSav']='';
-$_SESSION['cotacaoDataSav']='';
-$_SESSION['cadeiranteSav']='';
-$_SESSION['gestorSav']='';
-$_SESSION['gestorSavNome']='';
-$_SESSION['valorPasSav']='';
-$_SESSION['valorHosSav']='';
-$_SESSION['idaeVoltaSav']='';
-$_SESSION['numSav']='';
-$_SESSION['numCiSav']='';
-$_SESSION['tpFuncSav']='';
-$_SESSION['cpfSav']='';
-$_SESSION['nomeSav']='';
-$_SESSION['idFuncSav']='';
-$_SESSION['tituloSav']='';
-$_SESSION['tpSav']='';
-$_SESSION['setorSav']='';
-$_SESSION['cargoSav']='';
-$_SESSION['bancoSav']='';
-$_SESSION['agenciaSav']='';
-$_SESSION['contCorrenteSav']='';
-$_SESSION['idCargo']='';
-$_SESSION['abrangenciaSav']='';
-$_SESSION['eventoSav']='';
-$_SESSION['objetivoSav']='';
-$_SESSION['dtidaSav']='';
-$_SESSION['dtvoltaSav']='';
-$_SESSION['origemidaSav']='';
-$_SESSION['destinoidaSav']='';
-$_SESSION['origemvoltaSav']='';
-$_SESSION['destinovoltaSav']='';
-$_SESSION['horarioidaSav']='';
-$_SESSION['horariovoltaSav']='';
-$_SESSION['ultimaViagSav']='';
-$_SESSION['bilheteSav']='';
-$_SESSION['passagemSav']='';
-$_SESSION['diariaSav']='';
-$_SESSION['transladoSav']='';
-$_SESSION['observacaoSav']='';
-$_SESSION['dtidaSavEvento']='';
-$_SESSION['dtvoltaSavEvento']='';
-$_SESSION['cidorigemvoltaSav']='';
-$_SESSION['ciddestinovoltaSav']='';
-$_SESSION['cidorigemidaSav']='';
-$_SESSION['ciddestinoidaSav']='';
+$_SESSION['idPrestCont']='';
 if(!empty($_GET['usuario'])){
 $userCriac=$_GET['usuario'];
 $_SESSION['userCigamSav']=$_GET['cigam'];
@@ -224,8 +175,9 @@ if($countRegistros>0){
        <tbody>
 <?php 
 while($objRegistros=mysql_fetch_object($sqlRegistros)){
-$editar='';
-$inativar='';
+$editar="<form action='prestContUser.php' method='post' name='editar'><input type='hidden' name='tp' value='edit'/><input type='hidden' name='id' value='".$objRegistros->idprest."'/><input type=image src='../../sav/css/iconeEditar.png' alt='Editar' title='Editar'/></form>";
+
+$editarRec="<form action='aprovaPrest.php' method='post' name='editar'><input type='hidden' name='retorno' value='prestUser.php'/><input type='hidden' name='tp' value='envia'/><input type='hidden' name='id' value='".$objRegistros->idprest."'/><input type=image src='../../sav/css/iconeAprov.png' alt='Enviar Gestor' title='Enviar Gestor'/></form>";
 $nomeFuncionario='';
 $sqlFuncionario=odbc_fetch_array(odbc_exec($conCab,"Select
   RHPESSOAS.NOME,
@@ -250,22 +202,30 @@ if(empty($inativar)){
 	$inativar="";
 	}
 if(!empty($objRegistros->numci)){
-	$numeroCi='<br>'.$objRegistros->numci;
+	$numeroCi=$objRegistros->numci;
 	}
-if($objRegistros->numci=='pg'){
-	$status='Gestor';
-	}elseif($objRegistros->numci=='pt'){
-		$status='Prest. Contas';
-		}elseif($objRegistros->numci=='fi'){
+if($objRegistros->stprest=='pg'){
+	$status='Enviado para Gestor';
+	$editar='';
+	$editarRec='';
+	}elseif($objRegistros->stprest=='pt'){
+		$status='Enviado para Prest. Contas';
+		$editar='';
+		$editarRec='';
+		}elseif($objRegistros->stprest=='fi'){
 			$status='Finalizado';
-			}
+			$editar='';
+			$editarRec='';
+			}elseif($objRegistros->stprest=='rec'){
+				$status='Recusada';
+				}
 echo "<tr>
-	  <td>".$objRegistros->id.$numeroCi."</td>
+	  <td>".$numeroCi."</td>
 		<td>".$nomeFuncionario."</td>
 		<td>".utf8_encode($objRegistros->evento)."-".				$objRegistros->abrangencia."</td>
 		<td>".$objRegistros->dataprest."</td>
 		<td>".$status."</td>
-		<td>".$editar."</td>
+		<td><table border='0' width='100%'><tr><td><a href='visualizaPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a></td><td>".$editar."</td><td>".$editarRec."</td></tr></table></td>
 </tr>";
  }
 }
@@ -277,7 +237,7 @@ echo "<tr>
 }
    ?>
 </div>
-
+<a href="../../sav/index.php"><input type="button" class="button" value="<<Voltar"></a>
 </div>
 </div>
 </body>

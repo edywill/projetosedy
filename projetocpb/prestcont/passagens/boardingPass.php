@@ -72,7 +72,9 @@ function diminui(obj){
       <input type="submit" class='button' value="PESQUISAR"/>
 </form>
 <div align="right"
-><a href="gerenPendencias.php"><input type="button" name="pend" value="Gerenciar Pendências" class="button" /></a>
+>
+<a href="../prestacao/prestContasRel.php"><input type="button" name="pend" value="Prestação de Contas" class="button" /></a>
+<a href="gerenPendencias.php"><input type="button" name="pend" value="Gerenciar Pendências" class="button" /></a>
 </div>
 <h3>Relação de Boarding Pass Atraso</h3> 
 <a href="../dadosBoardingPass.php" target="_blank">Exportar Excel</a>

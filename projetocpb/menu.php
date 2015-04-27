@@ -7,8 +7,8 @@ function montaMenu($usuarioCk){
 	require "somarDatas.php";
 	$teste=1;
 	if($teste==1){
-	 $conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=CPB174\SQLEXPRESS; DATABASE=CIGAM;", "sa","cigam");
-	// $conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigamteste;", "sa","abyz.");
+	 //$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=EDY-PC\SQLEXPRESS; DATABASE=CIGAM;", "sa","abyz.");
+	$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigamteste;", "sa","abyz.");
 	}else{
 	$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigam;", "sa","abyz.");
 	}
@@ -143,7 +143,7 @@ $ctrlInferiorGestor=$controles['ctrl_prz_inferior'];
 			}
 		}
 		$menuE.="</a></li>
-		<li> <a href='prestcont/prestacao/aprovPrestGestor.php?usuario=".utf8_encode($nome)."' target='Frame1'>Prest. Contas</a><br></li>
+		<li> <a href='prestcont/prestacao/aprovPrestGestor.php?usuario=".utf8_encode($nome)."&cigam=$cigam' target='Frame1'>Prest. Contas</a><br></li>
 	 </ul>";
 	}
 	

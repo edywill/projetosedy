@@ -288,6 +288,10 @@ $statusSav=utf8_encode($objRegistros->situacao);
 					$editar="";
 					$inativar="";
 					}
+					if($numeroCi==0){
+						$editar="<form action='novaSav.php' method='post' name='editar'><input type='hidden' name='tp' value='edit'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type=image src='css/iconeEditar.png' alt='Editar' title='Editar'/></form>";
+		$inativar="<form action='excluiSav.php' method='post' name='exclui'><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='acao' value='inativa'/><input type=image src='css/icone_excluir.png' alt='Excluir' title='Excluir'/></form>";
+						}
 echo "<tr>
 <td>".$numeroCi."</td>
 <td>".$nomeFuncionario."</td>
