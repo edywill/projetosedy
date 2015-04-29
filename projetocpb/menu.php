@@ -8,7 +8,8 @@ function montaMenu($usuarioCk){
 	$teste=1;
 	if($teste==1){
 	 //$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=EDY-PC\SQLEXPRESS; DATABASE=CIGAM;", "sa","abyz.");
-	$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigamteste;", "sa","abyz.");
+	 $conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=CPB174\SQLEXPRESS; DATABASE=CIGAM;", "sa","cigam");
+	//$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigamteste;", "sa","abyz.");
 	}else{
 	$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigam;", "sa","abyz.");
 	}
@@ -107,8 +108,15 @@ From
 $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSUARI with (nolock) where Cd_usuario='".$cigam."' "));
 		$menuE.="</a> </li>
 		<li> <a href='sav/aprovacaoGestor.php?usuario=".trim($sqlBuscaGEEMPRES['campo20'])."&cigam=".trim($cigam)."' target='Frame1'>Aprovar SAV";
-		$sqlSav=mysql_query("SELECT situacao FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Recusada') AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
-		$numSav=mysql_num_rows($sqlSav);
+		$sqlSav=mysql_query("SELECT situacao,numci FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Cancelada' AND situacao<>'Devolvida') AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
+		$numSav=0;
+		while($objContaSav=mysql_fetch_object($sqlSav)){
+		$scriptControleCi=odbc_exec($conCab2,"SELECT campo27 FROM COSOLICI (nolock) Where Solicitacao='".$objContaSav->numci."'")or die("<p>".odbc_errormsg());
+	$sqlControleCi=odbc_fetch_array($scriptControleCi);
+	if($sqlControleCi['campo27']=='03'){
+		$numSav++;
+		  }
+		}
 		if($numSav>0){
 			$menuE.="<div style='position:relative; top:-30px; left:140px; right:-10px; width:10px;'><img src='imagens/alerta.png'/><DIV style='position:RELATIVE; top:-16px; left:4px; color:white;'><font size='-2'>".$numSav."</font></DIV></div>";
 			}

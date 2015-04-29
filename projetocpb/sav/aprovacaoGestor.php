@@ -135,12 +135,11 @@ $idCiEdit='';
 	$numeroCi=$objRegistros->numci;
 	$scriptControleCi=odbc_exec($conCab2,"SELECT campo27 FROM COSOLICI (nolock) Where Solicitacao='".$objRegistros->numci."'")or die("<p>".odbc_errormsg());
 	$sqlControleCi=odbc_fetch_array($scriptControleCi);
-	
 	if($sqlControleCi['campo27']=='03'){
 		$status='Elaboração';
 		$idCiEdit=$objRegistros->numci;
 		$updateSav=mysql_query("UPDATE savregistros SET status='".$status."' AND situacao='Pendente de Aprovacao'");
-		$editar="<form action='aprovaSav.php' method='post' name='editar'><input type='hidden' name='tp' value='aprov'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='descci' value='".utf8_encode($objRegistros->evento)."'/><input type=image src='css/iconeAprov.png' alt='Aprovar' title='Aprovar'/></form>";
+		$editar="<form action='aprovaSav.php' method='post' name='editar' onSubmit=\"this.elements['aprov'].disabled=true;\"><input type='hidden' name='tp' value='aprov'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='descci' value='".utf8_encode($objRegistros->evento)."'/><input type=image src='css/iconeAprov.png' id='aprov' name='aprov' alt='Aprovar' title='Aprovar'/></form>";
 		$editarRec="<form action='aprovaSav.php' method='post' name='editar'><input type='hidden' name='tp' value='recusa'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='descci' value='".utf8_encode($objRegistros->evento)."'/><input type=image src='css/icone_excluir.png' alt='Recusar' title='Recusar'/></form>";
 		
 		}else{
@@ -152,7 +151,14 @@ $idCiEdit='';
 $statusSav=utf8_encode($objRegistros->situacao);
 	 
 if(empty($editar)){
-		$editar="<form action='aprovaSav.php' method='post' name='editar'><input type='hidden' name='tp' value='aprov'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='descci' value='".utf8_encode($objRegistros->evento)."'/><input type=image src='css/iconeAprov.png' alt='Aprovar' title='Aprovar'/></form>";
+	//Desabilitar botao no submit
+		$editar="<form action='aprovaSav.php' method='post' name='editar' onSubmit=\"this.elements['aprov'].disabled=true;\"><input type='hidden' name='tp' value='aprov'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='descci' value='".utf8_encode($objRegistros->evento)."'/>
+		<div id='formsubmitbutton'>
+		<input type=image src='css/iconeAprov.png' name='aprov' id='aprov' alt='Aprovar' title='Aprovar' onClick=\"ButtonClicked()\"/>
+</div>
+<div id='buttonreplacement' style='margin-left:30px; display:none;'>
+<img src='../imagens/loading.gif' alt='loading...'>
+</div></form>";
 		$editarRec="<form action='aprovaSav.php' method='post' name='editar'><input type='hidden' name='tp' value='recusa'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='descci' value='".utf8_encode($objRegistros->evento)."'/><input type=image src='css/icone_excluir.png' alt='Recusar' title='Recusar'/></form>";
 		}
 if($editar<>'ND'){
@@ -167,6 +173,45 @@ echo "<tr>
 ?>       
      </tbody>
   </table>
+<script type="text/javascript">
+/*
+   Replacing Submit Button with 'Loading' Image
+   Version 2.0
+   December 18, 2012
+
+   Will Bontrager Software, LLC
+   http://www.willmaster.com/
+   Copyright 2012 Will Bontrager Software, LLC
+
+   This software is provided "AS IS," without 
+   any warranty of any kind, without even any 
+   implied warranty such as merchantability 
+   or fitness for a particular purpose.
+   Will Bontrager Software, LLC grants 
+   you a royalty free license to use or 
+   modify this software provided this 
+   notice appears on all copies. 
+*/
+function ButtonClicked()
+{
+   document.getElementById("formsubmitbutton").style.display = "none"; // to undisplay
+   document.getElementById("buttonreplacement").style.display = ""; // to display
+   return true;
+}
+var FirstLoading = true;
+function RestoreSubmitButton()
+{
+   if( FirstLoading )
+   {
+      FirstLoading = false;
+      return;
+   }
+   document.getElementById("formsubmitbutton").style.display = ""; // to display
+   document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
+}
+// To disable restoring submit button, disable or delete next line.
+document.onfocus = RestoreSubmitButton;
+</script>
 </div>
 </div>
 </div>
