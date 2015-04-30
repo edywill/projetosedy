@@ -5,7 +5,7 @@ function montaMenu($usuarioCk){
 	include "conectsqlserverci.php";
 	include "functionPrazos.php";
 	require "somarDatas.php";
-	$teste=1;
+	$teste=0;
 	if($teste==1){
 	 //$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=EDY-PC\SQLEXPRESS; DATABASE=CIGAM;", "sa","abyz.");
 	 $conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=CPB174\SQLEXPRESS; DATABASE=CIGAM;", "sa","cigam");
@@ -235,12 +235,12 @@ $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSU
 				 $dataSomada=somar_data($arrayBoarding['datainicial'], 10, 0, 0);
 				  }
 			if(strtotime(date("Y-m-d")) >= strtotime($dataSomada)){
-				$queryBloqAut=mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$arrayBoarding['idben']."' AND idaut='".$arrayBoarding['id']."'") or die (mysql_error());
-				$sqlBloqAut=mysql_num_rows($queryBloqAut);
-				if($sqlBloqAut==0){
-				$insertIntoBloqueio=mysql_query("INSERT INTO prestbloqueados (cdempres,idaut,status) VALUES ('".$arrayBoarding['idben']."','".$arrayBoarding['id']."','1')");
+				//$queryBloqAut=mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$arrayBoarding['idben']."' AND idaut='".$arrayBoarding['id']."'") or die (mysql_error());
+				//$sqlBloqAut=mysql_num_rows($queryBloqAut);
+				//if($sqlBloqAut==0){
+				//$insertIntoBloqueio=mysql_query("INSERT INTO prestbloqueados (cdempres,idaut,status) VALUES ('".$arrayBoarding['idben']."','".$arrayBoarding['id']."','1')");
 				//insert do cigam
-				}
+				//}
 				$numRegistros++;
 				}	
 			}
