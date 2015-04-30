@@ -112,7 +112,9 @@ if($countReg<1){
 <select name="sav" id="sav">
 <option selected="selected" value="">Selecione</option>
 <?php
+while($objRegistros=mysql_fetch_object($sqlRegistros)){
 echo "<option value='".$objRegistros->id."'>".utf8_encode($objRegistros->evento)."-".$objRegistros->abrangencia." (Ida: ".$objRegistros->dtida." / Volta: ".$objRegistros->dtvolta.")</option>";
+}
 ?>
 
     </select>

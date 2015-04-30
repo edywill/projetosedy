@@ -5,10 +5,11 @@ function montaMenu($usuarioCk){
 	include "conectsqlserverci.php";
 	include "functionPrazos.php";
 	require "somarDatas.php";
-	$teste=1;
+	$teste=0;
 	if($teste==1){
 	 //$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=EDY-PC\SQLEXPRESS; DATABASE=CIGAM;", "sa","abyz.");
-	$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigamteste;", "sa","abyz.");
+	 $conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=CPB174\SQLEXPRESS; DATABASE=CIGAM;", "sa","cigam");
+	//$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigamteste;", "sa","abyz.");
 	}else{
 	$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigam;", "sa","abyz.");
 	}
@@ -107,8 +108,15 @@ From
 $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSUARI with (nolock) where Cd_usuario='".$cigam."' "));
 		$menuE.="</a> </li>
 		<li> <a href='sav/aprovacaoGestor.php?usuario=".trim($sqlBuscaGEEMPRES['campo20'])."&cigam=".trim($cigam)."' target='Frame1'>Aprovar SAV";
-		$sqlSav=mysql_query("SELECT situacao FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Recusada') AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
-		$numSav=mysql_num_rows($sqlSav);
+		$sqlSav=mysql_query("SELECT situacao,numci FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Cancelada' AND situacao<>'Devolvida') AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
+		$numSav=0;
+		while($objContaSav=mysql_fetch_object($sqlSav)){
+		$scriptControleCi=odbc_exec($conCab2,"SELECT campo27 FROM COSOLICI (nolock) Where Solicitacao='".$objContaSav->numci."'")or die("<p>".odbc_errormsg());
+	$sqlControleCi=odbc_fetch_array($scriptControleCi);
+	if($sqlControleCi['campo27']=='03'){
+		$numSav++;
+		  }
+		}
 		if($numSav>0){
 			$menuE.="<div style='position:relative; top:-30px; left:140px; right:-10px; width:10px;'><img src='imagens/alerta.png'/><DIV style='position:RELATIVE; top:-16px; left:4px; color:white;'><font size='-2'>".$numSav."</font></DIV></div>";
 			}
@@ -227,12 +235,12 @@ $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSU
 				 $dataSomada=somar_data($arrayBoarding['datainicial'], 10, 0, 0);
 				  }
 			if(strtotime(date("Y-m-d")) >= strtotime($dataSomada)){
-				$queryBloqAut=mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$arrayBoarding['idben']."' AND idaut='".$arrayBoarding['id']."'") or die (mysql_error());
-				$sqlBloqAut=mysql_num_rows($queryBloqAut);
-				if($sqlBloqAut==0){
-				$insertIntoBloqueio=mysql_query("INSERT INTO prestbloqueados (cdempres,idaut,status) VALUES ('".$arrayBoarding['idben']."','".$arrayBoarding['id']."','1')");
+				//$queryBloqAut=mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$arrayBoarding['idben']."' AND idaut='".$arrayBoarding['id']."'") or die (mysql_error());
+				//$sqlBloqAut=mysql_num_rows($queryBloqAut);
+				//if($sqlBloqAut==0){
+				//$insertIntoBloqueio=mysql_query("INSERT INTO prestbloqueados (cdempres,idaut,status) VALUES ('".$arrayBoarding['idben']."','".$arrayBoarding['id']."','1')");
 				//insert do cigam
-				}
+				//}
 				$numRegistros++;
 				}	
 			}
