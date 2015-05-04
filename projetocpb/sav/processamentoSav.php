@@ -96,7 +96,17 @@ $novoCidadeDestinoVolta='';
 
 if(empty($sqlRegDadosAtu['dtida'])){
 if($_SESSION['passagemSav']=='sim'){
-		
+		$sqlPassagensDatas=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$numSav."'");
+		$countRegistrosDatas=0;
+		while($objPassagensData=mysql_fetch_object($sqlPassagensDatas)){
+			if($countRegistrosDatas==0){
+				$novaDtIda='';
+				$novoHoraIda='';
+				$novoOrigemIda='';
+				$novoCidadeOrigemIda='';
+				}
+			$countRegistrosDatas++;
+			}
 		}elseif($_SESSION['diariaSav'] == 'sim'){
 			
 			}elseif($_SESSION['transladoSav']=='sim'){

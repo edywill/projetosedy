@@ -133,8 +133,12 @@ Where
 	  $dirigente='X';
 	}
 //Inserir dados de diária
+$selectDadosDiaria=mysql_fetch_array(mysql_query("SELECT id FROM savdiarias WHERE idsav='".$numSav."'"));
+if(!empty($selectDadosDiaria['id'])){
 $insereDadosDiaria=mysql_query("INSERT INTO savdiarias (idsav,qtddias,valortotal) VALUES ('".$numSav."','".$numDiasDiaria."','".$valorTotal."')");
-	
+}else{
+	$insereDadosDiaria=mysql_query("UPDATE savdiarias SET qtddias='".$numDiasDiaria."',valortotal='".$valorTotal."' WHERE id='".$selectDadosDiaria['id']."'");
+	}
 	  $_SESSION['nomeFuncSav']=$dadosFuncionario['NOME'];
 	  $_SESSION['idCargo']=$dadosFuncionario['CARGO'];
   	  $_SESSION['cpfSav']=mask($dadosFuncionario['CPF'],"###.###.###-##");
