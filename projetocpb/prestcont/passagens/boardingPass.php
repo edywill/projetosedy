@@ -128,6 +128,10 @@ where cd_solicitacao='".$objReg->solicitacao."' AND cd_empresa='".$objReg->idben
 				if($sqlBloqAut==0){
 				$insertIntoBloqueio=mysql_query("INSERT INTO prestbloqueados (cdempres,idaut,status) VALUES ('".$objReg->idben."','".$objReg->id."','1')");
 				//insert do cigam
+				$sqlBloCigam=odbc_fetch_array(odbc_exec($conCab,"SELECT * FROM TE_BLOQUEIOBPASS (nolock) WHERE Empresa='".$objReg->idben."'"));
+				if(empty($sqlBloCigam['Empresa'])){
+				$insertBloqueioCigam=odbc_exec($conCab,"INSERT INTO TE_BLOQUEIOBPASS VALUES ('".$objReg->idben."','1')");
+				}
 				}
 				$numRegistros++;
 				}

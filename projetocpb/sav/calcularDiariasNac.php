@@ -1,5 +1,7 @@
 <?php 
+
 if($_SESSION['passagemSav']=='sim'){
+	        $numDiasDiaria=0;
 			$countPassagem=0;
 			$numDiasPassagem=0;
 			$arrayDataPassagemIda[]=0;
@@ -13,7 +15,6 @@ if($_SESSION['passagemSav']=='sim'){
  while($objPassagem=mysql_fetch_object($sqlPassagem)){
 			$destinoReferencia=$objPassagem->destino;
 			$dataReferencia=$objPassagem->dtida;
- 			
 			if($_SESSION['diariaSav']=='sim'){
 				$sqlHospedagemReferencia=mysql_query("SELECT destino,dtida,dtvolta FROM savhospedagem WHERE idsav='".$numSav."'");
 				while($objHospedagemReferencia=mysql_fetch_object($sqlHospedagemReferencia)){
@@ -124,7 +125,8 @@ $arrayTipoPassagem[$countPassagem]=$objPassagem->tipo;
 					 $valorTotalTrecho=(($arrayValorPassagem[$i]/2)*$qtdDias)-$valorVR;
 					     }else{
 							 $valorTotalTrecho=($arrayValorPassagem[$i]*$qtdDias)-$valorVR;
-							 }		
+							 }
+					 $numDiasDiaria=$numDiasDiaria+$qtdDias;		
 					 $valorTotal=$valorTotal+$valorTotalTrecho;
 				}elseif($countPassagem==1){
 					//Quando for apenas IDA
@@ -176,6 +178,7 @@ $arrayTipoPassagem[$countPassagem]=$objPassagem->tipo;
 					     }else{
 							 $valorTotalTrecho=($arrayValorPassagem[$i]*$qtdDias)-$valorVR;
 							 }
+							  $numDiasDiaria=$numDiasDiaria+$qtdDias;
 					 $valorTotal=$valorTotal+$valorTotalTrecho;
 					  					 
 					}elseif($arrayTipoPassagem[$i-1]==2){
@@ -227,6 +230,7 @@ $arrayTipoPassagem[$countPassagem]=$objPassagem->tipo;
 					     }else{
 							 $valorTotalTrecho=($arrayValorPassagem[$i]*$qtdDias)-$valorVR;
 							 }
+							  $numDiasDiaria=$numDiasDiaria+$qtdDias;
 					$valorTotal=$valorTotal+$valorTotalTrecho;
 					}
 				}else{
@@ -278,6 +282,7 @@ $arrayTipoPassagem[$countPassagem]=$objPassagem->tipo;
 					     }else{
 							 $valorTotalTrecho=($arrayValorPassagem[$i]*$qtdDias)-$valorVR;
 							 }
+							  $numDiasDiaria=$numDiasDiaria+$qtdDias;
 					 $valorTotal=$valorTotal+$valorTotalTrecho;
 					  					 
 					}
@@ -319,6 +324,7 @@ $arrayTipoPassagem[$countPassagem]=$objPassagem->tipo;
 					 		$diasUteis=$diasUteis-1;
 						 }
 					$sqlValorVr=mysql_query("SELECT * FROM savvalorvr");
+					$numDiasDiaria=0;
 					while($objValorVr=mysql_fetch_object($sqlValorVr)){
 	$arrayVigenciaVr=explode("/",$objValorVr->vigencia);
 	$arrayDataAtVr=explode("/",$objHospedagemReferencia->dtvolta);
@@ -340,12 +346,15 @@ $arrayValorDia=mysql_fetch_array($sqlValorDia);
 					     }else{
 							 $valorTotalTrecho=($arrayValorPassagem*$qtdDias)-$valorVR;
 							 }
+					 $numDiasDiaria=$numDiasDiaria+$qtdDias;
 					 $valorTotal=$valorTotal+$valorTotalTrecho;
 					}
 		}else{
+			
 	$sqlValorDia=mysql_query("SELECT valor FROM savtabeladianac 
 											 WHERE municipio='".$arrayRegistro['destinoida']."' AND classe='".$arrayClasse['classe']."'");
 	 			$arrayValorDia=mysql_fetch_array($sqlValorDia);
+				$numDiasDiaria=$numDiasGeral;
 				$valorTotal=($numDiasGeral*$arrayValorDia['valor'])-$descontoVR;
 	}
 }

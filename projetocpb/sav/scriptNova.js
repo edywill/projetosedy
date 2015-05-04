@@ -43,6 +43,8 @@ function enviarForm(url, campos, destino) {
     				timeout: 0,
     				messageIconClass: ""
  				 });
+	document.getElementById("formsubmitbutton").style.display = ""; // to display
+    document.getElementById("buttonreplacement").style.display = "none"; // to undisplay
 					}else{
 						window.location="complementaSav.php";
 						}
