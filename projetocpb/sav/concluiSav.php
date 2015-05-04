@@ -66,11 +66,13 @@ if($arrayRegistro['horariovolta']=='tarde'){
 		}
  $numDiasGeral=$diaExtra+$numDiasGeral;
  $numDiasDiaria=$numDiasGeral;
+ if(!empty($arrayRegistro['dtida'])){
  $diasUteis = DiasUteis($arrayRegistro['dtida'], $arrayRegistro['dtvolta']);
  if($diaExtra==0){
 	 $diasUteis=$diasUteis-1;
 	 }
    $descontoVR = $diasUteis*28.5;
+ }
  $valorDia=0;
  $sqlClasse=mysql_query("SELECT classe FROM savcargos WHERE id='".$_SESSION['idCargo']."'");
  $arrayClasse=mysql_fetch_array($sqlClasse);
@@ -86,6 +88,9 @@ if($valida==1){
 odbc_rollback($conCab2);
 		}else{
 if(odbc_commit($conCab2)){
+	//Atualiza Dados do Registro
+	
+	
 	$funcionario='X';
 	$dirigente='';
 	$sqlSavImpressao=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$numSav."'"));

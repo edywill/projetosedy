@@ -80,4 +80,27 @@ $peIPI=0;
 	//echo "Atualiza";
 	}
  }
+$sqlRegDadosAtu=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$numSav."'"));
+$novaDtIda='';
+$novaDtVolta='';
+$novoHoraIda='';
+$novoHoraVolta='';
+$novoOrigemIda='';
+$novoOrigemVolta='';
+$novoDestinoIda='';
+$novoDestinoVolta='';
+$novoCidadeOrigemIda='';
+$novoCidadeDestinoIda='';
+$novoCidadeOrigemVolta='';
+$novoCidadeDestinoVolta='';
+
+if(empty($sqlRegDadosAtu['dtida'])){
+if($_SESSION['passagemSav']=='sim'){
+		
+		}elseif($_SESSION['diariaSav'] == 'sim'){
+			
+			}elseif($_SESSION['transladoSav']=='sim'){
+				
+				}
+ }
 ?>
