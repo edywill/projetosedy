@@ -65,7 +65,7 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
   RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$idFunc[0]."'";
@@ -189,7 +189,7 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
   RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$_SESSION['idFuncSav']."'"));
@@ -211,9 +211,13 @@ Where
 	}
 //Buscar usuario em GEEMXRHP
 
-$sqlBloqUser=odbc_fetch_array(odbc_exec($conCab2,"SELECT Cd_empresa FROM GEEMPRES (nolock) WHERE ltrim(rtrim(Nome_completo))='".trim($_SESSION['nomeSav'])."'"));
+$sqlBloqUser=odbc_fetch_array(odbc_exec($conCab2,"select GEEMXRHP.Cd_empresa from GEEMXRHP (NOLOCK) WHERE GEEMXRHP.Cd_pessoa='".$_SESSION['idFuncSav']."'"));
 $sqlBloqueio=mysql_num_rows(mysql_query("SELECT * FROM prestbloqueados WHERE cdempres='".$sqlBloqUser['Cd_empresa']."' AND status=1"));
-
+if($sqlBloqueio>0){
+		$valida=1;
+		$countError++;
+		$errorMsg.='Erro['.$countError.']: Funcionário com pendência junto ao setor de Diárias e Passagens.\\n';	
+	}
 if($valida>0){
 		?>
        <script type="text/javascript">
@@ -306,36 +310,8 @@ $(function() {
 		  }
 	  }
   </script>
-  <script type="text/javascript">
-  	function carregaVolta(){
-	  document.getElementById('cidorigemvolta').value=document.getElementById('ciddestinoida').value;
-	  document.getElementById('ciddestinovolta').value=document.getElementById('cidorigemida').value;
-	  document.getElementById('origemvolta').value=document.getElementById('destinoida').value;
-	  document.getElementById('destinovolta').value=document.getElementById('origemida').value;
-	  }
-  </script>
    <script type="text/javascript">
 $().ready(function() {
-	$("#origemida").autocomplete("suggest_local.php", {
-        width: 342,
-        matchContains: true,
-        selectFirst: false
-    });
-	$("#origemvolta").autocomplete("suggest_local.php", {
-        width: 342,
-        matchContains: true,
-        selectFirst: false
-    });
-	$("#destinovolta").autocomplete("suggest_local.php", {
-        width: 342,
-        matchContains: true,
-        selectFirst: false
-    });
-	$("#destinoida").autocomplete("suggest_local.php", {
-        width: 342,
-        matchContains: true,
-        selectFirst: false
-    });
 	$("#geren").autocomplete("../suggest_cgeren.php", {
         width: 342,
         matchContains: true,
@@ -438,157 +414,48 @@ echo $_SESSION['gerenSav']."-".$_SESSION['gerenSavNome'];
 </table>
 <br />
 <hr />
-<h2 id="h2">DESLOCAMENTO</h2>
-<table border="0" width="100%" class="tabelasimples">
-<tr><td width="10%"><strong>IDA</strong></td><td width="90%">
-<table border="0" width="100%">
-<tr height="34"><td>
-Data:</td><td><input type="text" class="input" name="dtida" id="dtida" size="20" readonly value='<?php echo $_SESSION['dtidaSav']; ?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
-<?php 
-if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemida' id='cidorigemida' size='40' onBlur='carregaVolta()' value='".$_SESSION['cidorigemidaSav']."'/>
-</td></tr><tr height='34'><td>
-País"; 
-}else{
-	echo "<input type='hidden' class='input' name='cidorigemida' id='cidorigemida' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
-	}
-?>
-Origem:</td><td> 
-<input type="text" class="input" name="origemida" id="origemida" size="40" onBlur="carregaVolta();verificaPais(this.value);" value='<?php echo $_SESSION['origemidaSav']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr>
-<?php 
-if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinoida' id='ciddestinoida' size='40' onBlur='carregaVolta()' value='".$_SESSION['ciddestinoidaSav']."'/><tr height='34'><td>
-País "; 
-}else{
-	echo "<input type='hidden' class='input' name='ciddestinoida' id='ciddestinoida' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
-	}
-?>
-Destino: </td><td>
-<input type="text" class="input" name="destinoida" id="destinoida" size="40" onBlur="carregaVolta()" value='<?php echo $_SESSION['destinoidaSav']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr><tr height='34'><td>
-Horário:</td><td> <select name="horarioIda" id='horarioIda'>
-<?php 
-if(empty($_SESSION['horarioidaSav']) || $_SESSION['horarioidaSav']=='0'){
-   echo "<option value='0' selected='selected'>Selecione</option>"; 
-	echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-}else{
-	if($_SESSION['horarioidaSav']=='manha'){
-		echo '<option value="manha" selected="selected">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-		}elseif($_SESSION['horarioidaSav']=='tarde'){
-			echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde" selected="selected">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-			}elseif($_SESSION['horarioidaSav']=='noite'){
-				echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite" selected="selected">Noite (18h01->3h59)</option>';
-				}
-	}
-?>
-</select>
-</td></tr></table>
-</td>
-</tr>
-
-<tr><td colspan="2"><hr width="600px" /></td></tr>
-
-<tr><td width="10%"><strong>VOLTA</strong></td><td width="90%">
-<table border="0" width="100%">
-<tr height="34"><td>
-Data:</td><td><input type="text" class="input" name="dtvolta" id="dtvolta" size="20" readonly value='<?php echo $_SESSION['dtvoltaSav']; ?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
-<?php 
-if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemvolta' id='cidorigemvolta' size='40' onBlur='carregaVolta()' value='".$_SESSION['cidorigemvoltaSav']."'/><tr height='34'><td>País "; 
-}else{
-	echo "<input type='hidden' class='input' name='cidorigemvolta' id='cidorigemvolta' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
-	}
-	?>
-Origem:</td><td> 
-<input type="text" class="input" name="origemvolta" id="origemvolta" size="40" value='<?php echo $_SESSION['origemvoltaSav']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
-<?php 
-if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinovolta' id='ciddestinovolta' size='40' onBlur='carregaVolta()' value='".$_SESSION['ciddestinovoltaSav']."'/><tr height='34'><td>País "; 
-}else{
-	echo "<input type='hidden' class='input' name='ciddestinovolta' id='ciddestinovolta' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
-	}
-?>
-Destino:</td><td>
-<input type="text" class="input" name="destinovolta" id="destinovolta" size="40" value='<?php echo $_SESSION['destinovoltaSav']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
-<tr height='34'><td>
-Horário:</td><td> <select name="horarioVolta" id="horarioVolta">
-<?php 
-if(empty($_SESSION['horariovoltaSav']) || $_SESSION['horariovoltaSav']=='0'){
-   echo "<option value='0' selected='selected'>Selecione</option>";
-   echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-}else{
-	if($_SESSION['horariovoltaSav']=='manha'){
-		echo '<option value="manha" selected="selected">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-		}elseif($_SESSION['horariovoltaSav']=='tarde'){
-			echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde" selected="selected">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-			}elseif($_SESSION['horariovoltaSav']=='noite'){
-				echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite" selected="selected">Noite (18h01->3h59)</option>';
-				}
-	}
-?>
-</select>
-</td></tr>
-</td></tr>
- </table>
- </table>
-</table>
-<hr />
 <div id="divResultado" align="center" style="backface-visibility:visible; background-color:#FBE5E6; height:auto"></div>
 <table border="0" width="100%">
-<tr height="34"><td colspan="2"><h2 id="h2">DADOS COMPLEMENTARES</h2></td></tr>
+<tr height="34"><td colspan="4"><h2 id="h2">SERVIÇOS</h2></td></tr>
 <tr><td colspan="2">
 
 </td>
 </tr>
-<tr height="34"><td><strong>SOLICITAR PASSAGENS AÉREAS:</strong></td><td>
+<tr height="34"><td>
 <?php 
 if($_SESSION['passagemSav']=='nao'){
-	echo '<input type="radio" name="passag" id="passag" value="sim"> SIM 
-<input type="radio" name="passag" id="passag" value="nao" checked="checked"> NÃO';
+	echo '<input type="checkbox" name="passag" id="passag" value="sim">';
 	}else{
-		echo '<input type="radio" name="passag"  id="passag" value="sim" checked="checked"> SIM 
-<input type="radio" name="passag" id="passag" value="nao"> NÃO';
+		echo '<input type="checkbox" name="passag"  id="passag" value="sim" checked="checked">';
 		}
 ?>
-</td></tr>
-<tr height="34"><td><strong>DIÁRIAS COM HOSPEDAGEM:</strong></td><td>
+<strong>PASSAGENS AÉREAS</strong></td>
+<td>
 <?php 
 if($_SESSION['diariaSav']=='nao'){
-	echo '<input type="radio" name="diar" id="diar" value="sim"> SIM 
-<input type="radio" name="diar" id="diar" value="nao"  checked="checked"> NÃO';
+	echo '<input type="checkbox" name="diar" id="diar" value="sim">';
 	}else{
-		echo '<input type="radio" name="diar" id="diar"  value="sim" checked="checked"> SIM 
-<input type="radio" name="diar" id="diar" value="nao"> NÃO';	
+		echo '<input type="checkbox" name="diar"  id="diar" value="sim" checked="checked">';
 		}
 ?>
-</td></tr>
-<tr height="34"><td><strong>TRANSLADO INTERMUNICIPAL:</strong></td><td>
+<strong>HOSPEDAGEM</strong></td>
+<td>
 <?php 
 if($_SESSION['transladoSav']=='sim'){
-		echo '<input type="radio" name="trans" id="trans" value="sim" checked="checked"> SIM 
-<input type="radio" name="trans" value="nao"> NÃO';
+	
+	echo '<input type="checkbox" name="trans"  id="trans" value="sim" checked="checked">';
 	}else{
-		echo '<input type="radio" name="trans" id="trans" value="sim"> SIM 
-<input type="radio" name="trans" id="trans" value="nao" checked="checked"> NÃO';
+		echo '<input type="checkbox" name="trans" id="trans" value="sim">';
 		}
 ?>
-</td></tr></table>
+<strong>TRANSPORTE</strong></td>
+<td>
+	<input type="checkbox" name="soldia"  id="soldia" value="sim" checked="checked">
+    <strong>DIÁRIAS</strong></td>
+</tr>
+</table>
 <br />
+<hr />
 <strong>OBSERVAÇÕES:</strong><br /><textarea name="observacao" id="observacao" cols="64" rows="8" onKeyPress="javascript:limita('observacao',600);"><?php echo $_SESSION['observacaoSav']; ?></textarea>
 <br />
 <hr />
@@ -653,9 +520,11 @@ function setarCampos() {
 	var trans=0;
 	var pass=0;
 	var diar=0;
+	var soldia=0;
 	var radsTrans = document.getElementsByName('trans');
 	var radsPass = document.getElementsByName('passag');
 	var radsDiar = document.getElementsByName('diar');
+	var radsSolDiar = document.getElementsByName('soldia');
   
   for(var i = 0; i < radsTrans.length; i++){
    if(radsTrans[i].checked){
@@ -672,7 +541,12 @@ function setarCampos() {
     diar=radsDiar[i].value;
    }
   }
-	campos = "geren="+encodeURI(document.getElementById('geren').value)+"&gestor="+encodeURI(document.getElementById('gestor').value)+"&evento="+encodeURI(document.getElementById('evento').value)+"&objetivo="+encodeURI(document.getElementById('objetivo').value)+"&dtida="+encodeURI(document.getElementById('dtida').value)+"&dtvolta="+encodeURI(document.getElementById('dtvolta').value)+"&origemida="+encodeURI(document.getElementById('origemida').value)+"&origemvolta="+encodeURI(document.getElementById('origemvolta').value)+"&destinoida="+encodeURI(document.getElementById('destinoida').value)+"&destinovolta="+encodeURI(document.getElementById('destinovolta').value)+"&cidorigemida="+encodeURI(document.getElementById('cidorigemida').value)+"&cidorigemvolta="+encodeURI(document.getElementById('cidorigemvolta').value)+"&ciddestinovolta="+encodeURI(document.getElementById('ciddestinovolta').value)+"&ciddestinoida="+encodeURI(document.getElementById('ciddestinoida').value)+"&horarioIda="+encodeURI(document.getElementById('horarioIda').value)+"&horarioVolta="+encodeURI(document.getElementById('horarioVolta').value)+"&passag="+encodeURI(pass)+"&diar="+encodeURI(diar)+"&trans="+encodeURI(trans)+"&observacao="+encodeURI(document.getElementById('observacao').value);
+  for(var i = 0; i < radsSolDiar.length; i++){
+   if(radsSolDiar[i].checked){
+    soldia=radsSolDiar[i].value;
+   }
+  }
+	campos = "geren="+encodeURI(document.getElementById('geren').value)+"&gestor="+encodeURI(document.getElementById('gestor').value)+"&evento="+encodeURI(document.getElementById('evento').value)+"&objetivo="+encodeURI(document.getElementById('objetivo').value)+"&passag="+encodeURI(pass)+"&diar="+encodeURI(diar)+"&soldia="+encodeURI(soldia)+"&trans="+encodeURI(trans)+"&observacao="+encodeURI(document.getElementById('observacao').value);
 
 }
 

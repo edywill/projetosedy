@@ -10,6 +10,7 @@ $valida=0;
 $countError=0;
 $errorMsg='';
 $cgeren='';
+$_SESSION['dadosDiaSav']='';
 $tipoSav=$_SESSION['tpSav'];
 $idCargo=$_SESSION['idCargo'];
 $tpFunc=$_SESSION['tpFuncSav'];
@@ -17,6 +18,51 @@ $setor=$_SESSION['setorSav'];
 $cargo=$_SESSION['cargoSav'];
 $abrangencia=$_SESSION['abrangenciaSav'];
 $acao=0;
+$nautor='';
+$qtddias='';
+$valordia='';
+$numproc='';
+$dtida='';
+$dtvolta='';
+$origemida='';
+$origemvolta='';
+$cidorigemida='';
+$cidorigemvolta='';
+$destinoida='';
+$destinovolta='';
+$ciddestinoida='';
+$ciddestinovolta='';
+$horarioida='';
+$horariovolta='';
+$sqlDadosDiaria=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$_SESSION['numSav']."'"));
+if(empty($sqlDadosDiaria)){
+	$_SESSION['diariaSolSav']='';
+	}else{
+		$nautor=$sqlDadosDiaria['nautor'];
+		$qtddias=$sqlDadosDiaria['qtddias'];
+		$valordia=$sqlDadosDiaria['valortotal'];
+		$numproc=$sqlDadosDiaria['numproc'];
+		}
+$novosDadosDiaria=0;
+if($_SESSION['passagemSav']<>'sim' && $_SESSION['diariaSav'] <> 'sim' && $_SESSION['transladoSav']<>'sim'){
+	$sqlDiarDados=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$_SESSION['numSav']."'"));
+	if(!empty($sqlDiarDados['dtida'])){
+		$dtida=$sqlDiarDados['dtida'];
+		$dtvolta=$sqlDiarDados['dtvolta'];
+		$origemida=$sqlDiarDados['origemida'];
+		$origemvolta=$sqlDiarDados['origemvolta'];
+		$cidorigemida=$sqlDiarDados['cidorigemida'];
+		$cidorigemvolta=$sqlDiarDados['cidorigemvolta'];
+		$destinoida=$sqlDiarDados['destinoida'];
+		$destinovolta=$sqlDiarDados['destinovolta'];
+		$ciddestinoida=$sqlDiarDados['ciddestinoida'];
+		$ciddestinovolta=$sqlDiarDados['ciddestinovolta'];
+		$horarioida=$sqlDiarDados['horarioida'];
+		$horariovolta=$sqlDiarDados['horariovolta'];
+		}
+	$novosDadosDiaria=1;
+	$_SESSION['dadosDiaSav']='sim';
+	}
 
 if($_SESSION['tpSav']<>'3'){
 	$_SESSION['tpSav']='2';
@@ -67,6 +113,8 @@ $(function() {
 	$( "#dtvolta4" ).datepicker({dateFormat: 'dd/mm/yy'});
 	$( "#dtida5" ).datepicker({dateFormat: 'dd/mm/yy'});
 	$( "#dtvolta5" ).datepicker({dateFormat: 'dd/mm/yy'});
+	$( "#dtida10" ).datepicker({dateFormat: 'dd/mm/yy'});
+	$( "#dtvolta10" ).datepicker({dateFormat: 'dd/mm/yy'});
 });
 </script>
 <script type="text/javascript">
@@ -165,7 +213,11 @@ $().ready(function() {
         matchContains: true,
         selectFirst: false
     });
-	
+	$("#origemida10").autocomplete("suggest_localNac.php", {
+        width: 260,
+        matchContains: true,
+        selectFirst: false
+    });
 	$("#destinoida5").autocomplete("suggest_localNac.php", {
         width: 260,
         matchContains: true,
@@ -187,6 +239,11 @@ $().ready(function() {
         selectFirst: false
     });
 	$("#destinoida").autocomplete("suggest_local.php", {
+        width: 260,
+        matchContains: true,
+        selectFirst: false
+    });
+	$("#destinoida10").autocomplete("suggest_local.php", {
         width: 260,
         matchContains: true,
         selectFirst: false
@@ -272,6 +329,14 @@ req.send(null);
 	}
 
 </script>
+<script type="text/javascript">
+  	function carregaVolta(){
+	  document.getElementById('cidorigemvolta10').value=document.getElementById('ciddestinoida10').value;
+	  document.getElementById('ciddestinovolta10').value=document.getElementById('cidorigemida10').value;
+	  document.getElementById('origemvolta10').value=document.getElementById('destinoida10').value;
+	  document.getElementById('destinovolta10').value=document.getElementById('origemida10').value;
+	  }
+  </script>
 </head>
 <body onKeyDown="javascript:return bloqueioTeclas();">
 <div id='box3' style="height:auto">
@@ -287,7 +352,7 @@ req.send(null);
  <table border="0" width="100%">
 <tr><td width="10%"><strong>Nome:</strong></td><td width="40%"><?php echo utf8_encode($_SESSION['nomeSav']); ?></td><td width="10%"><strong>Tipo:</strong></td><td width="40%"><?php echo $_SESSION['tpFuncSav']; ?></td></tr>
 <tr><td width="10%"><strong>Cargo:</strong></td><td width="40%"><?php echo utf8_encode($cargo); ?></td><td><strong>Setor:</strong></td><td><?php echo utf8_encode($setor); ?></td></tr>
-<tr><td><strong>Evento:</strong></td><td><?php echo $_SESSION['eventoSav']; ?></td><td><strong>Per&iacute;odo:</strong></td><td><?php echo $_SESSION['dtidaSav']." a ".$_SESSION['dtvoltaSav']; ?> </td></tr>
+<tr><td><strong>Evento:</strong></td><td colspan="3"><?php echo $_SESSION['eventoSav']; ?></td></tr>
 <?php 
 if($abrangencia=='Internacional'){
 ?>
@@ -300,13 +365,11 @@ if($abrangencia=='Internacional'){
   </table>
  <br /><br />
 <?php 
-if($_SESSION['passagemSav']=='sim' || $_SESSION['diariaSav'] == 'sim' ||$_SESSION['transladoSav']=='sim'){
+if($_SESSION['passagemSav']=='sim' || $_SESSION['diariaSav'] == 'sim' ||$_SESSION['transladoSav']=='sim' || trim($_SESSION['diariaSolSav'])=='sim' || $novosDadosDiaria==1){
 //echo "ATENÇÃO: As informações complementares abaixo são obrigatórias.<br> Caso necessário, inclua mais de uma informação referente a cada item (Passagem, hospedagem e locação).";	
 echo '<div id="mensagens">
 <div id="tabela">';
 if($_SESSION['passagemSav']=='sim'){
-	$arrayOrigemIda=explode("-",$_SESSION['origemidaSav2']);
-	$arrayDestinoIda=explode("-",$_SESSION['destinoidaSav2']);
 	$complementoInt='';
 	if($abrangencia=='Nacional'){
 		$abrangTipo=' (SELECT municipio FROM municipios WHERE id=savpassagem.origem) AS origemTrecho, (SELECT municipio FROM municipios WHERE id=savpassagem.destino) AS destinoTrecho ';
@@ -348,7 +411,6 @@ if($_SESSION['passagemSav']=='sim'){
 	}
 }
 	if(trim($_SESSION['diariaSav'])=='sim'){
-	$arrayDestinoIda=explode("-",$_SESSION['destinoidaSav3']);
 	if($abrangencia=='Nacional'){
 		$abrangTipo=' (SELECT municipio FROM municipios WHERE id=savhospedagem.destino) AS destinoTrecho ';
 		}else{
@@ -391,14 +453,14 @@ $textoComplemento.='Passagem Aérea';
 }
 
 if(trim($_SESSION['diariaSav'])=='sim'){
-$textoComplemento.=', Hospedagem';
+$textoComplemento.=' - Hospedagem';
 }
 $translado=0;
 if(trim($_SESSION['transladoSav'])=='sim'){
-	$textoComplemento.=' e Translado';
+	$textoComplemento.=' - Translado';
 	}
 if(!empty($textoComplemento)){
-	echo "Preencha as informações referente de itens ( ".$textoComplemento.") nas abas abaixo:";
+	echo "Preencha as informações referente aos itens ( ".$textoComplemento.") nas abas abaixo:";
 	}
 ?>
 </div>
@@ -435,6 +497,15 @@ if($_SESSION['passagemSav']=='sim'){
             <li>
             	<div class="aba">
                 	<span><strong>LOCAÇÃO DE VEÍCULO</strong></span>
+                </div>
+            </li>
+            <?php 
+	}
+	if(trim($_SESSION['diariaSolSav'])=='sim' || $novosDadosDiaria==1){
+		?>
+            <li>
+            	<div class="aba">
+                	<span><strong>DIÁRIAS</strong></span>
                 </div>
             </li>
             <?php 
@@ -685,6 +756,165 @@ function setarCamposLoc() {
   <br /><br />
 		</div>
         <?php
+		}
+		if($_SESSION['diariaSolSav']=='sim' || $novosDadosDiaria==1){
+		?>
+    <div class="conteudo3">
+	  <form action="incluiDadosDiaria.php" name="diar" method="post" onSubmit="setarCamposDiar(this); enviarForm('incluiDadosDiaria.php', camposDiar, 'divResultado'); return false;">
+        <h2 id="h2">DADOS SOLICITAÇÃO DE DIÁRIA</h2>
+        <?php 
+		if($_SESSION['diariaSolSav']=='sim'){
+		?>
+        <table border="0" width="100%">
+<tr>
+<td width="50%"><strong>Quantidade: </strong><?php echo $qtddias; ?>
+
+</td><td width="50%"><strong>Valor Total:</strong> R$ <?php echo $valordia; ?>
+</td>
+</tr>
+<tr>
+<td width="50%"><strong>Autorização: </strong>
+</td>
+
+<td>
+<?php 
+echo $nautor;
+?>
+</td>
+</tr>
+<tr>
+</td><td width="50%" colspan="2"><strong>Processo nº:</strong> <?php echo $numproc; ?>
+</td>
+</tr>
+</table>
+<?php 
+		}
+		if($novosDadosDiaria==1){
+?>
+<strong>Dados para criação da SAV</strong>
+<table border="0" width="100%" class="tabelasimples">
+  <tr><td width="10%"><strong>IDA</strong></td><td width="90%">
+<table border="0" width="100%">
+<tr height="34"><td>
+Data:</td><td><input type="text" class="input" name="dtida10" id="dtida10" size="20" readonly value='<?php echo $dtida;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
+<?php 
+if($_SESSION['abrangenciaSav']=='Internacional'){
+echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemida10' id='cidorigemida10' size='40' onBlur='carregaVolta()' value='".$cidorigemida."'/>
+</td></tr><tr height='34'><td>
+País"; 
+}else{
+	echo "<input type='hidden' class='input' name='cidorigemida10' id='cidorigemida10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
+	}
+?>
+Origem:</td><td> 
+<input type="text" class="input" name="origemida10" id="origemida10" size="40" onBlur="carregaVolta();verificaPais(this.value);" value='<?php echo $origemida;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr>
+<?php 
+if($_SESSION['abrangenciaSav']=='Internacional'){
+echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value='".$ciddestinoida."'/><tr height='34'><td>
+País "; 
+}else{
+	echo "<input type='hidden' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
+	}
+?>
+Destino: </td><td>
+<input type="text" class="input" name="destinoida10" id="destinoida10" size="40" onBlur="carregaVolta()" value='<?php echo $destinoida;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr><tr height='34'><td>
+Horário:</td><td> <select name="horarioIda10" id='horarioIda10'>
+<?php 
+  if(empty($horarioida) || $horarioida=='0'){
+   echo "<option value='0' selected='selected'>Selecione</option>"; 
+	echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+}else{
+	if($horarioida=='manha'){
+		echo '<option value="manha" selected="selected">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+		}elseif($horarioida=='tarde'){
+			echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde" selected="selected">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+			}elseif($horarioida=='noite'){
+				echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite" selected="selected">Noite (18h01->3h59)</option>';
+				}
+}
+?>
+</select>
+</td></tr></table>
+</td>
+</tr>
+
+<tr><td colspan="2"><hr width="600px" /></td></tr>
+
+<tr><td width="10%"><strong>VOLTA</strong></td><td width="90%">
+<table border="0" width="100%">
+<tr height="34"><td>
+Data:</td><td><input type="text" class="input" name="dtvolta10" id="dtvolta10" size="20" readonly value='<?php echo $dtvolta;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
+<?php 
+if($_SESSION['abrangenciaSav']=='Internacional'){
+echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemvolta10' id='cidorigemvolta10' size='40' onBlur='carregaVolta()' value='".$cidorigemvolta."'/><tr height='34'><td>País "; 
+}else{
+	echo "<input type='hidden' class='input' name='cidorigemvolta10' id='cidorigemvolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
+	}
+	?>
+Origem:</td><td> 
+<input type="text" class="input" name="origemvolta10" id="origemvolta10" size="40" value='<?php echo $origemvolta;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
+<?php 
+if($_SESSION['abrangenciaSav']=='Internacional'){
+echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinovolta10' id='ciddestinovolta10' size='40' onBlur='carregaVolta()' value='".$ciddestinovolta."'/><tr height='34'><td>País "; 
+}else{
+	echo "<input type='hidden' class='input' name='ciddestinovolta10' id='ciddestinovolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
+	}
+?>
+Destino:</td><td>
+<input type="text" class="input" name="destinovolta10" id="destinovolta10" size="40" value='<?php echo $destinovolta;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
+<tr height='34'><td>
+Horário:</td><td> <select name="horarioVolta10" id="horarioVolta10">
+<?php 
+ if(empty($horariovolta) || $horariovolta=='0'){
+   echo "<option value='0' selected='selected'>Selecione</option>"; 
+	echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+}else{
+	if($horariovolta=='manha'){
+		echo '<option value="manha" selected="selected">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+		}elseif($horariovolta=='tarde'){
+			echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde" selected="selected">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+			}elseif($horariovolta=='noite'){
+				echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite" selected="selected">Noite (18h01->3h59)</option>';
+				}
+}
+?>
+</select>
+</td></tr>
+<tr><td colspan="2" align="center"><input type="submit" name="inserir" value="Inserir" class="button" /></td></tr>
+</td></tr>
+ </table>
+ </table>
+</table>
+  </form>
+  <script>
+
+//Cria a função com os campos para envio via parâmetro
+
+function setarCamposDiar() {
+	camposDiar = "&dtida="+encodeURI(document.getElementById('dtida10').value)+"&dtvolta="+encodeURI(document.getElementById('dtvolta10').value)+"&origemida="+encodeURI(document.getElementById('origemida10').value)+"&origemvolta="+encodeURI(document.getElementById('origemvolta10').value)+"&destinoida="+encodeURI(document.getElementById('destinoida10').value)+"&destinovolta="+encodeURI(document.getElementById('destinovolta10').value)+"&cidorigemida="+encodeURI(document.getElementById('cidorigemida10').value)+"&cidorigemvolta="+encodeURI(document.getElementById('cidorigemvolta10').value)+"&ciddestinovolta="+encodeURI(document.getElementById('ciddestinovolta10').value)+"&ciddestinoida="+encodeURI(document.getElementById('ciddestinoida10').value)+"&horarioIda="+encodeURI(document.getElementById('horarioIda10').value)+"&horarioVolta="+encodeURI(document.getElementById('horarioVolta10').value);
+}
+
+</script>
+  <br /><br />
+		</div>
+        <?php
+		   }
 		}
 ?>
   </div>

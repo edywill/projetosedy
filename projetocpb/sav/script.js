@@ -37,7 +37,8 @@ function enviarForm(url, campos, destino) {
 			if (xmlhttp.status == 200) {
 				//Insere no 'elemento' a página postada
 					if(xmlhttp.responseText!='1'){
-					$("#divResultado").jui_alert({
+						
+						$("#divResultado").jui_alert({
     				containerClass: "jui-modal-alert",
     				message: xmlhttp.responseText,
     				timeout: 0,

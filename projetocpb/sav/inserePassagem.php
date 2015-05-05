@@ -58,14 +58,7 @@ if(empty($_SESSION['dtidaSav2'])){
 	$arrayDtIdaEvento=explode("/",$_SESSION['dtidaSavEvento']);
 	$arrayDtIda=explode("/",$_SESSION['dtidaSav2']);
 	$arrayDtVolta=explode("/",$_SESSION['dtvoltaSav2']);
-	if(!empty($_SESSION['dtidaSav2'])){
-	if(strtotime($arrayDtIdaEvento[2]."-".$arrayDtIdaEvento[1]."-".$arrayDtIdaEvento[0]) > strtotime($arrayDtIda[2]."-".$arrayDtIda[1]."-".$arrayDtIda[0])){
-			$valida=1;
-			$countError++;
-			$errorMsg.='Erro['.$countError.']: Data de ida nao pode ser anterior a informada na primeira tela da SAV.<br>';
-			
-			}
-	}
+
 	if($_SESSION['idaeVoltaSav']<>1){
 		if(empty($_SESSION['horariovoltaSav2']) || $_SESSION['horariovoltaSav2']=='0'){
 			$valida=1;
@@ -85,11 +78,6 @@ if(empty($_SESSION['dtidaSav2'])){
 		  }
 		 }
 		}
-		if($_SESSION['dtvoltaSavEvento']<$_SESSION['dtvoltaSav2']){
-			$valida=1;
-			$countError++;
-			$errorMsg.='Erro['.$countError.']: Data de retorno nao pode ser superior a informada na primeira tela da SAV.<br>';
-			}
 	}
 	if(empty($_SESSION['valorPasSav'])){
 			$valida=1;

@@ -85,8 +85,9 @@ where (projeto LIKE '".$objReg->projeto."%')");
 				$dataPassagem=date('d/m/Y',strtotime($objReg->datainicial));
 				}
 $idbenAnt=$objReg->idben;
+			if(!empty($cor)){				
 					echo "<tr ".$cor."><td>".$objReg->solicitacao."<br>".$objReg->autorizacao."</td><td><span title='".mb_convert_encoding($arrayProc['assunto'],"UTF-8","ISO-8859-1")."'>".$objReg->projeto."</span></td><td>".trim(utf8_encode($arrayNome['Nome_completo']))."</td><td>".$tipoPas.": ".$dataPassagem."</td><td>".$objReg->localizador."</td><td>".$objReg->nome."</td><td>".$objReg->vltot."</td></tr>";
-				
+			}
 		}
     echo "</table>";
 ?>

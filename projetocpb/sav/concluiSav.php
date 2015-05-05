@@ -46,9 +46,17 @@ $_SESSION['tpSav']=3;
   //Chegada tarde, + meia diária
   //Chegada noite, + 1 diária
   //Caso haja hospedagem marcado, o valor da diária é sempre a metade
+
 $sqlRegistro=mysql_query("SELECT * FROM savregistros WHERE id='".$numSav."'");
 $arrayRegistro=mysql_fetch_array($sqlRegistro);
 $contarDias=0;
+$numDiasDiaria=0;
+$numDiasGeral=0;
+$diaExtra=0;
+$diasUteis=0;
+$descontoVR =0;
+$sqlRegistro=mysql_query("SELECT * FROM savregistros WHERE id='".$numSav."'");
+$arrayRegistro=mysql_fetch_array($sqlRegistro);	
 $numDiasGeral=$arrayRegistro['dtvolta']-$arrayRegistro['dtida'];
 $diaExtra=0;
 if($arrayRegistro['horariovolta']=='tarde'){
@@ -57,11 +65,14 @@ if($arrayRegistro['horariovolta']=='tarde'){
 		$diaExtra=1;
 		}
  $numDiasGeral=$diaExtra+$numDiasGeral;
+ $numDiasDiaria=$numDiasGeral;
+ if(!empty($arrayRegistro['dtida'])){
  $diasUteis = DiasUteis($arrayRegistro['dtida'], $arrayRegistro['dtvolta']);
  if($diaExtra==0){
 	 $diasUteis=$diasUteis-1;
 	 }
- $descontoVR = $diasUteis*28.5;
+   $descontoVR = $diasUteis*28.5;
+ }
  $valorDia=0;
  $sqlClasse=mysql_query("SELECT classe FROM savcargos WHERE id='".$_SESSION['idCargo']."'");
  $arrayClasse=mysql_fetch_array($sqlClasse);
@@ -77,6 +88,9 @@ if($valida==1){
 odbc_rollback($conCab2);
 		}else{
 if(odbc_commit($conCab2)){
+	//Atualiza Dados do Registro
+	
+	
 	$funcionario='X';
 	$dirigente='';
 	$sqlSavImpressao=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$numSav."'"));
@@ -107,7 +121,7 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
   RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$sqlSavImpressao['funcionario']."'";
@@ -117,6 +131,13 @@ Where
   if($consultaClasse['classe']<3){
 	  $funcionario='';
 	  $dirigente='X';
+	}
+//Inserir dados de diária
+$selectDadosDiaria=mysql_fetch_array(mysql_query("SELECT id FROM savdiarias WHERE idsav='".$numSav."'"));
+if(!empty($selectDadosDiaria['id'])){
+$insereDadosDiaria=mysql_query("INSERT INTO savdiarias (idsav,qtddias,valortotal) VALUES ('".$numSav."','".$numDiasDiaria."','".$valorTotal."')");
+}else{
+	$insereDadosDiaria=mysql_query("UPDATE savdiarias SET qtddias='".$numDiasDiaria."',valortotal='".$valorTotal."' WHERE id='".$selectDadosDiaria['id']."'");
 	}
 	  $_SESSION['nomeFuncSav']=$dadosFuncionario['NOME'];
 	  $_SESSION['idCargo']=$dadosFuncionario['CARGO'];
