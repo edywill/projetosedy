@@ -22,6 +22,18 @@ $nautor='';
 $qtddias='';
 $valordia='';
 $numproc='';
+$dtida='';
+$dtvolta='';
+$origemida='';
+$origemvolta='';
+$cidorigemida='';
+$cidorigemvolta='';
+$destinoida='';
+$destinovolta='';
+$ciddestinoida='';
+$ciddestinovolta='';
+$horarioida='';
+$horariovolta='';
 $sqlDadosDiaria=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$_SESSION['numSav']."'"));
 if(empty($sqlDadosDiaria)){
 	$_SESSION['diariaSolSav']='';
@@ -33,6 +45,21 @@ if(empty($sqlDadosDiaria)){
 		}
 $novosDadosDiaria=0;
 if($_SESSION['passagemSav']<>'sim' && $_SESSION['diariaSav'] <> 'sim' && $_SESSION['transladoSav']<>'sim'){
+	$sqlDiarDados=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$_SESSION['numSav']."'"));
+	if(!empty($sqlDiarDados['dtida'])){
+		$dtida=$sqlDiarDados['dtida'];
+		$dtvolta=$sqlDiarDados['dtvolta'];
+		$origemida=$sqlDiarDados['origemida'];
+		$origemvolta=$sqlDiarDados['origemvolta'];
+		$cidorigemida=$sqlDiarDados['cidorigemida'];
+		$cidorigemvolta=$sqlDiarDados['cidorigemvolta'];
+		$destinoida=$sqlDiarDados['destinoida'];
+		$destinovolta=$sqlDiarDados['destinovolta'];
+		$ciddestinoida=$sqlDiarDados['ciddestinoida'];
+		$ciddestinovolta=$sqlDiarDados['ciddestinovolta'];
+		$horarioida=$sqlDiarDados['horarioida'];
+		$horariovolta=$sqlDiarDados['horariovolta'];
+		}
 	$novosDadosDiaria=1;
 	$_SESSION['dadosDiaSav']='sim';
 	}
@@ -769,10 +796,10 @@ echo $nautor;
   <tr><td width="10%"><strong>IDA</strong></td><td width="90%">
 <table border="0" width="100%">
 <tr height="34"><td>
-Data:</td><td><input type="text" class="input" name="dtida10" id="dtida10" size="20" readonly value='' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
+Data:</td><td><input type="text" class="input" name="dtida10" id="dtida10" size="20" readonly value='<?php echo $dtida;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemida10' id='cidorigemida10' size='40' onBlur='carregaVolta()' value=''/>
+echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemida10' id='cidorigemida10' size='40' onBlur='carregaVolta()' value='".$cidorigemida."'/>
 </td></tr><tr height='34'><td>
 País"; 
 }else{
@@ -780,23 +807,39 @@ País";
 	}
 ?>
 Origem:</td><td> 
-<input type="text" class="input" name="origemida10" id="origemida10" size="40" onBlur="carregaVolta();verificaPais(this.value);" value='' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr>
+<input type="text" class="input" name="origemida10" id="origemida10" size="40" onBlur="carregaVolta();verificaPais(this.value);" value='<?php echo $origemida;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr>
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>
+echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value='".$ciddestinoida."'/><tr height='34'><td>
 País "; 
 }else{
 	echo "<input type='hidden' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
 	}
 ?>
 Destino: </td><td>
-<input type="text" class="input" name="destinoida10" id="destinoida10" size="40" onBlur="carregaVolta()" value='' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr><tr height='34'><td>
+<input type="text" class="input" name="destinoida10" id="destinoida10" size="40" onBlur="carregaVolta()" value='<?php echo $destinoida;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr><tr height='34'><td>
 Horário:</td><td> <select name="horarioIda10" id='horarioIda10'>
 <?php 
+  if(empty($horarioida) || $horarioida=='0'){
    echo "<option value='0' selected='selected'>Selecione</option>"; 
 	echo '<option value="manha">Manhã (4h->12h)</option>
 <option value="tarde">Tarde (12h01->18h)</option>
 <option value="noite">Noite (18h01->3h59)</option>';
+}else{
+	if($horarioida=='manha'){
+		echo '<option value="manha" selected="selected">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+		}elseif($horarioida=='tarde'){
+			echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde" selected="selected">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+			}elseif($horarioida=='noite'){
+				echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite" selected="selected">Noite (18h01->3h59)</option>';
+				}
+}
 ?>
 </select>
 </td></tr></table>
@@ -808,33 +851,48 @@ Horário:</td><td> <select name="horarioIda10" id='horarioIda10'>
 <tr><td width="10%"><strong>VOLTA</strong></td><td width="90%">
 <table border="0" width="100%">
 <tr height="34"><td>
-Data:</td><td><input type="text" class="input" name="dtvolta10" id="dtvolta10" size="20" readonly value='' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
+Data:</td><td><input type="text" class="input" name="dtvolta10" id="dtvolta10" size="20" readonly value='<?php echo $dtvolta;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemvolta10' id='cidorigemvolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>País "; 
+echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemvolta10' id='cidorigemvolta10' size='40' onBlur='carregaVolta()' value='".$cidorigemvolta."'/><tr height='34'><td>País "; 
 }else{
 	echo "<input type='hidden' class='input' name='cidorigemvolta10' id='cidorigemvolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
 	}
 	?>
 Origem:</td><td> 
-<input type="text" class="input" name="origemvolta10" id="origemvolta10" size="40" value='' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
+<input type="text" class="input" name="origemvolta10" id="origemvolta10" size="40" value='<?php echo $origemvolta;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinovolta10' id='ciddestinovolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>País "; 
+echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinovolta10' id='ciddestinovolta10' size='40' onBlur='carregaVolta()' value='".$ciddestinovolta."'/><tr height='34'><td>País "; 
 }else{
 	echo "<input type='hidden' class='input' name='ciddestinovolta10' id='ciddestinovolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
 	}
 ?>
 Destino:</td><td>
-<input type="text" class="input" name="destinovolta10" id="destinovolta10" size="40" value='' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
+<input type="text" class="input" name="destinovolta10" id="destinovolta10" size="40" value='<?php echo $destinovolta;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
 <tr height='34'><td>
 Horário:</td><td> <select name="horarioVolta10" id="horarioVolta10">
 <?php 
-   echo "<option value='0' selected='selected'>Selecione</option>";
-   echo '<option value="manha">Manhã (4h->12h)</option>
+ if(empty($horariovolta) || $horariovolta=='0'){
+   echo "<option value='0' selected='selected'>Selecione</option>"; 
+	echo '<option value="manha">Manhã (4h->12h)</option>
 <option value="tarde">Tarde (12h01->18h)</option>
 <option value="noite">Noite (18h01->3h59)</option>';
-
+}else{
+	if($horariovolta=='manha'){
+		echo '<option value="manha" selected="selected">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+		}elseif($horariovolta=='tarde'){
+			echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde" selected="selected">Tarde (12h01->18h)</option>
+<option value="noite">Noite (18h01->3h59)</option>';
+			}elseif($horariovolta=='noite'){
+				echo '<option value="manha">Manhã (4h->12h)</option>
+<option value="tarde">Tarde (12h01->18h)</option>
+<option value="noite" selected="selected">Noite (18h01->3h59)</option>';
+				}
+}
 ?>
 </select>
 </td></tr>
