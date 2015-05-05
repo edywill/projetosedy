@@ -220,7 +220,7 @@ include "menu.php";
             <tbody>
             <?php
 			$tabela='';
-			if($_SESSION['estadoSession']=='28'){
+			if($_SESSION['estadoSession']=='28' || $_SESSION['estadoSession']=='29'){
 			$sqlOcorAnalise=odbc_exec($conCab,"SELECT report.*,estado.sigla FROM report LEFT JOIN estado ON report.estado_id=estado.id WHERE protocolo='".$_SESSION['protocoloSession']."'");
 			}else{
 				$sqlOcorAnalise=odbc_exec($conCab,"SELECT report.*,estado.sigla FROM report LEFT JOIN estado ON report.estado_id=estado.id WHERE protocolo='".$_SESSION['protocoloSession']."' AND report.estado_id='".$_SESSION['estadoSession']."'");
