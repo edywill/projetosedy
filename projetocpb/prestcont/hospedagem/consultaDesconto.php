@@ -8,7 +8,7 @@ $valor=trim($_GET['valor']);
 
 
 $consulta="SELECT desconto FROM cia WHERE id=".$valor."";
-$sql = mysql_query($consulta);
+$sql = mysql_query($consulta) or die();
 
 
 $pesquisa = mysql_fetch_array($sql);

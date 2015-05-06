@@ -284,45 +284,28 @@ var req;
 // FUNÇÃO PARA BUSCA DO QUE PROCURA
 function buscarDescontos".$i."(valor) {
 
-// Verificando Browser
-if(window.XMLHttpRequest) {
-req = new XMLHttpRequest();
-}
-else if(window.ActiveXObject) {
-req = new ActiveXObject(\"Microsoft.XMLHTTP\");
-}
-
-// Arquivo PHP juntamente com o valor digitado no campo (método GET)
-var url = \"consultaDesconto.php?valor=\"+valor;
-
-// Chamada do método open para processar a requisição
-req.open(\"Get\", url, true);
-
-// Quando o objeto recebe o retorno, chamamos a seguinte função;
-req.onreadystatechange = function() {
-
-// Verifica se o Ajax realizou todas as operações corretamente
-if(req.readyState == 4 && req.status == 200) {
-
-// Resposta retornada pelo busca.php
-var resposta = req.responseText;
-
-// Abaixo colocamos a(s) resposta(s) na div resultado que está lá no teste.php
 f=document.getElementById('vlTotH".$i."').value;
-a=(moeda2float(document.getElementById('vlDia".$i."').value)*moeda2float(document.getElementById('qtdDias".$i."').value));
-document.getElementById('totalLinha".$i."').innerHTML=float2moeda(a);
-document.getElementById('vlTotH".$i."').value=a;
 
-d=((document.getElementById('totalG').value*1)-f)+a;
+a=(moeda2float(document.getElementById('vlDia".$i."').value)*moeda2float(document.getElementById('qtdDias".$i."').value));
+
+document.getElementById('totalLinha".$i."').innerHTML=float2moeda(a);
+
+document.getElementById('vlTotH".$i."').value=a;
+if(document.getElementById('totalG').value=='0.00'){
+d=f+a;
+}else{   d=((document.getElementById('totalG').value*1))+a;
+	}
+
 document.getElementById('totalG').value=d;
 document.getElementById('totalGeral').innerHTML=float2moeda(d);
 g=d+(document.getElementById('totIss').value*1)+(document.getElementById('totServ').value*1)+(document.getElementById('totCont').value*1);
+
 document.getElementById('totGFinal').value=g;
+
 document.getElementById('totGeralFinal').innerHTML=float2moeda(g);
+
 	buscarDesc(g);
-	}
-}
-req.send(null);
+
 }
 </script>";
 }
