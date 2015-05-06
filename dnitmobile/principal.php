@@ -10,7 +10,7 @@ $_SESSION['perfilSession']=$perfil['perfil'];
 $_SESSION['estadoSession']=$perfil['estado'];
 
 $tabela[]='';
-			if($_SESSION['estadoSession']=='28'){
+			if($_SESSION['estadoSession']=='28' || $_SESSION['estadoSession']=='29'){
 			$sqlGeral="SELECT device_id FROM report WHERE protocolo IS NULL GROUP BY device_id";
 			}else{
 				$sqlGeral="SELECT device_id FROM report WHERE protocolo IS NULL
@@ -77,7 +77,7 @@ $tabela[]='';
 				$countReportsProt=0;
 				$dataPrimOcorrProt='';
 				
-				if($_SESSION['estadoSession']=='28'){
+				if($_SESSION['estadoSession']=='28' || $_SESSION['estadoSession']=='29'){
 				$sqlReportsProt=odbc_exec($conCab,"SELECT datetime_2,(SELECT sigla FROM estado WHERE id=report.estado_id) AS sigla FROM report WHERE protocolo='".$resultado->idprot."' AND device_id='".$resultado->device_id."'");
 				}else{
 					$sqlReportsProt=odbc_exec($conCab,"SELECT datetime_2,(SELECT sigla FROM estado WHERE id=report.estado_id) AS nome FROM report WHERE protocolo='".$resultado->idprot."' AND device_id='".$resultado->device_id."' AND estado_id='".$_SESSION['estadoSession']."'");
