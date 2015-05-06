@@ -76,6 +76,9 @@ if($arrayRegistro['horariovolta']=='tarde'){
  $valorDia=0;
  $sqlClasse=mysql_query("SELECT classe FROM savcargos WHERE id='".$_SESSION['idCargo']."'");
  $arrayClasse=mysql_fetch_array($sqlClasse);
+ //Atualiza Dados do Registro
+ //Verifica se no registro possui dados de ida e volta, senão, busca nas passagens, hospedagens e locação de veículo a informação, para atualizar. Caso não haja, ou seja apenas ida, marca a volta com a mesma data
+  
 include "processamentoSav.php";
 
 if($valida==1){
@@ -87,10 +90,7 @@ if($valida==1){
        <?php
 odbc_rollback($conCab2);
 		}else{
-if(odbc_commit($conCab2)){
-	//Atualiza Dados do Registro
-	
-	
+if(odbc_commit($conCab2)){	
 	$funcionario='X';
 	$dirigente='';
 	$sqlSavImpressao=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$numSav."'"));
