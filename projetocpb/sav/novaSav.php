@@ -423,26 +423,25 @@ echo $_SESSION['gerenSav']."-".$_SESSION['gerenSavNome'];
 </tr>
 <tr height="34"><td>
 <?php 
-if($_SESSION['passagemSav']=='nao'){
-	echo '<input type="checkbox" name="passag" id="passag" value="sim">';
+if($_SESSION['passagemSav']=='sim'){
+	echo '<input type="checkbox" name="passag"  id="passag" value="sim" checked="checked">';
 	}else{
-		echo '<input type="checkbox" name="passag"  id="passag" value="sim" checked="checked">';
+	echo '<input type="checkbox" name="passag" id="passag" value="sim">';	
 		}
 ?>
 <strong>PASSAGENS AÉREAS</strong></td>
 <td>
 <?php 
-if($_SESSION['diariaSav']=='nao'){
-	echo '<input type="checkbox" name="diar" id="diar" value="sim">';
-	}else{
+if($_SESSION['diariaSav']=='sim'){
 		echo '<input type="checkbox" name="diar"  id="diar" value="sim" checked="checked">';
+	}else{
+	echo '<input type="checkbox" name="diar" id="diar" value="sim">';
 		}
 ?>
 <strong>HOSPEDAGEM</strong></td>
 <td>
 <?php 
 if($_SESSION['transladoSav']=='sim'){
-	
 	echo '<input type="checkbox" name="trans"  id="trans" value="sim" checked="checked">';
 	}else{
 		echo '<input type="checkbox" name="trans" id="trans" value="sim">';

@@ -1,5 +1,6 @@
 ﻿<?php 
 session_start();
+set_time_limit (0);
 $homolog=0;
 function converteData($data){
        if (strstr($data, "/")){//verifica se tem a barra /
@@ -134,7 +135,7 @@ Where
 	}
 //Inserir dados de diária
 $selectDadosDiaria=mysql_fetch_array(mysql_query("SELECT id FROM savdiarias WHERE idsav='".$numSav."'"));
-if(!empty($selectDadosDiaria['id'])){
+if(empty($selectDadosDiaria['id'])){
 $insereDadosDiaria=mysql_query("INSERT INTO savdiarias (idsav,qtddias,valortotal) VALUES ('".$numSav."','".$numDiasDiaria."','".$valorTotal."')");
 }else{
 	$insereDadosDiaria=mysql_query("UPDATE savdiarias SET qtddias='".$numDiasDiaria."',valortotal='".$valorTotal."' WHERE id='".$selectDadosDiaria['id']."'");

@@ -163,6 +163,7 @@ if($countRegistros>0){
 <?php 
 while($objRegistros=mysql_fetch_object($sqlRegistros)){
 $editar='';
+$visualiza='';
 $nomeFuncionario='';
 $sqlFuncionario=odbc_fetch_array(odbc_exec($conCab,"Select
   RHPESSOAS.NOME,
@@ -190,11 +191,11 @@ $idCiEdit='';
 		
 		}elseif($sqlControleCi['campo27']=='AP'){
 			$status='CI Aprovada';
-			$editar="<a href='geraPdfSav.php?gest=".$objRegistros->id."' target='_blank'><img src='css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a>";
+			$visualiza="<a href='geraPdfSav.php?gest=".$objRegistros->id."' target='_blank'><img src='css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a>";
 			$updateSav=mysql_query("UPDATE savregistros SET status='".$status."' AND situacao='Aprovada'");
 			}else{
 				$status='Em andamento';
-				$editar="<a href='geraPdfSav.php?gest=".$objRegistros->id."' target='_blank'><img src='css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a>";
+				$visualiza="<a href='geraPdfSav.php?gest=".$objRegistros->id."' target='_blank'><img src='css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a>";
 				if($objRegistros->situacao<>'Aprovada'){
 				$updateSav=mysql_query("UPDATE savregistros SET status='".$status."' AND situacao='Em Andamento'");
 				}else{
@@ -205,7 +206,7 @@ $idCiEdit='';
 $statusSav=utf8_encode($objRegistros->situacao);
 			if($statusSav=='Aprovada'){
 				$statusSav='SAV Aprovada';
-			    $editar="<a href='geraPdfSav.php?gest=".$objRegistros->id."' target='_blank'><img src='css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a>";
+			    $visualiza="<a href='geraPdfSav.php?gest=".$objRegistros->id."' target='_blank'><img src='css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a>";
 				} 
 if(empty($editar)){
 $editar="<form action='novaSav.php' method='post' name='editar'><input type='hidden' name='tp' value='edit'/><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type=image src='css/iconeEditar.png' alt='Editar' title='Editar'/></form>";
@@ -214,12 +215,15 @@ $inativar='';
 if($sqlControleCi['campo27']<>'AP'){
 	$inativar="<form action='excluiSav.php' method='post' name='exclui'><input type='hidden' name='id' value='".$objRegistros->id."'/><input type='hidden' name='ci' value='".$idCiEdit."'/><input type='hidden' name='acao' value='inativapc'/><input type=image src='css/icone_excluir.png' alt='Excluir' title='Excluir'/></form>";
 	}
+	
+$dadosDiaria="<form action='dadosDiariaPrest.php' method='post' name='dprest'><input type='hidden' name='id' value='".$objRegistros->id."'/><input type=image src='css/iconeDadosDiaria.png' alt='Dados Diária' title='Dados Diária'/></form>";
+
 echo "<tr>
 <td>".$numeroCi."</td>
 <td>".$nomeFuncionario."</td>
 <td>".utf8_encode($objRegistros->evento)."-".$objRegistros->abrangencia."<br>Ida: ".$objRegistros->dtida." <br>Volta: ".$objRegistros->dtvolta."</td>
 <td align='center'><font size='-1'><strong>".$status."</strong></font></td>
-<td><table border='0' width='100%'><tr><td>".$editar."</td><td>".$inativar."</td></tr></table></td>
+<td><table border='0' width='100%'><tr><td>".$visualiza."</td><td>".$editar."</td><td>".$dadosDiaria."</td><td>".$inativar."</td></tr></table></td>
 </tr>";
  }
 ?>       

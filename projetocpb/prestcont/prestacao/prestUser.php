@@ -225,7 +225,7 @@ echo "<tr>
 		<td>".utf8_encode($objRegistros->evento)."-".				$objRegistros->abrangencia."</td>
 		<td>".$objRegistros->dataprest."</td>
 		<td>".$status."</td>
-		<td><table border='0' width='100%'><tr><td><a href='visualizaPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a></td><td>".$editar."</td><td>".$editarRec."</td></tr></table></td>
+		<td><table border='0' width='100%'><tr><td><a href='geraPdfPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a></td><td>".$editar."</td><td>".$editarRec."</td></tr></table></td>
 </tr>";
  }
 }

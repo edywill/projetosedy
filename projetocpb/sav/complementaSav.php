@@ -35,9 +35,7 @@ $ciddestinovolta='';
 $horarioida='';
 $horariovolta='';
 $sqlDadosDiaria=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$_SESSION['numSav']."'"));
-if(empty($sqlDadosDiaria)){
-	$_SESSION['diariaSolSav']='';
-	}else{
+if(!empty($sqlDadosDiaria)){
 		$nautor=$sqlDadosDiaria['nautor'];
 		$qtddias=$sqlDadosDiaria['qtddias'];
 		$valordia=$sqlDadosDiaria['valortotal'];
@@ -49,15 +47,16 @@ if($_SESSION['passagemSav']<>'sim' && $_SESSION['diariaSav'] <> 'sim' && $_SESSI
 	if(!empty($sqlDiarDados['dtida'])){
 		$dtida=$sqlDiarDados['dtida'];
 		$dtvolta=$sqlDiarDados['dtvolta'];
-		$origemida=$sqlDiarDados['origemida'];
-		$origemvolta=$sqlDiarDados['origemvolta'];
-		$cidorigemida=$sqlDiarDados['cidorigemida'];
-		$cidorigemvolta=$sqlDiarDados['cidorigemvolta'];
-		$destinoida=$sqlDiarDados['destinoida'];
-		$destinovolta=$sqlDiarDados['destinovolta'];
+		if($_SESSION['abrangenciaSav']=='Nacional'){
+	$consultaLocais1="SELECT municipio AS nome FROM municipios WHERE id='".$sqlDiarDados['destinoida']."'";
+	}else{
+		$consultaLocais1="SELECT nome FROM paises WHERE iso='".$sqlDiarDados['destinoida']."'";
+		}
+		$queryConsultaLocais1=mysql_query($consultaLocais1);
+$executaConsultaLocais1=mysql_fetch_array($queryConsultaLocais1);
+
+		$destinoida=$sqlDiarDados['destinoida']."-".utf8_encode($executaConsultaLocais1['nome']);
 		$ciddestinoida=$sqlDiarDados['ciddestinoida'];
-		$ciddestinovolta=$sqlDiarDados['ciddestinovolta'];
-		$horarioida=$sqlDiarDados['horarioida'];
 		$horariovolta=$sqlDiarDados['horariovolta'];
 		}
 	$novosDadosDiaria=1;
@@ -765,113 +764,47 @@ function setarCamposLoc() {
         <?php 
 		if($_SESSION['diariaSolSav']=='sim'){
 		?>
-        <table border="0" width="100%">
+        <font size="-1">(*)Esses dados são preenchidos no decorrer do processamento da SAV.</font>
+<table border="0" width="100%">
 <tr>
 <td width="50%"><strong>Quantidade: </strong><?php echo $qtddias; ?>
-
 </td><td width="50%"><strong>Valor Total:</strong> R$ <?php echo $valordia; ?>
 </td>
 </tr>
 <tr>
-<td width="50%"><strong>Autorização: </strong>
-</td>
-
-<td>
+<td width="50%" colspan="2"><strong>Autorização: </strong>
 <?php 
 echo $nautor;
 ?>
 </td>
 </tr>
 <tr>
-</td><td width="50%" colspan="2"><strong>Processo nº:</strong> <?php echo $numproc; ?>
+<td width="50%" colspan="2"><strong>Processo nº:</strong> <?php echo $numproc; ?>
 </td>
 </tr>
 </table>
-<?php 
-		}
-		if($novosDadosDiaria==1){
-?>
-<strong>Dados para criação da SAV</strong>
-<table border="0" width="100%" class="tabelasimples">
-  <tr><td width="10%"><strong>IDA</strong></td><td width="90%">
+<br /><br />
+<font size="-1">(**)Campos obrigatórios apenas se não houver passagem e/ou hospedagem</font>
 <table border="0" width="100%">
-<tr height="34"><td>
-Data:</td><td><input type="text" class="input" name="dtida10" id="dtida10" size="20" readonly value='<?php echo $dtida;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemida10' id='cidorigemida10' size='40' onBlur='carregaVolta()' value='".$cidorigemida."'/>
-</td></tr><tr height='34'><td>
-País"; 
+echo "<tr height='34'><td><strong>Cidade Destino:</strong></td><td> <input type='text' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value='".$ciddestinoida."'/><tr height='34'><td>
+<strong>País "; 
 }else{
-	echo "<input type='hidden' class='input' name='cidorigemida10' id='cidorigemida10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
+	echo "<input type='hidden' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td><strong>";
 	}
 ?>
-Origem:</td><td> 
-<input type="text" class="input" name="origemida10" id="origemida10" size="40" onBlur="carregaVolta();verificaPais(this.value);" value='<?php echo $origemida;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr>
-<?php 
-if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value='".$ciddestinoida."'/><tr height='34'><td>
-País "; 
-}else{
-	echo "<input type='hidden' class='input' name='ciddestinoida10' id='ciddestinoida10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
-	}
-?>
-Destino: </td><td>
-<input type="text" class="input" name="destinoida10" id="destinoida10" size="40" onBlur="carregaVolta()" value='<?php echo $destinoida;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr><tr height='34'><td>
-Horário:</td><td> <select name="horarioIda10" id='horarioIda10'>
-<?php 
-  if(empty($horarioida) || $horarioida=='0'){
-   echo "<option value='0' selected='selected'>Selecione</option>"; 
-	echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-}else{
-	if($horarioida=='manha'){
-		echo '<option value="manha" selected="selected">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-		}elseif($horarioida=='tarde'){
-			echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde" selected="selected">Tarde (12h01->18h)</option>
-<option value="noite">Noite (18h01->3h59)</option>';
-			}elseif($horarioida=='noite'){
-				echo '<option value="manha">Manhã (4h->12h)</option>
-<option value="tarde">Tarde (12h01->18h)</option>
-<option value="noite" selected="selected">Noite (18h01->3h59)</option>';
-				}
-}
-?>
-</select>
-</td></tr></table>
-</td>
-</tr>
-
-<tr><td colspan="2"><hr width="600px" /></td></tr>
-
-<tr><td width="10%"><strong>VOLTA</strong></td><td width="90%">
-<table border="0" width="100%">
-<tr height="34"><td>
-Data:</td><td><input type="text" class="input" name="dtvolta10" id="dtvolta10" size="20" readonly value='<?php echo $dtvolta;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
-<?php 
-if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Origem:</td><td> <input type='text' class='input' name='cidorigemvolta10' id='cidorigemvolta10' size='40' onBlur='carregaVolta()' value='".$cidorigemvolta."'/><tr height='34'><td>País "; 
-}else{
-	echo "<input type='hidden' class='input' name='cidorigemvolta10' id='cidorigemvolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
-	}
-	?>
-Origem:</td><td> 
-<input type="text" class="input" name="origemvolta10" id="origemvolta10" size="40" value='<?php echo $origemvolta;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
-<?php 
-if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td>Cidade Destino:</td><td> <input type='text' class='input' name='ciddestinovolta10' id='ciddestinovolta10' size='40' onBlur='carregaVolta()' value='".$ciddestinovolta."'/><tr height='34'><td>País "; 
-}else{
-	echo "<input type='hidden' class='input' name='ciddestinovolta10' id='ciddestinovolta10' size='40' onBlur='carregaVolta()' value=''/><tr height='34'><td>";
-	}
-?>
-Destino:</td><td>
-<input type="text" class="input" name="destinovolta10" id="destinovolta10" size="40" value='<?php echo $destinovolta;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na Lista</font></td></tr>
+Destino:</strong> </td><td>
+<input type="text" class="input" name="destinoida10" id="destinoida10" size="40" onBlur="carregaVolta()" value='<?php echo $destinoida;?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292"> (*) Selecione na Lista</font></td></tr>
+<tr height="34">
+  <td>
+    <strong>Data de Ida:</strong></td><td><input type="text" class="input" name="dtida10" id="dtida10" size="20" readonly value='<?php echo $dtida;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
+<tr height="34">
+  <td>
+    <strong>Data de Retorno:</strong></td><td><input type="text" class="input" name="dtvolta10" id="dtvolta10" size="20" readonly value='<?php echo $dtvolta;?>' style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
 <tr height='34'><td>
-Horário:</td><td> <select name="horarioVolta10" id="horarioVolta10">
+  <strong>Horário de Retorno:</strong></td><td> 
+<select name="horarioVolta10" id="horarioVolta10">
 <?php 
  if(empty($horariovolta) || $horariovolta=='0'){
    echo "<option value='0' selected='selected'>Selecione</option>"; 
@@ -897,17 +830,14 @@ Horário:</td><td> <select name="horarioVolta10" id="horarioVolta10">
 </select>
 </td></tr>
 <tr><td colspan="2" align="center"><input type="submit" name="inserir" value="Inserir" class="button" /></td></tr>
-</td></tr>
  </table>
- </table>
-</table>
   </form>
   <script>
 
 //Cria a função com os campos para envio via parâmetro
 
 function setarCamposDiar() {
-	camposDiar = "&dtida="+encodeURI(document.getElementById('dtida10').value)+"&dtvolta="+encodeURI(document.getElementById('dtvolta10').value)+"&origemida="+encodeURI(document.getElementById('origemida10').value)+"&origemvolta="+encodeURI(document.getElementById('origemvolta10').value)+"&destinoida="+encodeURI(document.getElementById('destinoida10').value)+"&destinovolta="+encodeURI(document.getElementById('destinovolta10').value)+"&cidorigemida="+encodeURI(document.getElementById('cidorigemida10').value)+"&cidorigemvolta="+encodeURI(document.getElementById('cidorigemvolta10').value)+"&ciddestinovolta="+encodeURI(document.getElementById('ciddestinovolta10').value)+"&ciddestinoida="+encodeURI(document.getElementById('ciddestinoida10').value)+"&horarioIda="+encodeURI(document.getElementById('horarioIda10').value)+"&horarioVolta="+encodeURI(document.getElementById('horarioVolta10').value);
+	camposDiar = "&dtida="+encodeURI(document.getElementById('dtida10').value)+"&dtvolta="+encodeURI(document.getElementById('dtvolta10').value)+"&destinoida="+encodeURI(document.getElementById('destinoida10').value)+"&ciddestinoida="+encodeURI(document.getElementById('ciddestinoida10').value)+"&horarioVolta="+encodeURI(document.getElementById('horarioVolta10').value);
 }
 
 </script>
@@ -923,11 +853,12 @@ function setarCamposDiar() {
 }
 ?>
 <hr />
+<script language="javascript" src="scriptNova2.js" type="text/javascript"></script>
+<form action="concluiSav.php" name="sav2" method="post" onSubmit="setarCamposFinal(this); enviarForm2('finalizarSav.php', camposFinal, 'divResultado'); return false; this.elements['ok'].disabled=true;">
 <table border="0" width="100%">
 <tr><td><a href="novaSav.php"><input type="button" name="volta" class="button" value="Voltar" /></a></td><td align="right">
 <div id="formsubmitbutton">
-<a href="concluiSav.php">
-<input type="button" name="ok" value="CONCLUIR" class="button" onclick="ButtonClicked()"/></a>
+<input type="submit" name="ok" value="CONCLUIR" class="button" onclick="ButtonClicked()"/>
 </div>
 <div id="buttonreplacement" style="margin-left:30px; display:none;">
 <img src="../imagens/loading.gif" alt="loading...">
@@ -973,6 +904,13 @@ document.onfocus = RestoreSubmitButton;
 </script>
 </td></tr>
 </table>
+</form>
+<script>
+//Cria a função com os campos para envio via parâmetro
+function setarCamposFinal() {
+	camposFinal = "";
+}
+</script>
 </div>
   </div>
 </body>

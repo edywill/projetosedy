@@ -11,6 +11,7 @@ if($_SESSION['passagemSav']=='sim'){
 			$arrayHoraPassagemVolta[]=0;
 			$arrayTipoPassagem[]=0;
 			$arrayPassagemValorDec[]=0;
+	
 	$countTotalPassagem=mysql_num_rows($sqlPassagem);
  while($objPassagem=mysql_fetch_object($sqlPassagem)){
 			$destinoReferencia=$objPassagem->destino;
