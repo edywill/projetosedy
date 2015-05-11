@@ -18,8 +18,11 @@ require('../../fpdf/fpdf.php');
 	  $sqlDadosProcesso=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$numSav."'"));
 	  $autorizacao=$sqlDadosProcesso['nautor'];
 	  $processo=$sqlDadosProcesso['numproc'];
-	  $numDias=$sqlDadosProcesso['qtddias'];
+	  $numDias=number_format($sqlDadosProcesso['qtddias'],1,',','.');
 	  $vlTot="R$".number_format($sqlDadosProcesso['valortotal'],2,',','.');
+	  
+	  //Buscar assinatura e geração de dados
+	  
 	  include "../../sav/buscaDadosImpressao.php";
 class PDF extends FPDF
 {
@@ -225,7 +228,7 @@ $pdf->Ln(8);
 	  $pdf->Cell(0, $altura, $numDias, 0, 0, 'L',false);
 	  $pdf->Ln(5);
 	  $pdf->SetFont('Arial','B',11);
-	  $pdf->Cell(60, $altura, utf8_decode("VALOR TOTAL "), 0, 0, 'L',false);
+	  $pdf->Cell(60, $altura, utf8_decode("VALOR TOTAL: "), 0, 0, 'L',false);
 	  $pdf->SetFont('Arial','',11);
 	  $pdf->Cell(0, $altura, $vlTot, 0, 0, 'L',false);
 	   
@@ -234,8 +237,66 @@ $pdf->Ln(8);
 	  $pdf->SetFillColor(0,32,96);
 	  $pdf->SetTextColor(255,255,255);
 	  $pdf->Cell(0, $altura, utf8_decode("V - DEVOLUÇÃO DO BILHETE:"), 0, 0, 'C',true);
-	   $pdf->Ln(8);
-	   $pdf->SetTextColor(0,0,0);
+	  $pdf->Ln(8);
+	  $pdf->SetTextColor(0,0,0);
+	  $pdf->SetFont('Arial','',11);
+	  $sqlPassagemImp=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$numSav."'");
+  $countPassagemImp=mysql_num_rows($sqlPassagemImp);
+  $countPassagemImpContador=0;
+  while($objPassagemImp=mysql_fetch_object($sqlPassagemImp)){
+	  
+	  if($objPassagemImp->inter<>'itn'){
+		  $sqlTrechoNacImpIda=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios WHERE id='".$objPassagemImp->origem."'"));
+				  $sqlTrechoNacImpVolta=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios WHERE id='".$objPassagemImp->destino."'"));
+				  $idaImpressao=$sqlTrechoNacImpIda['uf'];
+				  $voltaImpressao=$sqlTrechoNacImpVolta['uf'];
+				  }else{
+					  $idaImpressao=$objPassagemImp->origem;
+				  	  $voltaImpressao=$objPassagemImp->destino;
+					  }
+		$horarioViagem='';
+		$sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT * FROM prestsavvoo WHERE idpass='".$objPassagemImp->id."'"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['cia'];
+		$loc=$sqlPassagemRegistro['loc'];
+		
+	  $countPassagemImpContador++;
+	  if($objPassagemImp->tipo==1){
+		  if($countPassagemImpContador<$countPassagemImp){
+	  $pdf->Ln(5);
+	  $pdf->SetFont('Arial','',9);
+	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
+	  $pdf->Cell(45, $altura, "LOC: ".utf8_decode($loc), 0, 0, 'C',false);
+	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
+	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);
+		  }else{
+			$pdf->Ln(5);
+	 $pdf->SetFont('Arial','',9);
+	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
+	  $pdf->Cell(45, $altura, "LOC: ".utf8_decode($loc), 0, 0, 'C',false);
+	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
+	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);
+			}
+	 	}else{
+			for($i=0;$i<=1;$i++){
+			   if($i==0){	
+			  $pdf->Ln(5);
+	  $pdf->SetFont('Arial','',9);
+	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
+	  $pdf->Cell(45, $altura, "LOC: ".utf8_decode($loc), 0, 0, 'C',false);
+	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
+	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);
+			   }else{
+				   $pdf->Ln(5);
+	  $pdf->SetFont('Arial','',9);
+	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
+	  $pdf->Cell(45, $altura, "LOC: ".utf8_decode($loc), 0, 0, 'C',false);
+	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
+	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);			  
+				   }
+			   }
+			}
+	  }
 	  
 	  $pdf->Ln(8);
 	  $pdf->SetFont('Arial','B',11);
@@ -245,7 +306,7 @@ $pdf->Ln(8);
 	   $pdf->Ln(8);
 	   $pdf->SetFont('Arial','',11);
 	   $pdf->SetTextColor(0,0,0);
-	   $pdf->MultiCell(0, 4,  utf8_encode($_SESSION['detalhaPrestSav']), 0);
+	   $pdf->MultiCell(0, 4,  $_SESSION['detalhaPrestSav'], 0);
 	   $pdf->Ln(4);
 	  $pdf->SetFont('Times','I',8);
 	  $pdf->SetTextColor(155,155,155);

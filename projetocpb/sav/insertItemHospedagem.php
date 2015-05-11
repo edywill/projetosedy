@@ -1,4 +1,6 @@
 <?php 
+$sqlHospedagem=mysql_query("SELECT * FROM savhospedagem WHERE idsav='".$numSav."' ORDER BY STR_TO_DATE(dtida,'%d/%m/%Y')");
+			$countHospedagem=mysql_num_rows($sqlHospedagem);
 $consultaPzentHospedagem="Select
   					(ESPARPLA.Tempo_repos+ dbo.CGFC_DATAATUAL()) AS Pzent,
 					 ESMATERI.Cd_reduzido

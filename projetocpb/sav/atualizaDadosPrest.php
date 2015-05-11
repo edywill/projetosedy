@@ -6,8 +6,9 @@ require "../conect.php";
 $numSav=$_SESSION['numSav'];
 $numproc=$_POST['proc'];
 $naut=$_POST['aut'];
-$numDiasDiaria=$_POST['qtd'];
-$valorTotal=$_POST['vltot'];
+$numDiasDiaria=str_replace(",",".",$_POST['qtd']);
+$valorTotal=str_replace(".","",$_POST['vltot']);
+$valorTotal=str_replace(",",".",$valorTotal);
 
 $selectDadosDiaria=mysql_fetch_array(mysql_query("SELECT id FROM savdiarias WHERE idsav='".$numSav."'"));
 if(empty($selectDadosDiaria['id'])){

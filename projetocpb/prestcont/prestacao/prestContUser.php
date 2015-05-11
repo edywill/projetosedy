@@ -208,6 +208,7 @@ Informe os dados do Vôo:
     <th valign="top" align="center"><strong>Data</strong></th>
     <th valign="top" align="center"><strong>Trecho</strong></th>
     <th valign="top" align="center"><strong>Horário</strong></th>
+	<th valign="top" align="center"><strong>Localizador</strong></th>
 	<th valign="top" align="center"><strong>Vôo</strong></th>
 	<th valign="top" align="center"><strong>Cia. Aérea</strong></th>
   </tr>';
@@ -244,6 +245,7 @@ Informe os dados do Vôo:
     			<td align='center'>".$objPassagemImp->dtida."</td>
     			<td align='center'>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</td>
     			<td align='center'>".$horarioViagem."</td>
+				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
   				</tr>";
@@ -253,6 +255,7 @@ Informe os dados do Vôo:
     			<td align='center'>".$objPassagemImp->dtida."</td>
     			<td align='center'>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</td>
     			<td align='center'>".$horarioViagem."</td>
+				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
   				</tr>";
@@ -272,6 +275,7 @@ Informe os dados do Vôo:
     			<td align='center'>".$objPassagemImp->dtida."</td>
     			<td align='center'>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</td>
     			<td align='center'>".$horarioViagem."</td>
+				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
   				</tr>";
@@ -288,6 +292,7 @@ Informe os dados do Vôo:
     			<td align='center'>".$objPassagemImp->dtvolta."</td>
     			<td align='center'>".utf8_encode($voltaImpressao)." x ".utf8_encode($idaImpressao)."</td>
     			<td align='center'>".$horarioViagem."</td>
+				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
 				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
   				</tr>";

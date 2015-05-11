@@ -37,8 +37,8 @@ $horariovolta='';
 $sqlDadosDiaria=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$_SESSION['numSav']."'"));
 if(!empty($sqlDadosDiaria)){
 		$nautor=$sqlDadosDiaria['nautor'];
-		$qtddias=$sqlDadosDiaria['qtddias'];
-		$valordia=$sqlDadosDiaria['valortotal'];
+		$qtddias=number_format($sqlDadosDiaria['qtddias'],1,',','.');
+		$valordia=number_format($sqlDadosDiaria['valortotal'],2,',','.');
 		$numproc=$sqlDadosDiaria['numproc'];
 		}
 $novosDadosDiaria=0;

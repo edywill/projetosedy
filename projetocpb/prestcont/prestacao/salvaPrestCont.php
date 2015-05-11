@@ -49,6 +49,7 @@ $querySavRegistros=mysql_query("SELECT savregistros.id FROM savregistros LEFT JO
 WHERE prestsav.id='".$id."'") or die(mysql_error());
 $sqlSavRegistro=mysql_fetch_array($querySavRegistros);
 
+if(!empty($_POST['voo0'])){
 $sqlPassagemImp=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$sqlSavRegistro['id']."'");
   $countPassagemImp=mysql_num_rows($sqlPassagemImp);
   $countPassagemImpContador=0;
@@ -56,28 +57,30 @@ $sqlPassagemImp=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$sqlSavReg
   $sqlDeletePass=mysql_query("DELETE FROM prestsavvoo WHERE idprest='".$id."'");
   while($objPassagemImp=mysql_fetch_object($sqlPassagemImp)){ 
 	   $countPassagemImpContador++;
-	   $nomeCampoLoc='voo'.$cont;
+	   $nomeCampoVoo='voo'.$cont;
 	   $nomeCampoCia='cia'.$cont;
+	   $nomeCampoLoc='loc'.$cont;
 	   $cia=$_POST[$nomeCampoCia];
-	   $voo=$_POST[$nomeCampoLoc];
+	   $voo=$_POST[$nomeCampoVoo];
+	   $loc=$_POST[$nomeCampoLoc];
 	  if($objPassagemImp->tipo==1){ 
 		  if($countPassagemImpContador<$countPassagemImp || ($countPassagemImp==1 && $objPassagemImp->tipo==1)){
-		 $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."')");
+		 $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
 		  }else{
-			$incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."')");
+			$incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
 			}
 	 	}else{
 			for($j=0;$j<=1;$j++){
 			   if($j==0){
-			  $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."')");
+			  $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
 			   }else{
-				  $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."')");
+				  $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
 				   }
 			   }
 			   $cont++;
 			}
 	  }
-
+}
 if($valida==0){
 	echo "<script>alert('Processado com sucesso');window.location.href='prestContUser.php?id=".$id."';</script>"; 
 	}else{

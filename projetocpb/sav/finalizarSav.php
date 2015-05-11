@@ -137,6 +137,7 @@ if($_SESSION['passagemSav']=='sim'){
 					$errorMsg.='Erro['.$countError.']: Falha ao atualizar o registro.<br>';
 				}
 					}else{
+						$atualizaVolta='';
 						if(empty($sqlRegistrosHos['horariovolta'])){
 							$atualizaVolta="horariovolta='manha',";
 							}
