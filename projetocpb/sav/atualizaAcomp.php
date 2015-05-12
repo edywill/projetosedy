@@ -1,11 +1,12 @@
 ﻿<?php 
 //Atualiza acompanhamento da Capa da CI
 		$solicitacaoAcomp=str_pad($solicitacao, 8, " ", STR_PAD_LEFT);
-		$justificativa="Solicitação criada a partir da SAV do funcionário ".$_SESSION['nomeSav']." para o evento ".utf8_encode($arrayRegistro['evento']).".<br>
+		$justificativa="Solicitação criada a partir da SAV do funcionário ".$_SESSION['nomeSav']." para o evento ".utf8_encode($arrayRegistro['evento']).".  
 		Objetivo: ";
-		$justificativa.=utf8_encode($arrayRegistro['objetivo'])."<br>";
+		$justificativa.=utf8_encode($arrayRegistro['objetivo'])."
+		";
 		if(!empty($arrayRegistro['observ'])){
-			$justificativa.="Observações: ".utf8_encode($arrayRegistro['observ'])."<br>";
+			$justificativa.="Observações: ".utf8_encode($arrayRegistro['observ'])."";
 			}
 		//$justificativa=mb_convert_encoding($justificativa,"ISO-8859-1","UTF-8");
 		$justificativa=str_replace("?","-",$justificativa);

@@ -12,7 +12,6 @@ $SQLUpSol = "UPDATE ESNSOLIC
 	 			$arrayUlSol = odbc_fetch_array($resUlSol);
                 $solicitacao=$arrayUlSol['Cd_ultima_solic'];
 				$_SESSION['numCiSav']=$solicitacao;
-				$updateCiSav=mysql_query("UPDATE savregistros SET numci=".(int)$_SESSION['numCiSav']." where id='".$numSav."'");
 				}
 $sqlConsSitControle="SELECT Sit_solicitacao
 			   FROM COCSO WITH(NOLOCK)
