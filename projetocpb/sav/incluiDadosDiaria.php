@@ -2,7 +2,6 @@
 session_start();
 require "../conectsqlserver.php";
 require "../conect.php";
-include "../ChromePhp.php";
 $valida=0;
 $countError=0;
 $errorMsg='';
