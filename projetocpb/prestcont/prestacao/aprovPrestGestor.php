@@ -150,7 +150,10 @@ $idCiEdit='';
 			$editar="ND";
 			}
 	}
-$statusSav=utf8_encode($objRegistros->situacao);	 
+$statusSav=utf8_encode($objRegistros->situacao);
+$sqlAprovacao=mysql_fetch_array(mysql_query("SELECT * FROM prestsavaprov WHERE idprest='".$objRegistros->idprest."'"));
+
+if(empty()){ 
 if($editar<>'ND'){
 echo "<tr>
 <td><font size='-1'>".$numeroCi."</font></td>
@@ -159,8 +162,9 @@ echo "<tr>
 <td>".$objRegistros->dtprest."</td>
 <td align='center'><table border='0' width='100%'><tr><td><a href='visualizaPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a></td><td>".$editar."</td><td>".$editarRec."</td></tr></table></td>
 </tr>";
+    }
+  }
 }
- }
 ?>       
      </tbody>
   </table>

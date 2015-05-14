@@ -1,5 +1,6 @@
 <?php 
 //Cria o item de diaria
+$situacao='P';
 			 $cdMaterialDiaria='101001003';//Cd_material diária Nacional
 			 $cdMaterialDiariaReduzido='197';//Cd_reduzido diaria nacional
 			 //Inserir item da diária

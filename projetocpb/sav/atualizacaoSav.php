@@ -1,4 +1,5 @@
 <?php 
+$situacao='P';
 //ações de update diária
 include "diariasUpdate.php";
 atualizaDadosFinanceiros($numSav,$solicitacao,$sequenciaDia);
