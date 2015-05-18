@@ -250,7 +250,7 @@ body{
 	  $txEmbarqueImp=$objPassagens->txEmbarque;
 	  $txServImp=$objPassagens->txServico;
 	  $valTotalImp=$objPassagens->vltot;
-	  $descontoImp=($valorOriginal+$txEmbarqueImp+$txServImp)-$valTotal;
+	  $descontoImp=($valorOriginal+$txEmbarqueImp+$txServImp)-$valTotalImp;
 	  
 	  $selectNameCia=mysql_query("SELECT nome FROM cia WHERE id='".$objPassagens->idcia."'");
 	  $arrayNameCia=mysql_fetch_array($selectNameCia);

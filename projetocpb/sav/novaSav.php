@@ -33,6 +33,9 @@ $nome=str_replace($idFunc[0]."-","",trim($_POST['nome']));
 $_SESSION['cotacaoDiaSav']='';
 $_SESSION['cotacaoDataSav']='';
 $_SESSION['gestorSavNome']='';
+$_SESSION['diariaSav']='sim';
+$_SESSION['passagemSav']='sim';
+$_SESSION['transladoSav']='nao';
 $_SESSION['abrangenciaSav']=$_POST['tipoevento'];
 $abrangencia=$_SESSION['abrangenciaSav'];
 if(empty($_SESSION['origemidaSav']) && $abrangencia=='Internacional'){

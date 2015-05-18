@@ -784,6 +784,16 @@ echo $nautor;
 </tr>
 </table>
 <br /><br />
+<?php 
+$mostraCampos=0;
+if(!empty($dtida) || !empty($dtvolta) || !empty($destinoida)){
+	$mostraCampos=1;
+	}
+if($novosDadosDiaria==1){
+	$mostraCampos=1;
+	}
+if(1==1){
+?>
 <font size="-1">(**)Campos obrigatórios apenas se não houver passagem e/ou hospedagem</font>
 <table border="0" width="100%">
 <?php 
@@ -830,7 +840,11 @@ Destino:</strong> </td><td>
 </select>
 </td></tr>
 <tr><td colspan="2" align="center"><input type="submit" name="inserir" value="Inserir" class="button" /></td></tr>
+
  </table>
+ <?php 
+		}
+?>
   </form>
   <script>
 

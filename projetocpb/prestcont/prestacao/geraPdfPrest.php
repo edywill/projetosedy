@@ -24,6 +24,33 @@ require('../../fpdf/fpdf.php');
 	  //Buscar assinatura e geração de dados
 	  
 	  include "../../sav/buscaDadosImpressao.php";
+	  //Buscar Dados de Aprovação
+	  $sqlDadosAprov=mysql_query("SELECT * FROM prestsavaprov WHERE idprest='".$_GET['gest']."'");
+	  $presi='';
+	  $super='';
+	  $prestacao='';
+	  while($objDadosAprov=mysql_fetch_object($sqlDadosAprov)){
+		  if(!empty($objDadosAprov->apsuper)){
+			  $super=1;
+			  }
+		  if(!empty($objDadosAprov->appresi)){
+			  $presi=1;
+			  }
+		  if(!empty($objDadosAprov->apprest)){
+			  $prestacao=1;
+			  }
+		  }
+	  if($super==1){
+			$assinadoSuper="Assinado Eletronicamente";
+			}
+			if($presi==1){
+		     $assinadoPresi="Assinado Eletronicamente";
+			}
+			if($prestacao==1){
+			$_SESSION['pendAprov']=0;	
+				};
+		 $hash=geraSenha(15);
+		 $_SESSION['codValida']=$hash;
 class PDF extends FPDF
 {
    //Método Header que estiliza o cabeçalho da página

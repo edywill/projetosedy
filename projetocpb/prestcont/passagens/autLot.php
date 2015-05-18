@@ -103,7 +103,7 @@ where substring(cg.livre_alfa_18,1,1) <> 'N'
 and cg.pcc_tipo = 'A'
 and cg.pcc_classific_c between dbo.CGFC_BUSCA_CONFIGURACAO(35,null) and dbo.CGFC_BUSCA_CONFIGURACAO(36,null)
 AND cg.Pcc_classific_c='".$objRegistros->gerencial."'"));
-	$sqlQtdRegistros=mysql_num_rows(mysql_query("SELECT autorizacao,ano,gerencial FROM registros WHERE gerencial='".$objRegistros->gerencial."' AND autorizacao='".$objRegistros->autorizacao."' AND ano='".$objRegistros->ano."'"));
+	$sqlQtdRegistros=mysql_num_rows(mysql_query("SELECT idben FROM registros WHERE gerencial='".$objRegistros->gerencial."' AND autorizacao='".$objRegistros->autorizacao."' AND ano='".$objRegistros->ano."' GROUP BY idben"));
 	$numBenef=$sqlQtdRegistros;
 	$descGerencial=utf8_encode($nomeGerencial['Pcc_nome_conta']);
 	$editar="<form action='autEmLote.php' method='post' name='editar'><input type='hidden' name='tp' value='edit'/><input type='hidden' name='id' value='".$objRegistros->autorizacao."/".$objRegistros->ano."'/><input type='hidden' name='geren' value='".$objRegistros->gerencial."'/><input type=image src='../../sav/css/iconeEditar.png' alt='Editar' title='Editar'/></form>";

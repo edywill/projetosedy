@@ -49,7 +49,7 @@ if(!empty($sqlConsultaSavs)){
 	$consultaCdEmpres=odbc_fetch_array(odbc_exec($conCab2,"Select
   Campo20
 From
-  GEUSUARI
+  GEUSUARI (nolock)
   where Cd_usuario='".$_SESSION['userCigamSav']."'"));
 	$scriptBPass=mysql_query("select registros.bdpass from registros where registros.idben='".$consultaCdEmpres['Campo20']."' ORDER BY registros.datafinal DESC LIMIT 1") or die(mysql_error());
 	$consultaBPass=mysql_fetch_array($scriptBPass);

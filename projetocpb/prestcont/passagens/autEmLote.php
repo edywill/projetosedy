@@ -10,7 +10,10 @@ $_SESSION['anoSession']='';
 $textTitulo='';
 $processo='';
 $evento='';
+$cdgeren='';
+if(!empty($_SESSION['gerenSession'])){
 $cdgeren=$_SESSION['gerenSession'];
+}
 if(!empty($_POST['id'])){
 	$tipo='atualiza';
 	$_SESSION['tipoAcaoSession']='atualiza';
@@ -113,34 +116,6 @@ AND cg.Pcc_classific_c='".$cdgeren."'"));
 		$id[$cont]=$key;
 		$cont++;
 	}
-	}else{
-		$arrayAut=explode("/",$_POST['id']);
-		$sqlRegistros=mysql_query("SELECT * FROM registros WHERE autorizacao='".$arrayAut[0]."' AND ano='".$arrayAut[1]."'");
-		$cont=0;
-		$idben[]='';
-		$ci[]='';
-		$idReg[]='';
-		while($objRegistros=mysql_fetch_object($sqlRegistros)){
-			 if($cont>0){
-				 if($idben[$cont-1]<>$objRegistros->idben){
-					$idben[$cont]=$objRegistros->idben;
-					 $ci[$cont]=$objRegistros->solicitacao;
-					 $idreg[$cont]=$objRegistros->id;
-					 $cont++;			 
-					 }
-				 }else{
-					 $idben[$cont]=$objRegistros->idben;
-					 $ci[$cont]=$objRegistros->solicitacao;
-					  $idreg[$cont]=$objRegistros->id;
-					 $cont++;
-					 } 
-			}
-			$id[]='';
-		for($k=0;$k<$cont;$k++){
-			$sqlDadosUser=odbc_fetch_array(odbc_exec($conCab,"SELECT TEITEMSOLPASSAGEM.id_registro FROM TEITEMSOLPASSAGEM(nolock) WHERE TEITEMSOLPASSAGEM.cd_empresa='".$idben[$k]."' AND TEITEMSOLPASSAGEM.cd_solicitacao='".$ci[$k]."'"));
-			$id[$k]=$sqlDadosUser['id_registro'];
-			}
-		}
 	$contadorReg=$cont;
 	$cont=0;
 	for($f=0;$f<$contadorReg;$f++){
@@ -299,32 +274,7 @@ if($_SESSION['tipoAcaoSession']=='criar'){
 			}
 		  $descUni=0;
   echo "</select></div></td><td>R$<br><input type='text' name='desconto".$cont."' id='desconto".$cont."' class='input'  size='1' value='".$descUni."' readonly='readonly'/></td><td>R$<input type='text' name='vlTot".$cont."' id='vlTot".$cont."' class='input' size='5' value='' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td></tr>";
-}else{
-	$sqlRegistroDados=mysql_fetch_array(mysql_query("SELECT * FROM registros WHERE id='". $idreg[$f]."'"));
-	echo "<tr><td><input type='hidden' name='ci".$cont."' id='ci".$cont."' class='input' size='7' value='".trim($sqlDadosUser['Cd_solicitacao'])."'/><input type='hidden' name='idBen".$cont."' id='idBen".$cont."' class='input' size='7' value='".trim($sqlDadosUser['cd_empresa'])."'/>".utf8_encode($sqlDadosUser['Nome_completo'])."</td><td>".utf8_encode($sqlDadosUser['trecho'])."</td>
- <td><input type='text' name='txLocalizador".$cont."' id='txLocalizador".$cont."' class='input' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\" size='7' value='".$sqlRegistroDados['localizador']."'/></td><td>R$<input type='text' name='vlOrg".$cont."' id='vlOrg".$cont."' class='input' size='5' value='".$sqlRegistroDados['vlorg']."' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/>
- </td><td>R$<input type='text' name='txEmbarque".$cont."' id='txEmbarque".$cont."' class='input' size='3' value='".$sqlRegistroDados['txEmbarque']."' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\" /></td><td>R$<input type='text' name='txServico".$cont."' id='txServico".$cont."' class='input' size='3' value='".$sqlRegistroDados['txServico']."'  onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td><td><br><div id='select'><select class='sel' name='cia".$cont."' id='cia".$cont."' onchange=\"buscarDescontos".$cont."(this.value)\" />";
-   $selectCompanhia=mysql_query("SELECT id,nome FROM cia") or die(mysql_error());
-	  if(!empty($sqlRegistroDados['idcia'])){
-		   $selectNomeCompanhia=mysql_fetch_array(mysql_query("SELECT id,nome FROM cia WHERE id='".$sqlRegistroDados['idcia']."'") or die(mysql_error()));
-		    echo "<option value='".$selectNomeCompanhia['id']."' selected='selected'>".$selectNomeCompanhia['nome']."</option>";
-		  }else{
-	  echo "<option value='' selected='selected'>Selecione</option>";
-		  }
-	  while($objCia=mysql_fetch_object($selectCompanhia)){
-		  if($sqlRegistroDados['idcia']<>$objCia->id){
-		echo "<option value='".$objCia->id."'>".$objCia->nome."</option>";
-		       }
-			}
-			
-		  $descUni=0;
-		   $selectDescCompanhia=mysql_fetch_array(mysql_query("SELECT desconto FROM cia WHERE id='".$sqlRegistroDados['idcia']."'") or die(mysql_error()));
-		   if($selectDescCompanhia['desconto']>0){
-		  $descUni=($sqlRegistroDados['vltot']*$selectDescCompanhia['desconto'])/100;
-		   }
-	  echo "</select></div></td><td>R$<br><input type='text' name='desconto".$cont."' id='desconto".$cont."' class='input'  size='1' value='".$descUni."' readonly='readonly'/></td><td>R$<input type='text' name='vlTot".$cont."' id='vlTot".$cont."' class='input' size='5' value='".$sqlRegistroDados['vltot']."' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td></tr>";
-	    }
-	}else{
+}}else{
 		$tp='';
 		echo "<tr><td rowspan='2'>".utf8_encode($sqlDadosUser['Nome_completo'])."</td><td rowspan='2'>".utf8_encode($sqlDadosUser['trecho'])."</td>";
 		for($i=0;$i<2;$i++){
@@ -453,30 +403,7 @@ req.send(null);
 			}
 		  $descUni=0;
   echo "</select></div></td><td>R$<br><input type='text' name='desconto".$cont."' id='desconto".$cont."' class='input'  size='1' value='".$descUni."' readonly='readonly'/></td><td>R$<input type='text' name='vlTot".$cont."' id='vlTot".$cont."' class='input' size='5' value='' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td>".$trf."";
-			 }else{
-	$sqlRegistroDados=mysql_fetch_array(mysql_query("SELECT * FROM registros WHERE id='". $idreg[$f]."'"));
-				echo "<td>".$tp."<br><input type='hidden' name='ci".$cont."' id='ci".$cont."' class='input' size='7' value='".trim($sqlDadosUser['Cd_solicitacao'])."'/><input type='hidden' name='idBen".$cont."' id='idBen".$cont."' class='input' size='7' value='".trim($sqlDadosUser['cd_empresa'])."'/><input type='text' name='txLocalizador".$cont."' id='txLocalizador".$cont."' class='input' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\" size='7' value='".$sqlRegistroDados['localizador']."'/></td><td>R$<input type='text' name='vlOrg".$cont."' id='vlOrg".$cont."' class='input' size='5' value='".$sqlRegistroDados['vlorg']."' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td><td>R$<input type='text' name='txEmbarque".$cont."' id='txEmbarque".$cont."' class='input' size='3' value='".$sqlRegistroDados['txEmbarque']."' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\" /></td><td>R$<input type='text' name='txServico".$cont."' id='txServico".$cont."' class='input' size='3' value='".$sqlRegistroDados['txServico']."'  onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td><td><br><div id='select'><select class='sel' name='cia".$cont."' id='cia".$cont."' onchange=\"buscarDescontos".$cont."(this.value)\" />";
-   
-  $selectCompanhia=mysql_query("SELECT id,nome FROM cia") or die(mysql_error());
-	  if(!empty($sqlRegistroDados['idcia'])){
-		   $selectNomeCompanhia=mysql_fetch_array(mysql_query("SELECT id,nome FROM cia WHERE id='".$sqlRegistroDados['idcia']."'") or die(mysql_error()));
-		    echo "<option value='".$selectNomeCompanhia['id']."' selected='selected'>".$selectNomeCompanhia['nome']."</option>";
-		  }else{
-	  echo "<option value='' selected='selected'>Selecione</option>";
-		  }
-	  while($objCia=mysql_fetch_object($selectCompanhia)){
-		  if($sqlRegistroDados['idcia']<>$objCia->id){
-		echo "<option value='".$objCia->id."'>".$objCia->nome."</option>";
-		       }
-			}
-			
-		  $descUni=0;
-		   $selectDescCompanhia=mysql_fetch_array(mysql_query("SELECT desconto FROM cia WHERE id='".$sqlRegistroDados['idcia']."'") or die(mysql_error()));
-		   if($selectDescCompanhia['desconto']>0){
-		  $descUni=($sqlRegistroDados['vltot']*$selectDescCompanhia['desconto'])/100;
-		   }
-	  echo "</select></div></td><td>R$<br><input type='text' name='desconto".$cont."' id='desconto".$cont."' class='input'  size='1' value='".$descUni."' readonly='readonly'/></td><td>R$<input type='text' name='vlTot".$cont."' id='vlTot".$cont."' class='input' size='5' value='".$sqlRegistroDados['vltot']."' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td>".$trf."";
-				 }
+			 }
   			if($i==0){
 			 $cont++;
 			  }				
@@ -492,6 +419,178 @@ req.send(null);
        <?php
 		 }
 	  }
+	  //Caso seja uma edição
+	  }else{
+		  
+		$arrayAut=explode("/",$_POST['id']);
+		$sqlRegistros=mysql_query("SELECT solicitacao,idben FROM registros WHERE autorizacao='".$arrayAut[0]."' AND ano='".$arrayAut[1]."'");
+		$empresa='';
+		$cont=0;
+while($objRegistroPas=mysql_fetch_object($sqlRegistros)){
+	$queryDadosUser=odbc_exec($conCab,"Select
+  (Case When TEITEMSOLPASSAGEM.cadeirante = 1 Then '* ' + GEEMPRES.Nome_completo
+    Else GEEMPRES.Nome_completo End) Nome_completo,
+  TEITEMSOLPASSAGEM.cd_empresa,
+  TEITEMSOLPASSAGEM.dt_partida,
+  TEITEMSOLPASSAGEM.sequencia,
+  TEITEMSOLPASSAGEM.hr_partida,
+  TEITEMSOLPASSAGEM.dt_chegada,
+  TEITEMSOLPASSAGEM.hr_chegada,
+  Case When TEITEMSOLPASSAGEM.cadeirante = 1 Then 'X' End cadeirante,
+  TEITEMSOLPASSAGEM.observacao,
+  TEITEMSOLPASSAGEM.trecho,
+  ESMATERI.Cd_reduzido,
+  COISOLIC.Cd_solicitacao
+From
+  COISOLIC With(NoLock) Inner Join
+  ESMATERI (nolock) On COISOLIC.Cd_material = ESMATERI.Cd_material
+  inner Join
+  TEITEMSOLPASSAGEM With(NoLock) On COISOLIC.Cd_solicitacao =
+    TEITEMSOLPASSAGEM.cd_solicitacao Inner Join
+  GEEMPRES With(NoLock) On TEITEMSOLPASSAGEM.cd_empresa = GEEMPRES.Cd_empresa
+  WHERE 
+   TEITEMSOLPASSAGEM.cd_solicitacao='".$objRegistroPas->solicitacao."' AND TEITEMSOLPASSAGEM.cd_empresa='".$objRegistroPas->idben."'
+   AND (ESMATERI.Cd_reduzido='226' OR ESMATERI.Cd_reduzido='227' OR ESMATERI.Cd_reduzido='228' OR ESMATERI.Cd_reduzido='229')");
+	$sqlDadosUser=odbc_fetch_array($queryDadosUser);
+	      $tp='';
+		  $i=0;
+		  if(empty($empresa)){
+		  $empresa=$sqlDadosUser['cd_empresa'];
+		echo "<tr><td rowspan='2'>".utf8_encode($sqlDadosUser['Nome_completo'])."</td><td rowspan='2'>".utf8_encode($sqlDadosUser['trecho'])."</td>";
+		  }else{
+			  $empresa='';
+			  }
+		for($i=0;$i<2;$i++){
+		    echo "
+	  <script type='text/javascript'>
+  	  $(document).ready(function(){
+      $('#vlOrg".$cont."').priceFormat({
+        prefix: '',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+      });
+    });
+	  $(document).ready(function(){
+      $('#txServico".$cont."').priceFormat({
+        prefix: '',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+      });
+    });
+	  $(document).ready(function(){
+      $('#txEmbarque".$cont."').priceFormat({
+        prefix: '',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+      });
+    });
+	  $(document).ready(function(){
+      $('#vlTot".$cont."').priceFormat({
+        prefix: '',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+      });
+    });
+  </script>
+	  <script type=\"text/javascript\">
+function float2moeda(num) {
+
+   x = 0;
+
+   if(num<0) {
+      num = Math.abs(num);
+      x = 1;
+   }
+   if(isNaN(num)) num = \"0\";
+      cents = Math.floor((num*100+0.5)%100);
+
+   num = Math.floor((num*100+0.5)/100).toString();
+
+   if(cents < 10) cents = \"0\" + cents;
+      for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+         num = num.substring(0,num.length-(4*i+3))+'.'
+               +num.substring(num.length-(4*i+3));
+   ret = num + ',' + cents;
+   if (x == 1) ret = ' - ' + ret;
+   return ret;
+
+}
+
+function moeda2float(moeda){
+
+   moeda = moeda.replace(\".\",\"\");
+
+   moeda = moeda.replace(\",\",\".\");
+
+   return parseFloat(moeda);
+
+}
+var req;
+
+// FUNÇÃO PARA BUSCA DO QUE PROCURA
+function buscarDescontos".$cont."(valor) {
+
+// Verificando Browser
+if(window.XMLHttpRequest) {
+req = new XMLHttpRequest();
+}
+else if(window.ActiveXObject) {
+req = new ActiveXObject(\"Microsoft.XMLHTTP\");
+}
+valor2=document.getElementById('cia".$cont."').value;
+// Arquivo PHP juntamente com o valor digitado no campo (método GET)
+var url = \"consultaDesconto.php?valor=\"+valor2;
+
+// Chamada do método open para processar a requisição
+req.open(\"Get\", url, true);
+
+// Quando o objeto recebe o retorno, chamamos a seguinte função;
+req.onreadystatechange = function() {
+
+// Verifica se o Ajax realizou todas as operações corretamente
+if(req.readyState == 4 && req.status == 200) {
+
+// Resposta retornada pelo busca.php
+var resposta = req.responseText;
+
+// Abaixo colocamos a(s) resposta(s) na div resultado que está lá no teste.php
+document.getElementById('desconto".$cont."').value = resposta;
+a=(moeda2float(document.getElementById('vlOrg".$cont."').value)*resposta)/100;
+document.getElementById('desconto".$cont."').value = float2moeda(a);
+b=moeda2float(document.getElementById('vlOrg".$cont."').value)-a;
+c=moeda2float(document.getElementById('txServico".$cont."').value)+moeda2float(document.getElementById('txEmbarque".$cont."').value);
+d=b+c;
+document.getElementById('vlTot".$cont."').value=float2moeda(d);
+}
+}
+req.send(null);
+}
+</script>
+";	 
+		 if($i==0){
+			 $tp="IDA";
+			 }else{
+				 $tp="VOLTA";
+				 }
+				 $trf="";
+		  if($i==0){
+			 $trf="</tr>";
+			 }
+			echo "<td>".$tp."<br><input type='hidden' name='ci".$cont."' id='ci".$cont."' class='input' size='7' value='".trim($sqlDadosUser['Cd_solicitacao'])."'/><input type='hidden' name='idBen".$cont."' id='idBen".$cont."' class='input' size='7' value='".trim($sqlDadosUser['cd_empresa'])."'/><input type='text' name='txLocalizador".$cont."' id='txLocalizador".$cont."' class='input' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\" size='7' value=''/></td><td>R$<input type='text' name='vlOrg".$cont."' id='vlOrg".$cont."' class='input' size='5' value='' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td><td>R$<input type='text' name='txEmbarque".$cont."' id='txEmbarque".$cont."' class='input' size='3' value='' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\" /></td><td>R$<input type='text' name='txServico".$cont."' id='txServico".$cont."' class='input' size='3' value=''  onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td><td><br><div id='select'><select class='sel' name='cia".$cont."' id='cia".$cont."' onchange=\"buscarDescontos".$cont."(this.value)\" />";
+   $selectCompanhia=mysql_query("SELECT id,nome FROM cia") or die(mysql_error());
+	  echo "<option value='' selected='selected'>Selecione</option>";
+	  while($objCia=mysql_fetch_object($selectCompanhia)){
+		  
+		echo "<option value='".$objCia->id."'>".$objCia->nome."</option>";
+			}
+		  $descUni=0;
+  echo "</select></div></td><td>R$<br><input type='text' name='desconto".$cont."' id='desconto".$cont."' class='input'  size='1' value='".$descUni."' readonly='readonly'/></td><td>R$<input type='text' name='vlTot".$cont."' id='vlTot".$cont."' class='input' size='5' value='' onblur=\"buscarDescontos".$cont."(this.value)\" onkeyup=\"buscarDescontos".$cont."(this.value)\"/></td>".$trf."";
+			 }
+  			if($i==0){
+			 $cont++;
+			  }				
+			}
+		}
 ?>
 
     </table>

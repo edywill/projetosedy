@@ -116,7 +116,7 @@ $(document).ready(function() {
 			</thead>
        <tbody>
 <?php 
-$sqlRegistros=mysql_query("SELECT savregistros.*,prestsav.id AS idprest,prestsav.data AS dtprest FROM savregistros LEFT JOIN prestsav ON prestsav.savid=savregistros.id WHERE savregistros.gestor='".$sqlBloqUser['Cd_empresa']."' AND  (savregistros.situacao<>'Cancelada' AND savregistros.situacao<>'Devolvida') AND savregistros.numci <>0 AND prestsav.status='pg'") or die (mysql_error());
+$sqlRegistros=mysql_query("SELECT savregistros.*,prestsav.id AS idprest,prestsav.data AS dtprest FROM savregistros LEFT JOIN prestsav ON prestsav.savid=savregistros.id WHERE (savregistros.situacao<>'Cancelada' AND savregistros.situacao<>'Devolvida') AND savregistros.numci <>0 AND prestsav.status='pg'") or die (mysql_error());
 while($objRegistros=mysql_fetch_object($sqlRegistros)){
 $editar='';
 $nomeFuncionario='';
@@ -134,27 +134,23 @@ $numeroCi='N/D';
 $status='Elaboração';
 $idCiEdit='';
  $editarRec='';
- if(!empty($objRegistros->numci) || $objRegistros->numci<>0){
-	$numeroCi=$objRegistros->numci;
-	$scriptControleCi=odbc_exec($conCab2,"SELECT campo27 FROM COSOLICI (nolock) Where Solicitacao='".$objRegistros->numci."'")or die("<p>".odbc_errormsg());
-	$sqlControleCi=odbc_fetch_array($scriptControleCi);
-	
-	if($sqlControleCi['campo27']=='03'){
-		$status='Elaboração';
-		$idCiEdit=$objRegistros->numci;
+ 	$numeroCi=$objRegistros->numci;
+$apresenta=0;
+$idCiEdit=$objRegistros->numci;
 		$editar="<form action='aprovaPrest.php' method='post' name='editar'><input type='hidden' name='tp' value='aprov'/><input type='hidden' name='retorno' value='aprovPrestGestor.php'/><input type='hidden' name='id' value='".$objRegistros->idprest."'/><input type=image src='../../sav/css/iconeAprov.png' alt='Aprovar' title='Aprovar'/></form>";
 		$editarRec="<form action='aprovaPrest.php' method='post' name='editar'><input type='hidden' name='tp' value='recusa'/><input type='hidden' name='retorno' value='aprovPrestGestor.php'/><input type='hidden' name='id' value='".$objRegistros->idprest."'/><input type=image src='../../sav/css/icone_excluir.png' alt='Recusar' title='Recusar'/></form>";
-		
-		}else{
-			$status='CI Aprovada';
-			$editar="ND";
-			}
+if($_SESSION['cigamSav']=='CAV'){
+$sqlAprovacao=mysql_fetch_array(mysql_query("SELECT * FROM prestsavaprov WHERE idprest='".$objRegistros->idprest."' AND apsuper<>''"));
+	if(empty($sqlAprovacao['id'])){
+		$apresenta=1;
+		}
+	}elseif($_SESSION['cigamSav']=='AWP'){
+$sqlAprovacao=mysql_fetch_array(mysql_query("SELECT * FROM prestsavaprov WHERE idprest='".$objRegistros->idprest."' AND appresi<>''"));
+	if(empty($sqlAprovacao['id'])){
+		$apresenta=1;
+		}
 	}
-$statusSav=utf8_encode($objRegistros->situacao);
-$sqlAprovacao=mysql_fetch_array(mysql_query("SELECT * FROM prestsavaprov WHERE idprest='".$objRegistros->idprest."'"));
-
-if(empty()){ 
-if($editar<>'ND'){
+if($apresenta==1){
 echo "<tr>
 <td><font size='-1'>".$numeroCi."</font></td>
 <td><font size='-1'>".$nomeFuncionario."</font></td>
@@ -162,7 +158,6 @@ echo "<tr>
 <td>".$objRegistros->dtprest."</td>
 <td align='center'><table border='0' width='100%'><tr><td><a href='visualizaPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a></td><td>".$editar."</td><td>".$editarRec."</td></tr></table></td>
 </tr>";
-    }
   }
 }
 ?>       
