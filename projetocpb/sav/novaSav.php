@@ -392,7 +392,7 @@ echo $titulo;
 <br /><br />
 <table border="0" width="100%" class="tabelasimples">
 <tr height="34"><td width="21%">
-<strong>EVENTO:</strong></td><td width="79%"><input type="text" class="input" name="evento" id="evento" size="40" maxlength="50" value='<?php echo $_SESSION['eventoSav']; ?>' onBlur="this.value=this.value.toUpperCase()"/></td></tr><tr height="34"><td>
+<strong>EVENTO:</strong></td><td width="79%"><input type="text" class="input" name="evento" id="evento" size="40" maxlength="45" value='<?php echo $_SESSION['eventoSav']; ?>' onBlur="this.value=this.value.toUpperCase()"/></td></tr><tr height="34"><td>
 <strong>GESTOR RESPONSÁVEL:</strong></td><td>
 <select name="gestor" id="gestor">
 <?php 
