@@ -16,6 +16,7 @@ if($_SESSION['abrangenciaSav']=='Nacional'){
 	$cidadeUf=$SqlcidadeUf['nome']."/".$SqlcidadeUf['iso'];
 	}
 $solicitacao=$numCi;
+$_SESSION['numCiSav']=$solicitacao;
 $SQLAtualizaCi="UPDATE COSOLICI SET 
    local_entrega= '".$cidadeUf."',
    cod_cliente='".$gestor."',

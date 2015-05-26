@@ -92,6 +92,7 @@ if($valida==1){
 odbc_rollback($conCab2);
 		}else{
 if(odbc_commit($conCab2)){
+	
 	$updateCiSav=mysql_query("UPDATE savregistros SET numci=".(int)$_SESSION['numCiSav']." where id='".$numSav."'");
 	$funcionario='X';
 	$dirigente='';
