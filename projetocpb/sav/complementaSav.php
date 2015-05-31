@@ -574,13 +574,13 @@ echo $abrangencia;
 <table border="0" width="100%">
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){
-echo "<tr height='34'><td><strong>Cidade Origem:</strong></td><td> <input type='text' class='input' name='cidorigem' id='cidorigem' size='40' onBlur='carregaVolta()' value='".utf8_encode($_SESSION['cidorigemPasSav'])."'/></td></tr>
+echo "<tr height='34'><td><strong>Cidade Origem:</strong></td><td> <input type='text' class='input' name='cidorigem' id='cidorigem' size='40' onBlur='carregaVolta()' value='".utf8_encode($_SESSION['cidorigemPasSav'])."' autocomplete='off'/></td></tr>
 <tr height='34'><td>
 <strong>País </strong>"; 
 }else{
-	echo "<tr height='34'><td><input type='hidden' class='input' name='cidorigem' id='cidorigem' size='40' onBlur='carregaVolta()'/>";
+	echo "<tr height='34'><td><input type='hidden' class='input' name='cidorigem' id='cidorigem' size='40' onBlur='carregaVolta()' autocomplete='off'/>";
 	}
-?><strong>Origem:</strong></td><td> <input type="text" class="input" name="origemida" id="origemida" size="30" value='<?php echo $_SESSION['origemidaSav2']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na lista</font>
+?><strong>Origem:</strong></td><td> <input type="text" class="input" name="origemida" id="origemida" size="30" value='<?php echo $_SESSION['origemidaSav2']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;" autocomplete='off'/><font style="font-size:10px; color:#949292">(*) Selecione na lista</font>
 </td></tr>
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){

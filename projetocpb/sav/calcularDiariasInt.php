@@ -1,5 +1,5 @@
 <?php 
-$cotacaoDia=$_SESSION['cotacaoDiaSav'];
+		$cotacaoDia=$_SESSION['cotacaoDiaSav'];
 		$dataCotacao=$_SESSION['cotacaoDataSav'];
 		$sqlCotacao=mysql_query("INSERT INTO savcotacao VALUES ('".$numSav."','".$dataCotacao."','".(float)str_replace(",",".",$cotacaoDia)."')");
 		$numDiasPassagem=0;
@@ -12,6 +12,7 @@ $cotacaoDia=$_SESSION['cotacaoDiaSav'];
 		$arrayTipoPassagem[]=0;
 		$arrayPassagemValorDec[]=0;
 		$countPassagem=0;
+		$countTotalPassagem=mysql_num_rows($sqlPassagem);
 			while($objPassagem=mysql_fetch_object($sqlPassagem)){
 					$destinoReferencia=$objPassagem->destino;
 				if($_SESSION['diariaSav']=='sim'){
