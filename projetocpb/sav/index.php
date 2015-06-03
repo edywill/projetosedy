@@ -259,7 +259,8 @@ if(!empty($sqlRelacaoSav2['id'])){
 	if($sqlControleCi['campo27']=='03'){
 		$status='Pend. de<br> Aprovação';
 		$updateSav=mysql_query("UPDATE savregistros SET status='".$status."' AND situacao='Pendente de Aprovacao' WHERE id='".$objRegistros->id."'");
-		$idCiEdit=$objRegistros->numci;		
+		$idCiEdit=$objRegistros->numci;	
+			
 		}elseif($sqlControleCi['campo27']=='AP'){
 			$status='CI Aprovada';
 			$editar="";

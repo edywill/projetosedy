@@ -19,7 +19,7 @@ if(!empty($idCi) ||$idCi<>0 ){
 if($updateSav){
 	?>
        <script type="text/javascript">
-       alert("Excluída com sucesso.");
+       alert("Cancelada com sucesso.");
        window.location="<?php echo $ret;?>";
        </script>
        <?php

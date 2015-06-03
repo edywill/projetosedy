@@ -90,6 +90,7 @@ if($valida==1){
        </script>
        <?php
 odbc_rollback($conCab2);
+$_SESSION['numCiSav']='';
 		}else{
 if(odbc_commit($conCab2)){
 	
