@@ -230,7 +230,7 @@ if($valida==0 && $acao<>0){
 		$consultaUltimoRegistro=mysql_fetch_array(mysql_query("SELECT max(id) AS maxid FROM savregistros"));
 		$numSavCria=$consultaUltimoRegistro['maxid']+1;
 		//Insert
-		$sqlRegistro="INSERT INTO  savregistros(id,numci,funcionario,evento,gestor,abrangencia,objetivo,ultimaviagem,devbilhete,passagem,hospedagem,translado,observ,cgeren,status,situacao) VALUES (".$numSavCria.",0,'".$idFunc."','".$_SESSION['eventoSav']."','".$gestor."','".$abrangencia."','".$_SESSION['objetivoSav']."','".$_SESSION['ultimaViagSav']."','".$_SESSION['bilheteSav']."','".$_SESSION['passagemSav']."','".$_SESSION['diariaSav']."','".$_SESSION['transladoSav']."','".$_SESSION['observacaoSav']."','".$cgeren."','Elaboracao','".utf8_decode('Elaboração')."')";
+		$sqlRegistro="INSERT INTO  savregistros(id,numci,funcionario,evento,gestor,abrangencia,objetivo,ultimaviagem,devbilhete,passagem,diarias,hospedagem,translado,observ,cgeren,status,situacao) VALUES (".$numSavCria.",0,'".$idFunc."','".$_SESSION['eventoSav']."','".$gestor."','".$abrangencia."','".$_SESSION['objetivoSav']."','".$_SESSION['ultimaViagSav']."','".$_SESSION['bilheteSav']."','".$_SESSION['passagemSav']."','".$_SESSION['diariaSolSav']."','".$_SESSION['diariaSav']."','".$_SESSION['transladoSav']."','".$_SESSION['observacaoSav']."','".$cgeren."','Elaboracao','".utf8_decode('Elaboração')."')";
 		$queryRegistro=mysql_query($sqlRegistro) or die(mysql_error());
 		if(!$queryRegistro){
 			$valida=1;
@@ -242,7 +242,7 @@ if($valida==0 && $acao<>0){
 		}elseif($acao==2){
 			$status2=utf8_decode("Elaboração");
 			//Update
-			$sqlRegistro="UPDATE savregistros SET evento='".$_SESSION['eventoSav']."',gestor='".$gestor."',objetivo='".$_SESSION['objetivoSav']."',passagem='".$_SESSION['passagemSav']."',hospedagem='".$_SESSION['diariaSav']."',translado='".$_SESSION['transladoSav']."',observ='".$_SESSION['observacaoSav']."',cgeren='".$cgeren."',situacao='".$status2."' WHERE id='".$_SESSION['numSav']."'";
+			$sqlRegistro="UPDATE savregistros SET evento='".$_SESSION['eventoSav']."',gestor='".$gestor."',objetivo='".$_SESSION['objetivoSav']."',passagem='".$_SESSION['passagemSav']."',diarias='".$_SESSION['diariaSolSav']."',hospedagem='".$_SESSION['diariaSav']."',translado='".$_SESSION['transladoSav']."',observ='".$_SESSION['observacaoSav']."',cgeren='".$cgeren."',situacao='".$status2."' WHERE id='".$_SESSION['numSav']."'";
 			$queryRegistro=mysql_query($sqlRegistro) or die (mysql_error());
 			if(!$queryRegistro){
 					$valida=1;

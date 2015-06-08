@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,12 +15,16 @@
 echo "<div id='outro' style='display: none;'>";
 include "function.php";
 $usuario=$_GET['usuario'];
+$_SESSION['usuarioApCiweb']=$usuario;
 require('conexaomysql.php');
 $resultadoGres1 =  mysql_query("SELECT * FROM usuarios WHERE nome = '".$usuario."'") or die(mysql_error());
 $resultadoGres = mysql_fetch_array($resultadoGres1);
 $controle=$resultadoGres['controle'];
+$_SESSION['controleApCiweb']=$controle;
 $usuario2=$resultadoGres['usuario'];
+$_SESSION['userApCiweb']=$usuario2;
 $usuarioCigam=$resultadoGres['cigam'];//consulta
+$_SESSION['cigamApCiweb']=$usuarioCigam;
 echo "</div>";
 listaCi($usuario2,$controle,$usuarioCigam);
 ?>

@@ -1,6 +1,7 @@
 <?php 
 //Cria o item de diaria
 $situacao='P';
+if($_SESSION['diariaSolSav']=='sim'){
 			 $cdMaterialDiaria='101001005';//Cd_material diária Internacional
 			 $cdMaterialDiariaReduzido='199';//Cd_reduzido diaria Internacional
 			 include "insertItemDiaria.php";
@@ -20,6 +21,7 @@ $situacao='P';
 				$errorMsg.='Erro['.$countError.']: Problema ao criar o registro da diária.\\n';
 			}		
 		}
+}
 	//Verifica a existencia de cada tipo (passagem, hospedagem e transporte)
 		//Inicio da Insercao de passagem
 		if($_SESSION['passagemSav']=='sim'){

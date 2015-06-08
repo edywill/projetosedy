@@ -281,7 +281,8 @@ $().ready(function() {
   <script type="text/javascript">
 	$(document).ready(function(){ 
 		$("#content div:nth-child(1)").show(); 
-			$(".abas li:first div").addClass("selected");				$(".aba").click(function(){ 						$(".aba").removeClass("selected");
+			$(".abas li:first div").addClass("selected");				$(".aba").click(function(){ 						
+			$(".aba").removeClass("selected");
 			$(this).addClass("selected");
 		var indice = $(this).parent().index();
 		    indice++; 
@@ -456,7 +457,7 @@ $textoComplemento.=' - Hospedagem';
 }
 $translado=0;
 if(trim($_SESSION['transladoSav'])=='sim'){
-	$textoComplemento.=' - Translado';
+	$textoComplemento.=' - Locação de Veículo';
 	}
 if(!empty($textoComplemento)){
 	echo "Preencha as informações referente aos itens ( ".$textoComplemento.") nas abas abaixo:";

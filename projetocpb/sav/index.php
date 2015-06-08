@@ -118,7 +118,7 @@ $(document).ready(function() {
 		"bProcessing": true,
 		"bServerSide": false,
 		"sPaginationType": "full_numbers",
-		"order": [[3,'desc'], [0,'asc']]
+		"order": [[3,'desc'], [0,'desc']]
 	});
 });
 </script>

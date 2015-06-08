@@ -34,6 +34,7 @@ $_SESSION['cotacaoDiaSav']='';
 $_SESSION['cotacaoDataSav']='';
 $_SESSION['gestorSavNome']='';
 $_SESSION['diariaSav']='sim';
+$_SESSION['diariaSolSav']='sim';
 $_SESSION['passagemSav']='sim';
 $_SESSION['transladoSav']='nao';
 $_SESSION['abrangenciaSav']=$_POST['tipoevento'];
@@ -119,6 +120,7 @@ Where
 	$_SESSION['ultimaViagSav']=utf8_encode($sqlSav['ultimaviagem']);
 	$_SESSION['bilheteSav']=$sqlSav['devbilhete'];
 	$_SESSION['passagemSav']=$sqlSav['passagem'];
+	$_SESSION['diariaSolSav']=$sqlSav['diarias'];
 	$_SESSION['diariaSav']=$sqlSav['hospedagem'];
 	$_SESSION['transladoSav']=$sqlSav['translado'];
 	$_SESSION['observacaoSav']=utf8_encode($sqlSav['observ']);
@@ -392,7 +394,7 @@ echo $titulo;
 <br /><br />
 <table border="0" width="100%" class="tabelasimples">
 <tr height="34"><td width="21%">
-<strong>EVENTO:</strong></td><td width="79%"><input type="text" class="input" name="evento" id="evento" size="40" maxlength="45" value='<?php echo $_SESSION['eventoSav']; ?>' onBlur="this.value=this.value.toUpperCase()"/></td></tr><tr height="34"><td>
+<strong>EVENTO:</strong></td><td width="79%"><input type="text" class="input" name="evento" id="evento" size="40" maxlength="50" value='<?php echo $_SESSION['eventoSav']; ?>' onBlur="this.value=this.value.toUpperCase()"/></td></tr><tr height="34"><td>
 <strong>GESTOR RESPONSÁVEL:</strong></td><td>
 <select name="gestor" id="gestor">
 <?php 
@@ -452,7 +454,14 @@ if($_SESSION['transladoSav']=='sim'){
 ?>
 <strong>TRANSPORTE</strong></td>
 <td>
-	<input type="checkbox" name="soldia"  id="soldia" value="sim" checked="checked">
+	<?php 
+	if($_SESSION['diariaSolSav']=='sim'){
+		echo '<input type="checkbox" name="soldia"  id="soldia" value="sim" checked="checked">';
+	}else{
+	echo '<input type="checkbox" name="soldia"  id="soldia" value="sim">';
+		}
+	?>
+    
     <strong>DIÁRIAS</strong></td>
 </tr>
 </table>

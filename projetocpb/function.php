@@ -1911,8 +1911,8 @@ function updateCi ($ciUpdate,$UserCiUpdate,$descricaoCiUpdate,$controleNovoCiUpd
 			$resConsContrCI = odbc_exec($conCab, $SQLConsContrCI);
 			$arrayConsContrCI = odbc_fetch_array($resConsContrCI);
 			$SQLConsStatusCi = "SELECT 
-								campo27
-					   FROM COSOLICI WITH(nolock)
+								COSOLICI.campo27
+					   FROM COSOLICI (nolock)
 					   WHERE Solicitacao = '".$ciUpdate."'";
 			$resConsStatusCi = odbc_exec($conCab, $SQLConsStatusCi);
 			$arrayConsStatusCi = odbc_fetch_array($resConsStatusCi);
@@ -1974,15 +1974,14 @@ function updateCi ($ciUpdate,$UserCiUpdate,$descricaoCiUpdate,$controleNovoCiUpd
 			if($InsAcompSol){
 			if ($updCoisolic) {
 			                  
-			if ($updCosolici) {
-		
+			if ($updCosolici) {	
 $descContCIEmail=mb_convert_encoding($arrayConsContrCIAnt['descricao'],"UTF-8","ISO-8859-1");
 $controleCIEmail=$arrayConsContrCIAnt['controle'];
 //$descContCIItemEmailNovo=mb_convert_encoding($arrayConsContrCIAnt['descricao'],"UTF-8","ISO-8859-1");
 	$emailSent[0]=$resIdIntranetEmail['email'];
 	//$emailSent[0]='edy@cpb.org.br';
 	ciAprovadaEmail($resIdIntranet['nome'],$resIdIntranetEmail['nome'],$emailSent,$ciUpdate,$descricaoCiUpdate,$controleCIEmail,rtrim(	$descContCIEmail),$controleNovoCiUpdate,$descContCINovo,$pgRetornoUp,0);
-            }
+			}
 			}
 			}
 			}
@@ -2654,7 +2653,15 @@ From
 							
 							<th colspan='2'><strong>Solicitante</strong></th><td colspan='3'>".$nomeCompleto."</td></tr>
 							
-							<tr><th width='40'>Aprova/Reprova</th><td><input id='enviar5' name='enviar5' class='buttonVerde' type='submit' value='Aprovar CI' /></form></td>
+							<tr><th width='40'>Aprova/Reprova</th><td><table border='0' width='100%'><tr align='center'><td><input id='enviar5' name='enviar5' class='buttonVerde' type='submit' value='Aprovar CI' /></form></td><td>
+				<form action='recusaCi.php' method='post' name='form6.id_CI' onsubmit=\"this.elements['enviar6'].disabled=true;\">			
+							<input name='user_ci' id='user_ci' value='".$userCiGestor."' size='40' type='hidden' />
+							<input name='id_ci' id='id_ci' value='".$objCiV->Solicitacao."' size='40' type='hidden' />
+							<input name='controle' id='controle' value='".$controleNovo."' size='40' type='hidden' />
+							<input name='desc_ci' id='desc_ci' value='".$objCiV->Desc_cond_pag."' size='40' type='hidden' />
+							<input id='enviar5' name='enviar5' class='buttonVerde' type='submit' value='Recusar CI' /></form>
+							</td></tr></table>
+							</td>
 						
 						<form action='listaItensCi.php' method='post' name='form4.id_CIItens' >
 							<input name='user_ciItens' id='user_ciItens' value='".$userCiGestor."' size='40' type='hidden' />

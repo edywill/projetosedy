@@ -1,10 +1,20 @@
 <?php 
 date_default_timezone_set('America/Sao_Paulo');
+if($_SESSION['diariaSolSav']=='sim'){
 if($_SESSION['abrangenciaSav']=='Nacional'){
 		include "calcularDiariasNac.php";	
 	 }else{
 		 include "calcularDiariasInt.php";	
 		 }
+}else{
+	$countPassagem=0;
+	$valorPassagem=0;
+	while($objPassagem=mysql_fetch_object($sqlPassagem)){
+		$countPassagem++;
+		$arrayPassagemValorDec=str_replace(",",".",str_replace(".","",$objPassagem->valor));
+		$valorPassagem=$valorPassagem+(float)$arrayPassagemValorDec;
+		}
+	}
 //Guarda os valores para criação da CI
 $setor="";
 if($valida==0){
