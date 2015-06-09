@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 
 if($_SESSION['passagemSav']=='sim'){
 	        $numDiasDiaria=0;
@@ -352,16 +352,17 @@ $arrayValorDia=mysql_fetch_array($sqlValorDia);
 					}
 		}else{
 			
-	$sqlValorDia=mysql_query("SELECT valor FROM savtabeladianac 
-											 WHERE municipio='".$arrayRegistro['destinoida']."' AND classe='".$arrayClasse['classe']."'");
-	 			$arrayValorDia=mysql_fetch_array($sqlValorDia);
-				if(empty($arrayValorDia)){
+	$sqlValorDia=mysql_query("SELECT valor FROM savtabeladianac WHERE municipio='".$arrayRegistro['destinoida']."' AND classe='".$arrayClasse['classe']."'");
+	 			$arrayValorDia=mysql_fetch_array($sqlValorDia);	
+				
+if(!empty($arrayValorDia['valor'])){
 				$numDiasDiaria=$numDiasGeral;
 				$valorTotal=($numDiasGeral*$arrayValorDia['valor'])-$descontoVR;
 				}else{
 					$sqlValorDia=mysql_query("SELECT valor FROM savtabeladianac 
 											 WHERE municipio='9999' AND classe='".$arrayClasse['classe']."'");
 	 			$arrayValorDia=mysql_fetch_array($sqlValorDia);
+				
 				$numDiasDiaria=$numDiasGeral;
 				$valorTotal=($numDiasGeral*$arrayValorDia['valor'])-$descontoVR;
 					}
