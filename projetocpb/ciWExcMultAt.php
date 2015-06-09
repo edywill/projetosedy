@@ -343,7 +343,7 @@ where GEEMPRES.Cd_empresa='".trim($itens->id)."'");
 //echo "<input type='hidden' name='contagem' value='".$contagem."'/><tr><td><a href='javascript:history.back()'>VOLTAR</a></td><td></td><td><input type='submit' class='button' value='Confirmar'/></td></tr></table></form></div>";
 echo "</table><br/><br/>";
 $menserro.="Está(ão) com pendência(s) junto ao departamento de diárias e passagens e por isso nao estão na listagem.";
-echo "<input type='hidden' name='contagem' value='".$contagem."'/>".$botao."<span style='padding-left:698px'><input type='submit' class='buttonVerde' value='Confirmar'/></form></div>";
+echo "<input type='hidden' name='contagem' value='".$i."'/>".$botao."<span style='padding-left:698px'><input type='submit' class='buttonVerde' value='Confirmar'/></form></div>";
 if($valida<>0){
 			   ?>
        <script type="text/javascript">

@@ -10,7 +10,7 @@ include "enviaEmail.php";
 $idCi=$_POST["id_ci"];
 $UserCi=$_POST["user_ci"];
 $descricao=$_POST["desc_ci"];
-$controle='90';
+$controle='03';
 $pgRetorno="ciweb";
 $idTipo='IN';
 $listaEmail='';
