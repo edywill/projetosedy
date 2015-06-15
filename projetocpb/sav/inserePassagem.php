@@ -45,6 +45,13 @@ if(empty($_SESSION['destinoidaSav2'])){
 		$countError++;
 		$errorMsg.='Erro['.$countError.']: Informe o destino.<br>';
 	}
+	if($valida==0){
+		if($_SESSION['destinoidaSav2']==$_SESSION['origemidaSav2']){
+			$valida=1;
+		$countError++;
+		$errorMsg.='Erro['.$countError.']: Origem e destino não podem ser iguais.<br>';
+			}
+		}
 if(empty($_SESSION['horarioidaSav2']) || $_SESSION['horarioidaSav2']=='0'){
 		$valida=1;
 		$countError++;
