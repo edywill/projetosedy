@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 session_start();
 unset($_SESSION['usuarioApCiweb']);
 unset($_SESSION['controleApCiweb']);
@@ -7,11 +7,11 @@ unset($_SESSION['cigamApCiweb']);
 require('conexaomysql.php');
 include "enviaEmail.php";
 
-$idCi=$_POST["id_ci"];
-$UserCi=$_POST["user_ci"];
-$descricao=$_POST["desc_ci"];
-$controle='03';
-$pgRetorno="ciweb";
+$ciUpdate=$_POST["id_ci"];
+$UserCiUpdate=$_POST["user_ci"];
+$descricaoCiUpdate=$_POST["desc_ci"];
+$controleNovoCiUpdate='03';
+$pgRetornoUp="ciweb";
 $idTipo='IN';
 $listaEmail='';
     $SQLIdIntranet =  mysql_query("SELECT * FROM usuarios WHERE usuario = '".$UserCiUpdate."'") or die(mysql_error());

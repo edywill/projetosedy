@@ -56,7 +56,7 @@ From
 
 	$mensagem3 = "Prezado (a) <strong>".strtoupper($dest)."</strong>";
 	$mensagem3 .= "<br \><br \>A C.I numero ".$ci.", foi recusada.<br>
-	O gestor deixou a seguinte observa&ccedil;&atilde;o: ".$recusa." 
+	O gestor deixou a seguinte observa&ccedil;&atilde;o: <i>".$recusa."</i> 
 <br><br><strong>Ci Recusada por:</strong> ".$nome."<br> 
 <strong>Controle Anterior:</strong>".$contAnt."-".$descContAnt." <br>
 <strong>Controle Novo:</strong>".$contNovo."-".$descContNovo." <br>

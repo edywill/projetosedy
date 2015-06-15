@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 session_start();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,6 +11,7 @@ session_start();
 <body>
 <div id='box3'>
 <br/><strong>CIWEB  - Recusar CI:</strong><br/>
+<h3>CI Nº: <font color='red'><?php echo $_POST['id_ci']; ?></font></h3>
 Caso tenha alguma observação em relação a recusa dessa CI, informe no campo abaixo:
 <form action="confRecusaCi.php" name="recusa" method="post">
 <?php
