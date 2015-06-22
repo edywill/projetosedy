@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 if(!isset($_SESSION)){
 session_start();
 }
@@ -249,10 +249,10 @@ document.getElementById('abrg').innerHTML="Internacional";
 document.getElementById('idrefs').value= myarrs[2];
 document.getElementById('idrefd').value= myarrd[2];
 
-document.getElementById('vlunits').value= float2moeda(moeda2float(myarrs[0]));
-document.getElementById('vlunitd').value= float2moeda(moeda2float(myarrd[0]));
+//document.getElementById('vlunits').value= float2moeda(moeda2float(myarrs[0]));
+//document.getElementById('vlunitd').value= float2moeda(moeda2float(myarrd[0]));
 
-document.getElementById('total').value= float2moeda(moeda2float(myarrs[0])*moeda2float(document.getElementById('qtdSingle').value)*moeda2float(document.getElementById('qtdDias').value)+moeda2float(myarrd[0])*moeda2float(document.getElementById('qtdDuplo').value)*moeda2float(document.getElementById('qtdDias').value));
+document.getElementById('total').value= float2moeda(moeda2float(document.getElementById('vlunits').value)*moeda2float(document.getElementById('qtdSingle').value)*moeda2float(document.getElementById('qtdDias').value)+moeda2float(document.getElementById('vlunitd').value)*moeda2float(document.getElementById('qtdDuplo').value)*moeda2float(document.getElementById('qtdDias').value));
 }
 }
 req.send(null);
@@ -296,10 +296,11 @@ document.getElementById('abrg').innerHTML="Internacional";
 document.getElementById('idrefs').value= myarrsv[2];
 document.getElementById('idrefd').value= myarrdv[2];
 
-document.getElementById('vlunits').value= float2moeda(moeda2float(myarrsv[0]));
-document.getElementById('vlunitd').value= float2moeda(moeda2float(myarrdv[0]));
+//document.getElementById('vlunits').value= float2moeda(moeda2float(myarrsv[0]));
+//document.getElementById('vlunitd').value= float2moeda(moeda2float(myarrdv[0]));
 
-document.getElementById('total').value= float2moeda(moeda2float(myarrsv[0])*moeda2float(document.getElementById('qtdSingle').value)*moeda2float(document.getElementById('qtdDias').value)+moeda2float(myarrdv[0])*moeda2float(document.getElementById('qtdDuplo').value)*moeda2float(document.getElementById('qtdDias').value));
+alert(moeda2float(document.getElementById('vlunits').value));
+document.getElementById('total').value= float2moeda(moeda2float(document.getElementById('vlunits').value)*moeda2float(document.getElementById('qtdSingle').value)*moeda2float(document.getElementById('qtdDias').value)+moeda2float(document.getElementById('vlunitd').value)*moeda2float(document.getElementById('qtdDuplo').value)*moeda2float(document.getElementById('qtdDias').value));
 }
 }
 reqv.send(null);

@@ -13,9 +13,9 @@ echo "<div id='outro' style='display: none;'>";
 include "mb.php";
 require "conectsqlserverciprod.php";
 require('conexaomysql.php');
-$usuario=$_GET['usuario'];
+$usuario=$_GET['id'];
 
-$consultaEmailUser="SELECT email,s1 FROM usuarios WHERE nome='".$usuario."'";
+$consultaEmailUser="SELECT email,s1 FROM usuarios WHERE id='".$usuario."'";
 $resultadoEmail =  mysql_query($consultaEmailUser) or die(mysql_error());
 $resultadom = mysql_fetch_array($resultadoEmail);
 
@@ -44,8 +44,7 @@ Where
   COSOLICI.Situacao<>'L' AND
   COISOLIC.Situacao<>'L'
   ORDER BY COSOLICI.Dt_modificacao DESC";
-  
-  
+
   $resConsultaEmails = odbc_exec($conCab, $consultaEmails);
 
 			
@@ -64,7 +63,7 @@ Where
 					$SQLConsItemCIV = "SELECT 
 										COISOLIC.*,
   										GEEMPRES.Nome_completo
-							  FROM COISOLIC Inner Join
+							  FROM COISOLIC LEFT Join
   								   GEEMPRES On GEEMPRES.Cd_empresa = COISOLIC.Cd_solicitante
 							  WHERE COISOLIC.cd_especie_esto='E'
 							  AND COISOLIC.cd_solicitacao='".$objCiV->Solicitacao."'";

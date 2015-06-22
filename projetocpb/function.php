@@ -1888,7 +1888,7 @@ function updateCi ($ciUpdate,$UserCiUpdate,$descricaoCiUpdate,$controleNovoCiUpd
 	$listaEmail='';
     $SQLIdIntranet =  mysql_query("SELECT * FROM usuarios WHERE usuario = '".$UserCiUpdate."'") or die(mysql_error());
     $resIdIntranet = mysql_fetch_array($SQLIdIntranet);
-	$SQLIdIntranetEmail =  mysql_query("SELECT * FROM usuarios WHERE controle = '".$controleNovoCiUpdate."'") or die(mysql_error());
+	$SQLIdIntranetEmail =  mysql_query("SELECT * FROM usuarios WHERE controle = '".$controleNovoCiUpdate."' Order By nome DESC") or die(mysql_error());
     $resIdIntranetEmail = mysql_fetch_array($SQLIdIntranetEmail);
 	//Gambiarra para Comunicação (Alerar urgente)
 	if($resIdIntranetEmail['controle']=='19'){

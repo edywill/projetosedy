@@ -2,6 +2,8 @@
 require "functionEmail.php";
 include "mb.php";
 
+//enviaEmail("Teste Email","Teste de envio de email","ciweb","edy@cpb.org.br","Edy",0);
+
 function ciAprovadaEmail($nome,$dest,$emailDest,$ci,$desc,$contAnt,$descContAnt,$contNovo,$descContNovo,$pag,$cont){
 	//$emailDest='edy@cpb.org.br';
 	require "conectsqlserverci.php";

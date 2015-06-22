@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 include ('valida.php');
 if(empty($_SESSION['usuario'])){
 		?>
@@ -196,8 +196,10 @@ return true;
 <?php 
 $usuarioSolF=$_GET['usuario'];
 require('conexaomysql.php');
-$resultadoGres1 =  mysql_query("SELECT * FROM usuarios WHERE nome = '".$usuarioSolF."'") or die(mysql_error());
+$queryResult="SELECT * FROM usuarios WHERE id= '".$_GET['id']."'";
+$resultadoGres1 =  mysql_query($queryResult) or die(mysql_error());
 $resultadoGres = mysql_fetch_array($resultadoGres1);
+$numRowsRes=mysql_num_rows($resultadoGres1);
 $controle=$resultadoGres['controle'];
 $usuario2=$resultadoGres['cigam'];//consulta
 $_SESSION['userCiCigam']=$usuario2;
@@ -223,7 +225,7 @@ echo "<table border='0'  width='500px'>
 		<center><a href='ciWCons.php?usuario=$usuarioSolF'><img width ='30%' src='css/edit.png'></img><br/><strong>Pesquisar/<br/><strong>Alterar dados CI</strong></a></center>
 	</td>
 	<td height='100'>
-		<center><a href='ciVerifica.php?usuario=$usuarioSolF'><img width ='30%' src='css/search.png'></img><br/><strong>Consultar<br/>CIs do Setor</strong></a></center> 
+		<center><a href='ciVerifica.php?id=".$_GET['id']."'><img width ='30%' src='css/search.png'></img><br/><strong>Consultar<br/>CIs do Setor</strong></a></center> 
 	</td></tr>";
 
 /*echo "<ul>

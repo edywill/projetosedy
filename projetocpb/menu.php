@@ -49,7 +49,8 @@ function montaMenu($usuarioCk){
 		}
 	$perfilE="Usuario";
 	$status=$resultadom['status'];
-	$nome=utf8_encode($resultadom['nome']);
+$idUserInt=$resultadom['id'];	
+$nome=utf8_encode($resultadom['nome']);
 	$cigam=$resultadom['cigam'];
 	if(empty($cigam)){
 		$slcUserCigam=odbc_exec($conCab2,"Select
@@ -107,12 +108,17 @@ From
 $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSUARI with (nolock) where Cd_usuario='".$cigam."' "));
 		$menuE.="</a> </li>
 		<li> <a href='sav/aprovacaoGestor.php?usuario=".trim($sqlBuscaGEEMPRES['campo20'])."&cigam=".trim($cigam)."' target='Frame1'>Aprovar SAV";
-		$sqlSav=mysql_query("SELECT situacao FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Recusada') AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
+		$sqlSav=mysql_query("SELECT situacao,numci FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Recusada') AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
 		$numSav=mysql_num_rows($sqlSav);
-		if($numSav>0){
+if($numSav>0){
+	$numeroCiSav=mysql_fetch_array($sqlSav);
+	$scriptControleCi=odbc_exec($conCab2,"SELECT campo27 FROM COSOLICI (nolock) Where Solicitacao='".$numeroCiSav['numci']."'")or die("<p>".odbc_errormsg());
+	$sqlControleCi=odbc_fetch_array($scriptControleCi);
+	if($sqlControleCi['campo27']=='03'){
+
 			$menuE.="<div style='position:relative; top:-30px; left:140px; right:-10px; width:10px;'><img src='imagens/alerta.png'/><DIV style='position:RELATIVE; top:-16px; left:4px; color:white;'><font size='-2'>".$numSav."</font></DIV></div>";
 			}
-			
+}			
 		$menuE.="</a></li>
 		<li> <a href='ciWFPrazo.php?usuario=$nome' target='Frame1'>CI's Fora do Prazo";
 		
@@ -323,7 +329,7 @@ $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSU
 		    <li> <a href='recibo_selecao.php?usuario=$nome' target='Frame1'>Recibo de Pagamento</a></li>
 		    <li> <a href='solferias.php?usuario=$nome' target='Frame1'> Solicitação de Férias</a></li> 
 		    <li> <a href='sol13.php?usuario=$nome' target='Frame1'> Solic. 1ª Parc. 13º</a></li>
-		    <li> <a href='ciWMenu.php?usuario=$nome' target='Frame1'> CI Web</a></li>
+		    <li> <a href='ciWMenu.php?usuario=$nome&id=$idUserInt' target='Frame1'> CI Web</a></li>
 			<li> <a href='sav/index.php?usuario=$nome&cigam=$cigam' target='Frame1'> SAV</a><br></li>";
 		 echo "</ul>
 		 ".$menuConv."

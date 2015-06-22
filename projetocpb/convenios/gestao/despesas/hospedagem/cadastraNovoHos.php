@@ -43,12 +43,12 @@ echo"</select></div>
 </td></tr>
 <tr><th>Dt. Inicio</th><td><input name='dtinicio' id='dtinicio' type='text' size='40' class='input' value='".$dtinicio."' readonly/></td></tr>
 <tr><th>Dt. Fim</th><td><input name='dtfim' id='dtfim' type='text' size='40' class='input' value='".$dtfim."' readonly/></td></tr>
-<tr><th>Quantidade Dias</th><td><input name='qtdDias' id='qtdDias' type='text' size='15' class='input' value='".$qtdDias."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorHosV()'/></td></tr>
-<tr><th>Quantidade Pessoas</th><td><input name='qtdPes' id='qtdPes' type='text' size='15' class='input' value='".$qtdPes."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorHosV()'/></td></tr>
-<tr><th>Qtd. Single</th><td><input name='qtdSingle' id='qtdSingle' type='text' size='15' class='input' value='".$qtdSingle."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorHosV()'/></td></tr>
-<tr><th>Valor Unit. Single(R$):</th><td><input name='vlunits' id='vlunits' type='text' size='40' class='input' value='".$vlunits."' onblur='buscarValorHosV()'/></td></tr>
-<tr><th>Qtd. Duplos</th><td><input name='qtdDuplo' id='qtdDuplo' type='text' size='15' class='input' value='".$qtdDuplo."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorHosV()'/></td></tr>
-<tr><th>Valor Unit. Duplo(R$):</th><td><input name='vlunitd' id='vlunitd' type='text' size='40' class='input' value='".$vlunitd."' onblur='buscarValorHosV()'/></td></tr>
+<tr><th>Quantidade Dias</th><td><input name='qtdDias' id='qtdDias' type='text' size='15' class='input' value='".$qtdDias."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorPasT()'/></td></tr>
+<tr><th>Quantidade Pessoas</th><td><input name='qtdPes' id='qtdPes' type='text' size='15' class='input' value='".$qtdPes."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorPasT()'/></td></tr>
+<tr><th>Qtd. Single</th><td><input name='qtdSingle' id='qtdSingle' type='text' size='15' class='input' value='".$qtdSingle."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorPasT()'/></td></tr>
+<tr><th>Valor Unit. Single(R$):</th><td><input name='vlunits' id='vlunits' type='text' size='40' class='input' value='".$vlunits."' onblur='buscarValorPasT()'/></td></tr>
+<tr><th>Qtd. Duplos</th><td><input name='qtdDuplo' id='qtdDuplo' type='text' size='15' class='input' value='".$qtdDuplo."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorPasT()'/></td></tr>
+<tr><th>Valor Unit. Duplo(R$):</th><td><input name='vlunitd' id='vlunitd' type='text' size='40' class='input' value='".$vlunitd."' onblur='buscarValorPasT()'/></td></tr>
 <tr><th>Valor Total (R$):</th><td><input name='total' id='total' type='text' size='40' class='input' value='".$total."'/></td></tr>
 <tr><td></td><td><input id='ok' type='submit' class='button' value='".$titButton."' name='ok' /></td></tr>
 </table>";

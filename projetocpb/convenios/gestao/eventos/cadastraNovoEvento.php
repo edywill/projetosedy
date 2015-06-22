@@ -14,7 +14,7 @@ echo "<tr><th>Cidade:</th><td>
 <div class='ui-widget'>
 <select name='cidade' id='combobox'>";
 if(empty($cidade)){
-echo "<option value='0' selected>Selecione</option>";
+echo "<option value='0' selected></option>";
 }else{
 	$sqlCidadeAt=mysql_fetch_array(mysql_query("SELECT id,municipio FROM municipios WHERE id='".$cidade."'"));
 	echo "<option value='".$cidade."' selected>".utf8_encode($sqlCidadeAt['municipio'])."</option>";

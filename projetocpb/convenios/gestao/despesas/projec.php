@@ -53,7 +53,7 @@ $tipoDesp=$_SESSION['tipoDespSessionConv'];
 $idEvento=$_SESSION['idEventoSession'];
 $editar=$_SESSION['editarSession'];
 	}
-if(empty($idEvento)||$idEvento==''){
+if(empty($idEvento) || $idEvento==''){
 	?>
 			   <script type="text/javascript">
                alert("Escolha um evento válido!");

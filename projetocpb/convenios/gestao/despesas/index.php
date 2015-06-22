@@ -185,7 +185,7 @@ req = new XMLHttpRequest();
 else if(window.ActiveXObject) {
 req = new ActiveXObject("Microsoft.XMLHTTP");
 }
-valor=document.getElementById('comboboxEvento').value;
+valor=document.getElementById('comboEvento').value;
 // Arquivo PHP juntamente com o valor digitado no campo (método GET)
 var url = "guardaEvento.php?valor="+valor;
 // Chamada do método open para processar a requisição
@@ -224,16 +224,15 @@ include "../projetos/detalhesProj.php";
 echo "<br><h2>".$titMod."</h2><h3>Proje&ccedil;&otilde;es ".$titMod."</h3>";
 echo "<table border='0'><tr><td>
 Evento: 
-<div class='ui-widget'>
-<select name='evento' id='comboboxEvento'>
+<select name='evento' id='comboEvento' onchange='carregaEvento()'>
 <option value='0' selected>Selecione</option>";
 $sqlEventos=mysql_query("select id,nome
 from conveventos 
-where modal='".$tipoId."' ORDER BY nome");
+where modal='".$tipoId."' AND idproj='".$id."' ORDER BY nome");
 while($objEventos=mysql_fetch_object($sqlEventos)){
 	echo "<option value='".$objEventos->id."'>".utf8_encode($objEventos->nome)."</option>";
 	}
-echo "</select></div></td></tr></table>
+echo "</select></td></tr></table>
 ";
 include "../botoesTipo.php";
 

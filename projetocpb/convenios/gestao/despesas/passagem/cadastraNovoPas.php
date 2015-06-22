@@ -9,7 +9,7 @@ echo "<table border='0'>
 	if(!empty($origem)){
 	echo "<option value='".$origem."' selected>".utf8_encode($sqlOrigemEventoCidade['municipio'])."</option>";
 		}else{
-	echo "<option value='".$origem."' selected>Selecione</option>";
+	echo "<option value='".$origem."' selected></option>";
 		}
 	$sqlCidadesPasOrigem=mysql_query("SELECT * FROM municipios ORDER BY municipio");
 	while($objCidadesPasOrigem=mysql_fetch_object($sqlCidadesPasOrigem)){
@@ -25,7 +25,7 @@ echo "<table border='0'>
 	if(!empty($destino)){
 	echo "<option value='".$destino."' selected>".utf8_encode($sqlDestinoEventoCidade['municipio'])."</option>";
 		}else{
-	echo "<option value='".$origem."' selected>Selecione</option>";
+	echo "<option value='".$origem."' selected></option>";
 		}
 	$sqlCidadesPasDestino=mysql_query("SELECT * FROM municipios ORDER BY municipio");
 	while($objCidadesPasDestino=mysql_fetch_object($sqlCidadesPasDestino)){
@@ -44,7 +44,7 @@ echo "<table border='0'>
 	if(!empty($origem)){
 	echo "<option value='".$origem."' selected>".utf8_encode($sqlOrigemEventoPais['nome'])."</option>";
 		}else{
-	echo "<option value='".$origem."' selected>Selecione</option>";
+	echo "<option value='".$origem."' selected></option>";
 		}
 	$sqlPaisPasOrigem=mysql_query("SELECT * FROM paises ORDER BY nome");
 	while($objPaisPasOrigem=mysql_fetch_object($sqlPaisPasOrigem)){
@@ -61,7 +61,7 @@ echo "<table border='0'>
 	$sqlDestinoEventoPais=mysql_fetch_array(mysql_query("SELECT nome FROM paises WHERE iso='".$destino."'"));
 	echo "<option value='".$destino."' selected>".utf8_encode($sqlDestinoEventoPais['nome'])."</option>";
 		}else{
-	echo "<option value='".$destino."' selected>Selecione</option>";
+	echo "<option value='".$destino."' selected></option>";
 		}
 	$sqlPaisPasDestino=mysql_query("SELECT * FROM paises ORDER BY nome");
 	while($objPaisPasDestino=mysql_fetch_object($sqlPaisPasDestino)){
