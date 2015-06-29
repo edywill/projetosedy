@@ -43,12 +43,15 @@ class PDF extends FPDF
       //Informamos o tamanho do box que vai receber o conteúdo do rodapé
       //e inserimos o número da página através da função PageNo()
       //além de informar se terá borda e o alinhamento do texto
-	  $this->ln(10);
+	$this->ln(10);
 	if($_SESSION['pendAprov']==0){
 	$this->Cell(0,10,utf8_decode('Para verificar a autenticidade, acesse: http://www.cpb.org.br/intranetcpb/verifica e informe o código: '.$_SESSION['codValida'].''),0,0,'C');
 	}else{
 		$this->Cell(0,10,utf8_decode('DOCUMENTO PENDENTE DE APROVAÇÃO DOS GESTORES.'),0,0,'C');
 		}
+		$this->ln(4);
+		$this->SetFont('Arial','B',8);
+		$this->Cell(0,10,utf8_decode('CI REFERÊNCIA : '.$_SESSION['numCiSav'].''),0,0,'C');
 	$this->Image('css/rodape_sav.png',30,245,180,55);
    }
 
@@ -304,7 +307,6 @@ $pdf->Ln(8);
 	   $pdf->SetFont('Arial','',11);
 	   $pdf->SetTextColor(0,0,0);
 	   $pdf->MultiCell(0, 4,  $sqlSavImpressao['observ'], 0);
-	   
 	   $pdf->Ln(4);
 	  $pdf->SetFont('Times','I',8);
 	  $pdf->SetTextColor(155,155,155);

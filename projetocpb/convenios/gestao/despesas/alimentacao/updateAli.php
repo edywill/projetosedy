@@ -24,6 +24,9 @@ if(isset($_POST['alm'])){
 if(isset($_POST['jant'])){
 	$jant=1;
 	}
+$vljant=$_POST['vljant'];
+$vlalm=$_POST['vlalm'];
+$vlamb=$_POST['vlambos'];
 $qtdref=$_POST['qtdref'];
 $total=$_POST['total'];
 $tiButton=utf8_encode("ALIMENTA&Ccedil;&Atilde;O");
@@ -39,7 +42,7 @@ if(empty($cidade)){
 			   $valida=1;
 	}else{
 		
-	$sqlUpdAli=mysql_query("UPDATE convali SET local='".trim(utf8_decode($cidade))."',dtin='".trim($dtin)."',dtfim='".trim($dtfim)."',qtdpes='".trim($qtdPes)."',qtdref='".trim($qtdref)."',alm='".trim($alm)."',jan='".trim($jant)."',total='".trim($total)."',qtddias='".trim($qtdDias)."' WHERE id='".$_POST['idAli']."'") or die(mysql_error());
+	$sqlUpdAli=mysql_query("UPDATE convali SET local='".trim(utf8_decode($cidade))."',dtin='".trim($dtin)."',dtfim='".trim($dtfim)."',qtdpes='".trim($qtdPes)."',qtdref='".trim($qtdref)."',alm='".trim($alm)."',jan='".trim($jant)."',total='".trim($total)."',qtddias='".trim($qtdDias)."',vljant='".trim($vljant)."',vlalm='".trim($vlalm)."',vlambos='".trim($vlamb)."' WHERE id='".$_POST['idAli']."'") or die(mysql_error());
 	
 	if($sqlUpdAli){
 			?>

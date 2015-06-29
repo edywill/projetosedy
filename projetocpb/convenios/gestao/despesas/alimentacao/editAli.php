@@ -315,7 +315,22 @@ reqv.send(null);
 }
 // FUNÇÃO PARA BUSCA DO QUE PROCURA
 function buscarValorAliT() {
-document.getElementById('total').value=float2moeda(moeda2float(document.getElementById('vlunits').value)*moeda2float(document.getElementById('qtdSingle').value)*moeda2float(document.getElementById('qtdDias').value)+moeda2float(document.getElementById('vlunitd').value)*moeda2float(document.getElementById('qtdDuplo').value)*moeda2float(document.getElementById('qtdDias').value));
+var jantc=0;
+var almc=0;
+var somaalm=0.00;
+var somajant=0.00;
+if( $("#jantc").is(':checked') ){
+jantc=1;
+somajant=moeda2float(document.getElementById('vljant').value)*document.getElementById('qtdPes').value;
+}
+if( $("#almc").is(':checked') ){
+almc=1;
+somaalm=moeda2float(document.getElementById('vlalm').value)*document.getElementById('qtdPes').value;
+}
+
+document.getElementById('total').value= float2moeda((moeda2float(document.getElementById('vlambos').value))*(document.getElementById('qtdDias').value)*(document.getElementById('qtdPes').value)+somaalm+somajant);
+
+document.getElementById('qtdref').value=((almc+jantc)+(document.getElementById('qtdDias').value*2))*document.getElementById('qtdPes').value;
 }
 </script>
 <script type="text/javascript">
@@ -414,8 +429,8 @@ $dtfim=$arrayDadosAli['dtfim'];
 $dtinicio=$arrayDadosAli['dtin'];
 $qtdDias=$arrayDadosAli['qtddias'];
 $alm='';
-$vlAlm='';
-$vlJant='';
+$vlAlm=$arrayDadosAli['vlalm'];
+$vlJant=$arrayDadosAli['vljant'];
 if($arrayDadosAli['alm']==1){
 	$alm='checked';
 	}
@@ -437,7 +452,7 @@ if($arrayDadosAli['abrg']=='nac'){
 			}
 
 $qtdPes=$arrayDadosAli['qtdpes'];
-$vlAmbos='';
+$vlAmbos=$arrayDadosAli['vlambos'];
 $qtdRef=$arrayDadosAli['qtdref'];
 $total=$arrayDadosAli['total'];
 $titButton='Atualizar';

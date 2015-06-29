@@ -4,7 +4,7 @@ $idEvento=$_POST['idEvento'];
 $tipoId=$_POST['tipoId'];
 $titMod=$_POST['titMod'];
 $idRh=$_POST['idRh'];
-$nome=explode("-",$_POST['nome']);
+$idcargo=$_POST['cargo'];
 $qtdpes=$_POST['qtdpes'];
 $qtdtem=$_POST['qtdtem'];
 $um=utf8_decode($_POST['um']);
@@ -14,7 +14,7 @@ $total=$_POST['total'];
 $tcont=$_POST['tcont'];
 $valida=0;
 require("../../../../conexaomysql.php");
-if(empty($nome) || empty($qtdpes) || empty($qtdtem)|| empty($vlunit)){
+if($idcargo=='0' || empty($qtdpes) || empty($qtdtem)|| empty($vlunit)){
 				?>
 			   <script type="text/javascript">
                alert("Todos os campos são obrigatórios.");
@@ -24,7 +24,7 @@ if(empty($nome) || empty($qtdpes) || empty($qtdtem)|| empty($vlunit)){
 			   $valida=1;
 	}else{
 		
-	$sqlUpdRhPem=mysql_query("UPDATE convrh SET idproj='".trim($idproj)."', modal='".trim($tipoId)."', nome='".trim($nome[0])."',tcont='".trim($tcont)."',qtdpes='".trim($qtdpes)."',qtdtem='".trim($qtdtem)."',um='".trim($um)."',vlunit='".trim($vlunit)."',tributos='".trim($tributos)."',total='".trim($total)."' WHERE id='".$_POST['idRh']."'") or die(mysql_error());
+	$sqlUpdRhPem=mysql_query("UPDATE convrh SET idproj='".trim($idproj)."', modal='".trim($tipoId)."', idcargo='".trim($idcargo)."',tcont='".trim($tcont)."',qtdpes='".trim($qtdpes)."',qtdtem='".trim($qtdtem)."',um='".trim($um)."',vlunit='".trim($vlunit)."',tributos='".trim($tributos)."',total='".trim($total)."' WHERE id='".$_POST['idRh']."'") or die(mysql_error());
 	
 	if($sqlUpdRhPem){
 			?>

@@ -36,7 +36,7 @@ if(empty($cidade)){
 			   $valida=1;
 	}else{
 		
-	$sqlUpdRhPem=mysql_query("UPDATE convhos SET local='".trim(utf8_decode($cidade))."',abrg='".trim($abrg)."',dtin='".$dtin."',dtfim='".$dtfim."',qtdpes='".trim($qtdPes)."',total='".trim($total)."',qtddias='".trim($qtdDias)."',qtdsingle='".trim($qtdSingle)."',qtdduplo='".trim($qtdDuplo)."' WHERE id='".$_POST['idHos']."'") or die(mysql_error());
+	$sqlUpdRhPem=mysql_query("UPDATE convhos SET local='".trim(utf8_decode($cidade))."',abrg='".trim($abrg)."',dtin='".$dtin."',dtfim='".$dtfim."',qtdpes='".trim($qtdPes)."',total='".trim($total)."',qtddias='".trim($qtdDias)."',qtdsingle='".trim($qtdSingle)."',qtdduplo='".trim($qtdDuplo)."' ,vlunits='".trim($vlunits)."',vlunitd='".trim($vlunitd)."' WHERE id='".$_POST['idHos']."'") or die(mysql_error());
 	
 	if($sqlUpdRhPem){
 			?>

@@ -254,6 +254,9 @@ document.getElementById('total').value= float2moeda(moeda2float(document.getElem
 }
 req.send(null);
 }
+function buscarValorSgvT() {
+document.getElementById('total').value= float2moeda(moeda2float(document.getElementById('vlperi').value)*moeda2float(document.getElementById('qtdPes').value)*moeda2float(document.getElementById('qtdDias').value));
+}
 </script>
 <script type="text/javascript">
   $().ready(function() {
@@ -277,7 +280,7 @@ req.send(null);
   <script type='text/javascript' src='../../../../jquery_price.js'></script>
   <script type="text/javascript">
   $(document).ready(function(){
-      $('#vlper').priceFormat({
+      $('#vlperi').priceFormat({
         prefix: '',
         centsSeparator: ',',
         thousandsSeparator: '.'

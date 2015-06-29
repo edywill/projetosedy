@@ -24,11 +24,11 @@ if($tipo=='recusa'){
 				$acaoAprov="'".date("d/m/Y H:i:s")."'";
 				$campoAprov='appresi';
 				}
-				$insertAprov=mysql_query("INSERT INTO prestsavaprov(id,idprest,".$campoAprov.") ('','".$idSav."',".$acaoAprov.")");
+				$insertAprov=mysql_query("INSERT INTO prestsavaprov(id,idprest,".$campoAprov.") VALUES('','".$idSav."',".$acaoAprov.")");
 		$sqlAprovacao=mysql_query("SELECT * FROM prestsavaprov WHERE idprest='".$idSav."'");
 		$presi='';
 		$super='';
-		while($objAprov=mysql_fetch_object()){
+		while($objAprov=mysql_fetch_object($sqlAprovacao)){
 			if(!empty($objAprov->appresi)){
 				$presi=1;
 				}

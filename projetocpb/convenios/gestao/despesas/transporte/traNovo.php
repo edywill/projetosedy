@@ -254,6 +254,9 @@ document.getElementById('total').value= float2moeda(moeda2float(document.getElem
 }
 req.send(null);
 }
+function buscarValorTraT() {
+	document.getElementById('total').value= float2moeda(moeda2float(document.getElementById('vldia').value)*moeda2float(document.getElementById('qtdVeic').value)*moeda2float(document.getElementById('qtdDias').value));
+	}
 </script>
 <script type="text/javascript">
   $().ready(function() {

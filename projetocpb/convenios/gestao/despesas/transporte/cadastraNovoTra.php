@@ -11,7 +11,7 @@ echo "<tr><th>Cidade</th><td>";
 	}
 echo "
 <div class='ui-widget'>
-<select name='cidade' id='comboboxCidade' onchange='buscarValorTra()'>";
+<select name='cidade' id='comboboxCidade' onchange='buscarValorTraT()'>";
 if(empty($cidadeHos)){
 	echo "<option value='' selected>Selecione</option>";
 	}else{
@@ -41,7 +41,7 @@ echo"</select></div>
 <tr><th>Abrang&ecirc;ncia</th><td>
 <input type='hidden' name='abrg' value='".$abrg."'/>".$abrg."
 </td></tr>
-<tr><th>Tipo</th><td><select id='tipo' name='tipo' onchange='buscarValorTra()'>";
+<tr><th>Tipo</th><td><select id='tipo' name='tipo' onchange='buscarValorTraT()'>";
 if(empty($tipo)){
 	echo "<option value='' selected>Selecione</option>
 	      <option value='van'>VAN</option>
@@ -66,9 +66,9 @@ if(empty($tipo)){
 echo "</td></tr>
 <tr><th>Dt. Inicio</th><td><input name='dtinicio' id='dtinicio' type='text' size='40' class='input' value='".$dtinicio."' readonly/></td></tr>
 <tr><th>Dt. Fim</th><td><input name='dtfim' id='dtfim' type='text' size='40' class='input' value='".$dtfim."' readonly/></td></tr>
-<tr><th>Quantidade Dias</th><td><input name='qtdDias' id='qtdDias' type='text' size='15' class='input' value='".$qtdDias."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorTra()'/></td></tr>
-<tr><th>Quantidade Veic.</th><td><input name='qtdVeic' id='qtdVeic' type='text' size='15' class='input' value='".$qtdVeic."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorTra()'/></td></tr>
-<tr><th>Valor Dia(R$)</th><td><input name='vldia' id='vldia' type='text' size='40' class='input' value='".$vldia."' onblur='buscarValorTra()'/></td></tr>
+<tr><th>Quantidade Dias</th><td><input name='qtdDias' id='qtdDias' type='text' size='15' class='input' value='".$qtdDias."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorTraT()'/></td></tr>
+<tr><th>Quantidade Veic.</th><td><input name='qtdVeic' id='qtdVeic' type='text' size='15' class='input' value='".$qtdVeic."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorTraT()'/></td></tr>
+<tr><th>Valor Dia(R$)</th><td><input name='vldia' id='vldia' type='text' size='40' class='input' value='".$vldia."' onblur='buscarValorTraT()'/></td></tr>
 <tr><th>Valor Total (R$):</th><td><input name='total' id='total' type='text' size='40' class='input' value='".$total."'/></td></tr>
 <tr><td></td><td><input id='ok' type='submit' class='button' value='".$titButton."' name='ok' /></td></tr>
 </table>";

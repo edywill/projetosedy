@@ -106,7 +106,7 @@ if(req.readyState == 4 && req.status == 200) {
 // Resposta retornada pelo busca.php
 var resposta = req.responseText;
 
-document.getElementById('conteudo').innerHTML=resposta;
+document.getElementById('tabelareg').innerHTML=resposta;
 }
 }
 req.send(null);
@@ -137,7 +137,7 @@ if(empty($_SESSION['idPrestCont'])){
 <strong>Viagem:</strong> 
 <input type="hidden" class="input" name="tp" id="tp" value="criar"/>
 <?php 
-$sqlRegistros=mysql_query("SELECT savregistros.* FROM savregistros where savregistros.funcionario='".$funcionario."' AND situacao<>'Cancelada'");
+$sqlRegistros=mysql_query("SELECT savregistros.* FROM savregistros where savregistros.funcionario='".$funcionario."' AND savregistros.situacao<>'Cancelada' AND savregistros.numci>0");
 $countReg=mysql_num_rows($sqlRegistros);
 $tipo=0;
 if($countReg<1){
@@ -145,11 +145,14 @@ if($countReg<1){
 	}
 
 ?>
-<select name="sav" id="sav">
+<select name="sav" id="sav" onchange="reescreveTabelas()">
 <option selected="selected" value="">Selecione</option>
 <?php
 while($objRegistros=mysql_fetch_object($sqlRegistros)){
+	$sqlPrestacao=mysql_num_rows(mysql_query("select id from prestsav where savid='".$objRegistros->id."'"));
+	if($sqlPrestacao==0){
 echo "<option value='".$objRegistros->id."'>".utf8_encode($objRegistros->numci)."-".utf8_encode($objRegistros->evento)."-".$objRegistros->abrangencia." (Ida: ".$objRegistros->dtida." / Volta: ".$objRegistros->dtvolta.")</option>";
+	}
 }
 ?>
 
@@ -163,13 +166,14 @@ echo "<option value='".$objRegistros->id."'>".utf8_encode($objRegistros->numci).
 	echo '<td colspan="2">
 <h2 id="h2">Alterar Prestação de Contas</h2>
 ';
-	echo "<div align='center'>
+	echo "<div align='left'><strong>Viagem: </strong>
 	<input type='hidden' name='sav' value='".$sqlRegistros['id']."'>
-	<strong>".utf8_encode($sqlRegistros['evento'])."-".$sqlRegistros['abrangencia']." (Ida: ".$sqlRegistros['dtida']." / Volta: ".$sqlRegistros['dtvolta'].")</strong></div><br>";
+	".$sqlRegistros['numci']."-".utf8_encode($sqlRegistros['evento'])."-".$sqlRegistros['abrangencia']." (Ida: ".$sqlRegistros['dtida']." / Volta: ".$sqlRegistros['dtvolta'].")</div><br>";
 	}
   ?>  
     </td><td></td></tr></table>
-    <?php 
+    <hr />
+	<?php 
 	if(!empty($_SESSION['idPrestCont'])){
 		$sqlArquivos=mysql_query("SELECT * FROM prestsavarq WHERE idprest='".$_SESSION['idPrestCont']."'");
 		$countArquivos=mysql_num_rows($sqlArquivos);
@@ -192,32 +196,31 @@ echo "<option value='".$objRegistros->id."'>".utf8_encode($objRegistros->numci).
 <tr>
   <td width="10%"><strong>Arquivos:</strong></td><td>
   <input type="hidden" name="MAX_FILE_SIZE" value="200000" />
-<input type="file" name="arquivos[]" id="arquivos" multiple="multiple"  class="multi" accept="jpg|png|pdf|doc|docx" maxlength="10" onchange="mostraDiv()"/>
+<input type="file" name="arquivos[]" id="arquivos" multiple="multiple"  class="multi accept-png|doc|docx|pdf" maxlength="10" onchange="mostraDiv()"/>
 <div id="mensagensArquivo" style="position:absolute; z-index:0; color:#F00; border-color:#F00"></div>
-<font size="-2"><Br />Arquivos permitidos: .PDF .JPG .PNG .DOC .DOCX . Máximo 10 arquivos.</font></td></tr>
+<font size="-2"><Br />Arquivos permitidos: .PDF .DOC .DOCX . Máximo 10 arquivos.</font></td></tr>
 </table>
-<div id="conteudo">
+<hr />
+<div id="tabelareg">
 <?php
 if($tipo==1){ 
-echo '
-Informe os dados do Vôo:
+ $sqlPassagemImp=mysql_query("SELECT savpassagem.*,savregistros.numci,savregistros.funcionario FROM savpassagem LEFT JOIN savregistros ON savpassagem.idsav=savregistros.id WHERE savpassagem.idsav='".$numSav."'");
+  $countPassagemImp=mysql_num_rows($sqlPassagemImp);
+  if($countPassagemImp>0){
+echo '<strong>Deslocamento</strong>
 <div id="tabela">
 <table border="1" cellspacing="0" cellpadding="0" width="100%">
     <tr>
-    <td valign="top" align="center"></td>
-    <th valign="top" align="center"><strong>Data</strong></th>
-    <th valign="top" align="center"><strong>Trecho</strong></th>
+    <td valign="top" align="center" width="10%"></td>
+    <th valign="top" align="center" width="20%"><strong>Data/Trecho</strong></th>
     <th valign="top" align="center"><strong>Horário</strong></th>
 	<th valign="top" align="center"><strong>Localizador</strong></th>
 	<th valign="top" align="center"><strong>Vôo</strong></th>
 	<th valign="top" align="center"><strong>Cia. Aérea</strong></th>
   </tr>';
-  $sqlPassagemImp=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$numSav."'");
-  $countPassagemImp=mysql_num_rows($sqlPassagemImp);
   $countPassagemImpContador=0;
   $cont=0;
-  while($objPassagemImp=mysql_fetch_object($sqlPassagemImp)){ 
-  $sqlDadosPassagem=mysql_fetch_array(mysql_query("SELECT * FROM prestsavvoo WHERE idpass='".$objPassagemImp->id."'"));
+  while($objPassagemImp=mysql_fetch_object($sqlPassagemImp)){
 	  if($objPassagemImp->inter<>'itn'){
 				  $sqlTrechoNacImpIda=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios WHERE id='".$objPassagemImp->origem."'"));
 				  $sqlTrechoNacImpVolta=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios WHERE id='".$objPassagemImp->destino."'"));
@@ -228,83 +231,180 @@ Informe os dados do Vôo:
 				  	  $voltaImpressao=$objPassagemImp->ciddestino."(".$objPassagemImp->destino.")";
 					  }
 		$horarioViagem='';
-		
+		$localizador='';
+		$sqlBloqUser=odbc_fetch_array(odbc_exec($conCab2,"select GEEMXRHP.Cd_empresa from GEEMXRHP (NOLOCK) WHERE GEEMXRHP.Cd_pessoa='".$objPassagemImp->funcionario."'"));
+	  $benef=$sqlBloqUser['Cd_empresa'];
 	  $countPassagemImpContador++;
 	  if($objPassagemImp->tipo==1){
-		  if($objPassagemImp->horarioida=='manha'){
-			  $horarioViagem='Manhã (4h-12h)';
-			  }elseif($objPassagemImp->horarioida=='tarde'){
-			  			$horarioViagem='Tarde (12h01-18h)';
-			  }elseif($objPassagemImp->horarioida=='noite'){
-			  			$horarioViagem='Noite (18h01-3h59)';
-			  }
-		  
 		  if($countPassagemImpContador<$countPassagemImp || ($countPassagemImp==1 && $objPassagemImp->tipo==1)){
+			  $queryDadosPassagem=mysql_query("SELECT prestsavvoo.*,cia.id AS idcia, cia.nome AS nomecia FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE prestsavvoo.idpass='".$objPassagemImp->id."' ORDER BY prestsavvoo.id ASC");
+			  $sqlDadosPassagem=mysql_fetch_array($queryDadosPassagem);
+			  $queryAut=mysql_query("SELECT registros.localizador,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' ORDER BY registros.id DESC") or die(mysql_error());
+		  $buscaAutorizacao=mysql_fetch_array($queryAut);
+		if(!empty($sqlDadosPassagem['loc'])){
+			$localizador=$sqlDadosPassagem['loc'];
+			}else{
+				$localizador=$buscaAutorizacao['localizador'];
+				};
+		if(!empty($sqlDadosPassagem['cia'])){
+			$cia=$sqlDadosPassagem['cia'];
+			$nomeCia=$sqlDadosPassagem['nomecia'];
+			}else{
+				$cia=$buscaAutorizacao['idcia'];
+				$nomeCia=$buscaAutorizacao['nome'];
+				};
+				if(empty($cia)){
+					$cia=0;
+					}
 		  echo " <tr>
     			<td ><strong>IDA</strong></td>
-    			<td align='center'>".$objPassagemImp->dtida."</td>
-    			<td align='center'>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</td>
-    			<td align='center'>".$horarioViagem."</td>
-				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
+    			<td align='center'><font size='-2'>".$objPassagemImp->dtida."<br>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</font></td>
+    			<td align='center'><input type='hidden' size='8' class='input' name='idpas".$cont."' value='".$objPassagemImp->id."'/><input type='time' size='8' class='input' name='hora".$cont."' value='".$sqlDadosPassagem['horario']."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='loc".$cont."' value='".$localizador."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
+				<td align='center'><select name='cia".$cont."'>";
+				if($cia==0){
+					echo "<option value='0' selected='selected'>Selecione</option>";
+					}else{
+						echo "<option value='".$cia."' selected='selected'>".utf8_encode($nomeCia)."</option>";
+						}
+				$selectCias=mysql_query("select * from cia where id<>'".$cia."'");
+				while($objSelectCia=mysql_fetch_object($selectCias)){
+					echo "<option value='".$objSelectCia->id."'>".utf8_encode($objSelectCia->nome)."</option>";
+					}
+				echo "</select></td>
   				</tr>";
+		  $cont++;
 		  }else{
+			  $queryDadosPassagem=mysql_query("SELECT prestsavvoo.*,cia.id AS idcia, cia.nome AS nomecia FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE prestsavvoo.idpass='".$objPassagemImp->id."' ORDER BY prestsavvoo.id DESC");
+			  $sqlDadosPassagem=mysql_fetch_array($queryDadosPassagem);
+			  $queryAut=mysql_query("SELECT registros.localizador,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' ORDER BY registros.id DESC") or die(mysql_error());
+			  $buscaAutorizacao=mysql_fetch_array($queryAut);
+		if(!empty($sqlDadosPassagem['loc'])){
+			$localizador=$sqlDadosPassagem['loc'];
+			}else{
+				$localizador=$buscaAutorizacao['localizador'];
+				};
+		if(!empty($sqlDadosPassagem['cia'])){
+			$cia=$sqlDadosPassagem['cia'];
+			$nomeCia=$sqlDadosPassagem['nomecia'];
+			}else{
+				$cia=$buscaAutorizacao['idcia'];
+				$nomeCia=$buscaAutorizacao['nome'];
+				};
+				if(empty($cia)){
+					$cia=0;
+					}
 			echo " <tr>
     			<td ><strong>VOLTA</strong></td>
-    			<td align='center'>".$objPassagemImp->dtida."</td>
-    			<td align='center'>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</td>
-    			<td align='center'>".$horarioViagem."</td>
-				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
+    			<td align='center'><font size='-2'>".$objPassagemImp->dtida."<br>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</font></td>
+    			<td align='center'><input type='hidden' size='8' class='input' name='idpas".$cont."' value='".$objPassagemImp->id."'/><input type='time' size='8' class='input' name='hora".$cont."' value='".$sqlDadosPassagem['horario']."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='loc".$cont."' value='".$localizador."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
+				<td align='center'><select name='cia".$cont."'>";
+				if($cia==0){
+					echo "<option value='0' selected='selected'>Selecione</option>";
+					}else{
+						echo "<option value='".$cia."' selected='selected'>".utf8_encode($nomeCia)."</option>";
+						}
+				$selectCias=mysql_query("select * from cia where id<>'".$cia."'");
+				while($objSelectCia=mysql_fetch_object($selectCias)){
+					echo "<option value='".$objSelectCia->id."'>".utf8_encode($objSelectCia->nome)."</option>";
+					}
+				echo "</select></td>
   				</tr>";
+			$cont++;
 			}
 	 	}else{
 			for($j=0;$j<=1;$j++){
 			   if($j==0){
-			   if($objPassagemImp->horarioida=='manha'){
-			  $horarioViagem='Manhã (4h-12h)';
-			  }elseif($objPassagemImp->horarioida=='tarde'){
-			  			$horarioViagem='Tarde (12h01-18h)';
-			  }elseif($objPassagemImp->horarioida=='noite'){
-			  			$horarioViagem='Noite (18h01-3h59)';
-			  }
+				   $queryDadosPassagem=mysql_query("SELECT prestsavvoo.*,cia.id AS idcia, cia.nome AS nomecia FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE prestsavvoo.idpass='".$objPassagemImp->id."' ORDER BY prestsavvoo.id ASC");
+			  $sqlDadosPassagem=mysql_fetch_array($queryDadosPassagem);
+				   $queryAut=mysql_query("SELECT registros.localizador,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' ORDER BY registros.id ASC") or die(mysql_error());
+			   $buscaAutorizacao=mysql_fetch_array($queryAut);
+		if(!empty($sqlDadosPassagem['loc'])){
+			$localizador=$sqlDadosPassagem['loc'];
+			}else{
+				$localizador=$buscaAutorizacao['localizador'];
+				};
+		if(!empty($sqlDadosPassagem['cia'])){
+			$cia=$sqlDadosPassagem['cia'];
+			$nomeCia=$sqlDadosPassagem['nomecia'];
+			}else{
+				$cia=$buscaAutorizacao['idcia'];
+				$nomeCia=$buscaAutorizacao['nome'];
+				};
+				if(empty($cia)){
+					$cia=0;
+					}
 			   echo " <tr>
     			<td ><strong>IDA</strong></td>
-    			<td align='center'>".$objPassagemImp->dtida."</td>
-    			<td align='center'>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</td>
-    			<td align='center'>".$horarioViagem."</td>
-				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
+    			<td align='center'><font size='-2'>".$objPassagemImp->dtida."<br>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</font></td>
+    			<td align='center'><input type='hidden' size='8' class='input' name='idpas".$cont."' value='".$objPassagemImp->id."'/><input type='time' size='8' class='input' name='hora".$cont."' value='".$sqlDadosPassagem['horario']."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='loc".$cont."' value='".$localizador."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
+				<td align='center'><select name='cia".$cont."'>";
+				if($cia==0){
+					echo "<option value='0' selected='selected'>Selecione</option>";
+					}else{
+						echo "<option value='".$cia."' selected='selected'>".utf8_encode($nomeCia)."</option>";
+						}
+				$selectCias=mysql_query("select * from cia where id<>'".$cia."'");
+				while($objSelectCia=mysql_fetch_object($selectCias)){
+					echo "<option value='".$objSelectCia->id."'>".utf8_encode($objSelectCia->nome)."</option>";
+					}
+				echo "</select></td>
   				</tr>";
+			   $cont++;
 			   }else{
-				  if($objPassagemImp->horariovolta=='manha'){
-			  $horarioViagem='Manhã (4h-12h)';
-			  }elseif($objPassagemImp->horariovolta=='tarde'){
-			  			$horarioViagem='Tarde (12h01-18h)';
-			  }elseif($objPassagemImp->horariovolta=='noite'){
-			  			$horarioViagem='Noite (18h01-3h59)';
-			  }
-				  echo " <tr>
+				   $queryDadosPassagem=mysql_query("SELECT prestsavvoo.*,cia.id AS idcia, cia.nome AS nomecia FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE prestsavvoo.idpass='".$objPassagemImp->id."' ORDER BY prestsavvoo.id DESC");
+			  $sqlDadosPassagem=mysql_fetch_array($queryDadosPassagem);
+				   $queryAut=mysql_query("SELECT registros.localizador,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' ORDER BY registros.id DESC") or die(mysql_error());
+				   $buscaAutorizacao=mysql_fetch_array($queryAut);
+		if(!empty($sqlDadosPassagem['loc'])){
+			$localizador=$sqlDadosPassagem['loc'];
+			}else{
+				$localizador=$buscaAutorizacao['localizador'];
+				};
+		if(!empty($sqlDadosPassagem['cia'])){
+			$cia=$sqlDadosPassagem['cia'];
+			$nomeCia=$sqlDadosPassagem['nomecia'];
+			}else{
+				$cia=$buscaAutorizacao['idcia'];
+				$nomeCia=$buscaAutorizacao['nome'];
+				};
+				if(empty($cia)){
+					$cia=0;
+					}
+			echo " <tr>
     			<td ><strong>VOLTA</strong></td>
-    			<td align='center'>".$objPassagemImp->dtvolta."</td>
-    			<td align='center'>".utf8_encode($voltaImpressao)." x ".utf8_encode($idaImpressao)."</td>
-    			<td align='center'>".$horarioViagem."</td>
-				<td align='center'><input type='text' size='15' class='input' name='loc".$cont."' value='".$sqlDadosPassagem['loc']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
-				<td align='center'><input type='text' size='15' class='input' name='cia".$cont."' value='".$sqlDadosPassagem['cia']."'/></td>
+    			<td align='center'><font size='-2'>".$objPassagemImp->dtida."<br>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</font></td>
+    			<td align='center'><input type='hidden' size='8' class='input' name='idpas".$cont."' value='".$objPassagemImp->id."'/><input type='time' size='8' class='input' name='hora".$cont."' value='".$sqlDadosPassagem['horario']."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='loc".$cont."' value='".$localizador."'/></td>
+				<td align='center'><input type='text' size='8' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
+				<td align='center'><select name='cia".$cont."'>";
+				if($cia==0){
+					echo "<option value='0' selected='selected'>Selecione</option>";
+					}else{
+						echo "<option value='".$cia."' selected='selected'>".utf8_encode($nomeCia)."</option>";
+						}
+				$selectCias=mysql_query("select * from cia where id<>'".$cia."'");
+				while($objSelectCia=mysql_fetch_object($selectCias)){
+					echo "<option value='".$objSelectCia->id."'>".utf8_encode($objSelectCia->nome)."</option>";
+					}
+				echo "</select></td>
   				</tr>";
+				   $cont++;
 				   }
 			   }
-			   $cont++;
 			}
 	  }
 echo "</table></div>";
 }
+}
 ?>
 </div>
+<hr />
 <table border="0" width="100%">
 <tr>
 
@@ -313,11 +413,9 @@ echo "</table></div>";
 </tr><tr><td colspan="2">
 <textarea name="obs" rows="10" cols="80"><?php echo $obs; ?></textarea>
 </td></tr>
-<tr><td align="left"><a href="prestUser.php"><input type="button" name="voltar" value="<<Voltar"></a></td><td align="right">
-<input type="submit" class="button" value="INCLUIR" />
+<tr><td align="left"><a href="prestUser.php"><input type="button" name="voltar" value="<<Voltar"></a></td><td align="right"><input type='hidden' size='8' class='input' name='cont' value='<?php echo $cont; ?>'/>
+<input type="submit" class="button" value="ATUALIZAR" />
 </td>
-</tr>
-<tr><td align="center" colspan="2"><a href="prestUser.php"><input type="button" name="voltar" class="button" value="CONCLUIR"></a></td>
 </tr>
 </table>
 </form>

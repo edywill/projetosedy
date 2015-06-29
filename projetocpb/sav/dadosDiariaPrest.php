@@ -12,6 +12,7 @@ $_SESSION['numSav']=$numSav;
 $sqlDadosSav=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$_SESSION['numSav']."'"));
 
 $nautor='';
+$anoautor='';
 $qtddias='';
 $valordia='';
 $numproc='';
@@ -19,10 +20,15 @@ $numproc='';
 $sqlDadosDiaria=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$_SESSION['numSav']."'"));
 if(!empty($sqlDadosDiaria)){
 		$nautor=$sqlDadosDiaria['nautor'];
+		$anoautor=$sqlDadosDiaria['ano'];
 		$qtddias=$sqlDadosDiaria['qtddias'];
 		$valordia=$sqlDadosDiaria['valortotal'];
 		$numproc=$sqlDadosDiaria['numproc'];
-		}
+		}else{
+			$sqlNumAutMax=mysql_fetch_array(mysql_query("SELECT MAX(nautor)AS autor FROM savdiarias WHERE ano='".date('Y')."'"));
+			$nautor=$sqlNumAutMax['autor']+1;
+			$anoautor=date('Y');
+			}
 $dadosFuncionario=odbc_fetch_array(odbc_exec($conCab,"Select
   RHPESSOAS.NOME,
   RHPESSOAS.PESSOA,
@@ -50,10 +56,6 @@ Where
   if($consultaClasse['classe']<3){
 	  $tipoFunc="Dirigente";
 	  }
-$sqlAutorizacoes=mysql_query("SELECT autorizacao,ano 
-							  FROM registros 
-							  GROUP BY autorizacao,ano
-							  ORDER BY autorizacao") or die(mysql_error());
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -133,22 +135,10 @@ $().ready(function() {
  <br /><br />
 <table border="0" width="100%">
 <tr><td width="10%"><strong>Autorização:</strong></td><td width="40%">
-
-<select name="aut">
-<?php 
-if(!empty($nautor)){
-echo "<option value='".$nautor."' selected='selected'>".$nautor."</option>";
-}else{
-	echo "<option value='0' selected='selected'>Selecione</option>";
-	}
-while($objAutoriza=mysql_fetch_object($sqlAutorizacoes)){
-	echo "<option value='".$objAutoriza->autorizacao."/".$objAutoriza->ano."'>".$objAutoriza->autorizacao."/".$objAutoriza->ano."</option>";
-	}
-?>
-</select>
+<?php echo $nautor."/".$anoautor; ?>
 </td><td width="10%"><strong>Qtd. Diárias:</strong></td><td width="40%"><input class="input" type="number" name="qtd" id="qtd" maxlength="3" size="20" value="<?php echo $qtddias; ?>"/></td></tr>
 
-<tr><td width="10%"><strong>Processo:</strong></td><td width="40%"><input class="input" type="text" name="proc" id="proc" size="40" value="<?php echo $numproc; ?>"/></td><td><strong>Valor Total(R$):</strong></td><td><input class="input" type="text" name="vltot" id="vltot" size="20" value="<?php echo number_format($valordia,2,',','.'); ?>"/></td></tr>
+<tr><td width="10%"><strong>Processo:</strong></td><td width="40%"><input class="input" type="text" name="proc" id="proc" size="40" value="<?php echo utf8_encode($numproc); ?>"/></td><td><strong>Valor Total(R$):</strong></td><td><input class="input" type="text" name="vltot" id="vltot" size="20" value="<?php echo number_format($valordia,2,',','.'); ?>"/></td></tr>
 <tr><td colspan="2"><a href="prestCont.php"><input type="button" name="voltar" class="button" value="<<Voltar"/></a></td><td colspan="2" align="right"><input type="submit" name="voltar" class="button" value="ATUALIZAR"/></td></tr>
   </table>
 </form>

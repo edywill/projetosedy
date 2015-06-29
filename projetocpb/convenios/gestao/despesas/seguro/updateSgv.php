@@ -16,6 +16,7 @@ if($_POST['abrg']=='Nacional'){
 $dtfim=$_POST['dtfim'];
 $qtdDias=$_POST['qtdDias'];
 $qtdPes=$_POST['qtdPes'];
+$vlperi=$_POST['vlperi'];
 $total=$_POST['total'];
 $tiButton=utf8_encode("SEGURO VIAGEM");
 $valida=0;
@@ -30,7 +31,7 @@ if(empty($cidade)){
 			   $valida=1;
 	}else{
 		
-	$sqlUpdTra=mysql_query("UPDATE convsgv SET local='".trim(utf8_decode($cidade))."',dtin='".$dtin."',dtfim='".$dtfim."',qtdpes='".trim($qtdPes)."',total='".trim($total)."',qtddias='".trim($qtdDias)."',abrg='".$abrg."' WHERE id='".$_POST['idSgv']."'") or die(mysql_error());
+	$sqlUpdTra=mysql_query("UPDATE convsgv SET local='".trim(utf8_decode($cidade))."',dtin='".$dtin."',dtfim='".$dtfim."',qtdpes='".trim($qtdPes)."',total='".trim($total)."',qtddias='".trim($qtdDias)."',abrg='".$abrg."',vlperi='".trim($vlperi)."' WHERE id='".$_POST['idSgv']."'") or die(mysql_error());
 	
 	if($sqlUpdTra){
 			?>

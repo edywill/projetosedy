@@ -249,6 +249,9 @@ document.getElementById('total').value= float2moeda(moeda2float(document.getElem
 }
 req.send(null);
 }
+function buscarValorSgvT() {
+document.getElementById('total').value= float2moeda(moeda2float(document.getElementById('vlperi').value)*moeda2float(document.getElementById('qtdPes').value)*moeda2float(document.getElementById('qtdDias').value));
+}
 </script>
 <script type="text/javascript">
   $().ready(function() {
@@ -272,7 +275,7 @@ req.send(null);
   <script type='text/javascript' src='../../../../jquery_price.js'></script>
   <script type="text/javascript">
   $(document).ready(function(){
-      $('#vlper').priceFormat({
+      $('#vlperi').priceFormat({
         prefix: '',
         centsSeparator: ',',
         thousandsSeparator: '.'
@@ -342,12 +345,8 @@ $dtfim=$arrayDadosSgv['dtfim'];
 $dtinicio=$arrayDadosSgv['dtin'];
 $qtdDias=$arrayDadosSgv['qtddias'];
 $qtdPes=$arrayDadosSgv['qtdpes'];;
+$vlperi=$arrayDadosSgv['vlperi'];
 $total=$arrayDadosSgv['total'];
-if($qtdPes>0){
-$vlperi=$total/$qtdPes;
-}else{
-	$vlperi='0.00';
-	}
 $cidade=utf8_encode($local);
 $titButton='Atualizar';
 echo "<form action='updateSgv.php' name='formProjConv' method='post'>";

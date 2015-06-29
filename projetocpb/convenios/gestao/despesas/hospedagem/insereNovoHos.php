@@ -35,7 +35,7 @@ if(empty($cidade)){
                <?php
 			   $valida=1;
 	}else{
-	$sqlInsertPas=mysql_query("INSERT INTO convhos (idproj,modal,idevento,local,abrg,dtin,dtfim,qtdpes,total,qtddias,qtdsingle,qtdduplo) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($abrg)."','".trim($dtin)."','".trim($dtfim)."','".trim($qtdPes)."','".trim($total)."','".trim($qtdDias)."','".trim($qtdSingle)."','".trim($qtdDuplo)."')") or die(mysql_error());
+	$sqlInsertPas=mysql_query("INSERT INTO convhos (idproj,modal,idevento,local,abrg,dtin,dtfim,qtdpes,total,qtddias,qtdsingle,qtdduplo,vlunits,vlunitd) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($abrg)."','".trim($dtin)."','".trim($dtfim)."','".trim($qtdPes)."','".trim($total)."','".trim($qtdDias)."','".trim($qtdSingle)."','".trim($qtdDuplo)."','".trim($vlunits)."','".trim($vlunitd)."')") or die(mysql_error());
 	if($sqlInsertPas){
 			?>
 			   <script type="text/javascript">

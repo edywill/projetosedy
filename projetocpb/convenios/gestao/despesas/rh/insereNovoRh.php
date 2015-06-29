@@ -3,7 +3,7 @@ $idproj=$_POST['idproj'];
 $idEvento=$_POST['idEvento'];
 $tipoId=$_POST['tipoId'];
 $titMod=$_POST['titMod'];
-$nome=explode("-",$_POST['nome']);
+$idcargo=$_POST['cargo'];
 $qtdpes=$_POST['qtdpes'];
 $qtdtem=$_POST['qtdtem'];
 $um=utf8_decode($_POST['um']);
@@ -13,7 +13,7 @@ $total=$_POST['total'];
 $tcont=$_POST['tcont'];
 $valida=0;
 require("../../../../conexaomysql.php");
-if(empty($nome) || empty($qtdpes) || empty($qtdtem)|| empty($vlunit)){
+if($idcargo=='0' || empty($qtdpes) || empty($qtdtem)|| empty($vlunit)){
 				?>
 			   <script type="text/javascript">
                alert("Todos os campos são obrigatórios.");
@@ -22,7 +22,7 @@ if(empty($nome) || empty($qtdpes) || empty($qtdtem)|| empty($vlunit)){
                <?php
 			   $valida=1;
 	}else{
-	$sqlInsertRhPem=mysql_query("INSERT INTO convrh (idproj,modal,idevento,nome,tcont,qtdpes,qtdtem,um,vlunit,tributos,total) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim($nome[0])."','".trim($tcont)."','".trim($qtdpes)."','".trim($qtdtem)."','".trim($um)."','".trim($vlunit)."','".trim($tributos)."','".trim($total)."')") or die(mysql_error());
+	$sqlInsertRhPem=mysql_query("INSERT INTO convrh (idproj,modal,idevento,idcargo,tcont,qtdpes,qtdtem,um,vlunit,tributos,total) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim($idcargo)."','".trim($tcont)."','".trim($qtdpes)."','".trim($qtdtem)."','".trim($um)."','".trim($vlunit)."','".trim($tributos)."','".trim($total)."')") or die(mysql_error());
 	if($sqlInsertRhPem){
 			?>
 			   <script type="text/javascript">

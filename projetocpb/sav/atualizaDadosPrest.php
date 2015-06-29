@@ -5,17 +5,12 @@ require "conectsqlserversav.php";
 require "../conect.php";
 $numSav=$_SESSION['numSav'];
 $numproc=$_POST['proc'];
-$naut=$_POST['aut'];
 $numDiasDiaria=str_replace(",",".",$_POST['qtd']);
 $valorTotal=str_replace(".","",$_POST['vltot']);
 $valorTotal=str_replace(",",".",$valorTotal);
 
 $selectDadosDiaria=mysql_fetch_array(mysql_query("SELECT id FROM savdiarias WHERE idsav='".$numSav."'"));
-if(empty($selectDadosDiaria['id'])){
-$insereDadosDiaria=mysql_query("INSERT INTO savdiarias (idsav,nautor,qtddias,valortotal,numproc) VALUES ('".$numSav."','".$naut."','".$numDiasDiaria."','".$valorTotal."','".$numproc."')");
-}else{
-	$insereDadosDiaria=mysql_query("UPDATE savdiarias SET qtddias='".$numDiasDiaria."',valortotal='".$valorTotal."',numproc='".$numproc."',nautor='".$naut."' WHERE idsav='".$numSav."'");
-	}
+	$insereDadosDiaria=mysql_query("UPDATE savdiarias SET qtddias='".$numDiasDiaria."',valortotal='".$valorTotal."',numproc='".utf8_decode($numproc)."' WHERE idsav='".$numSav."'");
 if(!$insereDadosDiaria){
 	?>
        <script type="text/javascript">

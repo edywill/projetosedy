@@ -16,6 +16,7 @@ $dtin=$_POST['dtinicio'];
 $dtfim=$_POST['dtfim'];
 $qtdDias=$_POST['qtdDias'];
 $qtdVeic=$_POST['qtdVeic'];
+$vlunit=$_POST['vldia'];
 $total=$_POST['total'];
 $tipo=$_POST['tipo'];
 $tiButton=utf8_encode("TRANSPORTE");
@@ -31,7 +32,7 @@ if(empty($cidade)){
 			   $valida=1;
 	}else{
 		
-	$sqlUpdTra=mysql_query("UPDATE convtra SET local='".trim($cidade)."',dtin='".$dtin."',dtfim='".$dtfim."',qtdveic='".trim($qtdVeic)."',total='".trim($total)."',qtddias='".trim($qtdDias)."',tipo='".trim($tipo)."',abrg='".trim($abrg)."' WHERE id='".$_POST['idTra']."'") or die(mysql_error());
+	$sqlUpdTra=mysql_query("UPDATE convtra SET local='".trim($cidade)."',dtin='".$dtin."',dtfim='".$dtfim."',qtdveic='".trim($qtdVeic)."',total='".trim($total)."',qtddias='".trim($qtdDias)."',tipo='".trim($tipo)."',abrg='".trim($abrg)."',vlunit='".trim($vlunit)."' WHERE id='".$_POST['idTra']."'") or die(mysql_error());
 	
 	if($sqlUpdTra){
 			?>

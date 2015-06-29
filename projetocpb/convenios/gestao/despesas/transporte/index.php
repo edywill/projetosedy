@@ -27,12 +27,7 @@ while($objTra=mysql_fetch_object($sqlTra)){
 		$sqlCidade=mysql_fetch_array(mysql_query("SELECT municipio FROM municipios WHERE id='".$local."'"));
 		$local=$sqlCidade['municipio'];
 		}
-		$vlUnit='0,00';
-		if($objTra->qtddias>0){
-			if($objTra->qtdveic>0){
-		$vlUnit=$objTra->total/($objTra->qtddias*$objTra->qtdveic);
-			}
-		}
+		$vlUnit=$objTra->vlunit;
 	echo "<tr><td width='15%'><font size='-1'>".utf8_encode($local)." - ".strtoupper($objTra->abrg)."</font></td><td width='20%'>".$tipo."</td><td width='15%'>".$objTra->qtdveic."/".$objTra->qtddias."</td><td width='15%'>".$vlUnit."</td><td width='15%'>".$objTra->total."</td><td width='25%'>
 <table border='0'><tr border='0'><td>
 <form action='transporte/editTra.php' name='formProjConv' method='post'>

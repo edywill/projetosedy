@@ -1,6 +1,21 @@
 <?php 
 echo "<table border='0'>
-<tr><th>Nome Fun&ccedil;&atilde;o:</th><td><input name='nome' id='nome' type='text' size='40' class='input' value='".$nome."' onblur='buscarValorRh()'/><font color='red' size='-1'>*Digite parte do nome e selecione na lista</font></td></tr>
+<tr><th>Nome Fun&ccedil;&atilde;o:</th><td>
+<select name='cargo' id='cargo' onchange='buscarValorRh()'>
+";
+if(empty($idcargo)){
+	echo "<option value='0' selected='selected'>Selecione</option>";
+	}else{
+	echo "<option value='".$idcargo."' selected='selected'>".utf8_encode($nomecargo)."</option>";
+		}
+		$sqlCargos=mysql_query("select id,funcao
+from convrhreferencia order by funcao");
+		while($objCargos=mysql_fetch_object($sqlCargos)){
+			if($idcargo<>$objCargos->id){
+			echo "<option value='".$objCargos->id."'>".utf8_encode($objCargos->funcao)."</option>";
+			}
+			}
+echo "</td></tr>
 <tr><th>Tipo de Contrato</th><td>
 <select name='tcont' id='tcont' onchange='desabilitaControle(this);'>";
 if(empty($tcont)){

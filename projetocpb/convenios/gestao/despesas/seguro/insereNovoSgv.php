@@ -16,6 +16,7 @@ $dtin=$_POST['dtinicio'];
 $dtfim=$_POST['dtfim'];
 $qtdDias=$_POST['qtdDias'];
 $qtdPes=$_POST['qtdPes'];
+$vlperi=$_POST['vlperi'];
 $total=$_POST['total'];
 $tiButton=utf8_encode("SEGURO VIAGEM");
 $valida=0;
@@ -29,7 +30,7 @@ if(empty($cidade)){
                <?php
 			   $valida=1;
 	}else{
-	$sqlInsertSgv=mysql_query("INSERT INTO convsgv (idproj,modal,idevento,local,dtin,dtfim,total,qtddias,qtdpes,abrg) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($dtin)."','".trim($dtfim)."','".trim($total)."','".trim($qtdDias)."','".trim($qtdPes)."','".trim($abrg)."')") or die(mysql_error());
+	$sqlInsertSgv=mysql_query("INSERT INTO convsgv (idproj,modal,idevento,local,dtin,dtfim,total,qtddias,qtdpes,abrg,vlperi) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($dtin)."','".trim($dtfim)."','".trim($total)."','".trim($qtdDias)."','".trim($qtdPes)."','".trim($abrg)."','".trim($vlperi)."')") or die(mysql_error());
 	if($sqlInsertSgv){
 			?>
 			   <script type="text/javascript">

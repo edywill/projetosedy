@@ -20,17 +20,17 @@ while($objAli=mysql_fetch_object($sqlAli)){
    $vlUnit='';
 	if($objAli->jan<>0){
 		$tipo.="Jantar (1º dia)<br>";
-		//$vlUnit.= ."<br>";
+		$vlUnit.= $objAli->vljant."<br>";
 		}
 		
 	if($objAli->alm<>0){
 		$tipo.="Almoço (Último dia)<br>";
-		//$vlUnit.= $objAli->vlalm."<br>";
+		$vlUnit.= $objAli->vlalm."<br>";
 		}
 		
 	if($objAli->ambos<>0){
 		$tipo.="Almoço/Jantar";
-		//$vlUnit.= $objAli->vlamb;
+		$vlUnit.= $objAli->vlambos;
 		}
 	if($objAli->abrg=='nac'){
 		$abrg='NACIONAL';
@@ -42,7 +42,7 @@ while($objAli=mysql_fetch_object($sqlAli)){
 			}
 	$qtdDias=$objAli->qtddias;
 	$qtdPes=$objAli->qtdpes;
-	echo "<tr><td width='15%'><font size='-1'>".utf8_encode($local)." / ".$abrg."</font></td><td width='20%'>".$qtdDias."/".$qtdPes."</td><td width='15%'>".$tipo."</td><td width='15%'>".$vlUnit."</td><td width='15%'>".$objAli->qtdref." / ".$objAli->total."</td><td width='25%'>
+	echo "<tr><td width='15%'><font size='-1'>".$local." / ".$abrg."</font></td><td width='20%'>".$qtdDias."/".$qtdPes."</td><td width='15%'>".$tipo."</td><td width='15%'>".$vlUnit."</td><td width='15%'>".$objAli->qtdref." / ".$objAli->total."</td><td width='25%'>
 <table border='0'><tr border='0'><td>
 <form action='alimentacao/editAli.php' name='formProjConv' method='post'>
 <input type='hidden' value='".$tipoId."' name='tipoId'/>

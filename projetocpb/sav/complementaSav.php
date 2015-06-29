@@ -37,10 +37,16 @@ $horariovolta='';
 $sqlDadosDiaria=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$_SESSION['numSav']."'"));
 if(!empty($sqlDadosDiaria)){
 		$nautor=$sqlDadosDiaria['nautor'];
+		$anoautor=$sqlDadosDiaria['ano'];
 		$qtddias=number_format($sqlDadosDiaria['qtddias'],1,',','.');
 		$valordia=number_format($sqlDadosDiaria['valortotal'],2,',','.');
 		$numproc=$sqlDadosDiaria['numproc'];
-		}
+		}else{
+			$sqlNumAutMax=mysql_fetch_array(mysql_query("SELECT MAX(nautor)AS autor FROM savdiarias WHERE ano='".date('Y')."'"));
+			$nautor=$sqlNumAutMax['autor']+1;
+			$anoautor=date('Y');
+			$updateDiariasSav=mysql_query("INSERT INTO savdiarias(idsav,nautor,ano) VALUES ('".$_SESSION['numSav']."','".$nautor."','".$anoautor."')");
+			}
 $novosDadosDiaria=0;
 if($_SESSION['passagemSav']<>'sim' && $_SESSION['diariaSav'] <> 'sim' && $_SESSION['transladoSav']<>'sim'){
 	$sqlDiarDados=mysql_fetch_array(mysql_query("SELECT * FROM savregistros WHERE id='".$_SESSION['numSav']."'"));
@@ -775,7 +781,7 @@ function setarCamposLoc() {
 <tr>
 <td width="50%" colspan="2"><strong>Autorização: </strong>
 <?php 
-echo $nautor;
+echo $nautor."/".$anoautor;
 ?>
 </td>
 </tr>

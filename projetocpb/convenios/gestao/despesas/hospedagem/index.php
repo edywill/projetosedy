@@ -23,8 +23,8 @@ while($objHos=mysql_fetch_object($sqlHos)){
 				$tipo='Single';
 				}
 	$local='';
-	$vlS=0;
-	$vlD=0;
+	$vlS=$objHos->vlunits;
+	$vlD=$objHos->vlunitd;
 	$abrangencia=$objHos->abrg;
 	if($objHos->abrg=='nac'){
 		$abrangencia="Nacional";

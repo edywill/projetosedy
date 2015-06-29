@@ -25,7 +25,8 @@ $i = 0;
 if(!empty($_FILES['arquivos']['tmp_name'])){
 #Analisa cada arquivo
 foreach ($_FILES['arquivos']['tmp_name'] as $key => $tmp_name) {
-    if(!empty($tmp_name)){
+    echo $tmp_name."<br>";
+	if(!empty($tmp_name)){
 	# Definir o diretório onde salvar os arquivos.
     $destino = "anexos/SAV[".$_POST['sav']."]".utf8_decode(str_replace(" ","",$_FILES["arquivos"]["name"][$key]));
 	if(file_exists ($destino)){
@@ -34,10 +35,12 @@ foreach ($_FILES['arquivos']['tmp_name'] as $key => $tmp_name) {
 			$sqlArquivo=mysql_query("INSERT prestsavarq(idprest,arquivo) VALUES ('".$id."','".$destino."')") or die(mysql_error());
 			if(!$sqlArquivo){
 				$valida=1;
+				echo "-inserido1";
 				};
     #Move o arquivo para o diretório de destino
     if(!move_uploaded_file($_FILES['arquivos']['tmp_name'][$key],$destino)){
 		$valida=1;
+		echo "-inserido2<br>";
 		//echo $_FILES["arquivos"]["error"][$key];
 		};
     #Próximo arquivo a ser analisado
@@ -49,40 +52,27 @@ $querySavRegistros=mysql_query("SELECT savregistros.id FROM savregistros LEFT JO
 WHERE prestsav.id='".$id."'") or die(mysql_error());
 $sqlSavRegistro=mysql_fetch_array($querySavRegistros);
 
-if(!empty($_POST['voo0'])){
-$sqlPassagemImp=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$sqlSavRegistro['id']."'");
-  $countPassagemImp=mysql_num_rows($sqlPassagemImp);
-  $countPassagemImpContador=0;
-  $cont=0;
+if(!empty($_POST['cont']) || $_POST['cont']>0){
   $sqlDeletePass=mysql_query("DELETE FROM prestsavvoo WHERE idprest='".$id."'");
-  while($objPassagemImp=mysql_fetch_object($sqlPassagemImp)){ 
-	   $countPassagemImpContador++;
+  $contadorGeral=$_POST['cont'];
+  $cont=0;
+  while($contadorGeral>$cont){ 
 	   $nomeCampoVoo='voo'.$cont;
+	   $nomeCampoIdPas='idpas'.$cont;
 	   $nomeCampoCia='cia'.$cont;
 	   $nomeCampoLoc='loc'.$cont;
+	   $nomeCampoHor='hora'.$cont;
 	   $cia=$_POST[$nomeCampoCia];
 	   $voo=$_POST[$nomeCampoVoo];
 	   $loc=$_POST[$nomeCampoLoc];
-	  if($objPassagemImp->tipo==1){ 
-		  if($countPassagemImpContador<$countPassagemImp || ($countPassagemImp==1 && $objPassagemImp->tipo==1)){
-		 $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
-		  }else{
-			$incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
-			}
-	 	}else{
-			for($j=0;$j<=1;$j++){
-			   if($j==0){
-			  $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
-			   }else{
-				  $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc) values ('".$id."','".$objPassagemImp->id."','".$voo."','".$cia."','".$loc."')");
-				   }
-			   }
-			   $cont++;
-			}
+	   $horario=$_POST[$nomeCampoHor];
+	   $idpas=$_POST[$nomeCampoIdPas];
+	  $incluiRegistro=mysql_query("INSERT prestsavvoo(idprest,idpass,voo,cia,loc,horario) values ('".$id."','".$idpas."','".$voo."','".$cia."','".$loc."','".$horario."')");
+	  	$cont++;
 	  }
 }
 if($valida==0){
-	echo "<script>alert('Processado com sucesso');window.location.href='prestContUser.php?id=".$id."';</script>"; 
+	echo "<script>alert('Processado com sucesso');window.location.href='prestUser.php';</script>"; 
 	}else{
 		echo "<script>alert('Ocorreu um erro! Tente novamente!');window.location.href='prestContUser.php?id=".$id."';</script>";
 		}

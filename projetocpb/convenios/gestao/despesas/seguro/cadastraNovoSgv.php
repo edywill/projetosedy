@@ -11,7 +11,7 @@ echo "<tr><th>Cidade</th><td>";
 	}
 echo "
 <div class='ui-widget'>
-<select name='cidade' id='comboboxCidade' onchange='buscarValorTra()'>";
+<select name='cidade' id='comboboxCidade' onchange='buscarValorSgvT()'>";
 if(empty($cidadeHos)){
 	echo "<option value='' selected>Selecione</option>";
 	}else{
@@ -43,9 +43,9 @@ echo"</select></div>
 </td></tr>
 <tr><th>Dt. Inicio</th><td><input name='dtinicio' id='dtinicio' type='text' size='40' class='input' value='".$dtinicio."' readonly/></td></tr>
 <tr><th>Dt. Fim</th><td><input name='dtfim' id='dtfim' type='text' size='40' class='input' value='".$dtfim."' readonly/></td></tr>
-<tr><th>Quantidade Dias</th><td><input name='qtdDias' id='qtdDias' type='text' size='15' class='input' value='".$qtdDias."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorSgv()'/></td></tr>
-<tr><th>Quantidade Pessoas</th><td><input name='qtdPes' id='qtdPes' type='text' size='15' class='input' value='".$qtdPes."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorSgv()'/></td></tr>
-<tr><th>Valor Per&iacute;odo(R$)</th><td><input name='vlperi' id='vlperi' type='text' size='40' class='input' value='".$vlperi."' onblur='buscarValorSgv()'/></td></tr>
+<tr><th>Quantidade Dias</th><td><input name='qtdDias' id='qtdDias' type='text' size='15' class='input' value='".$qtdDias."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorSgvT()'/></td></tr>
+<tr><th>Quantidade Pessoas</th><td><input name='qtdPes' id='qtdPes' type='text' size='15' class='input' value='".$qtdPes."' onkeyup=\"somenteNumeros (this)\" onblur='buscarValorSgvT()'/></td></tr>
+<tr><th>Valor Per&iacute;odo(R$)</th><td><input name='vlperi' id='vlperi' type='text' size='40' class='input' value='".$vlperi."' onblur='buscarValorSgvT()'/></td></tr>
 <tr><th>Valor Total (R$):</th><td><input name='total' id='total' type='text' size='40' class='input' value='".$total."' /></td></tr>
 <tr><td></td><td><input id='ok' type='submit' class='button' value='".$titButton."' name='ok' /></td></tr>
 </table>";

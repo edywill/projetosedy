@@ -156,7 +156,7 @@ echo "<tr>
 <td><font size='-1'>".$nomeFuncionario."</font></td>
 <td><font size='-1'>".utf8_encode($objRegistros->evento)."-".$objRegistros->abrangencia."<br><font size='-1'>Ida: ".$objRegistros->dtida." <br> Volta: ".$objRegistros->dtvolta."</font></font></td>
 <td>".$objRegistros->dtprest."</td>
-<td align='center'><table border='0' width='100%'><tr><td><a href='visualizaPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeVisualiza.png' title='Visualizar' alt='Visualizar'/></a></td><td>".$editar."</td><td>".$editarRec."</td></tr></table></td>
+<td align='center'><table border='0' width='100%'><tr><td><a href='geraPdfPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeVisualiza.png' title='Visualizar Impressão' alt='Visualizar Impressão'/></a></td><td><a href='visualizaPrest.php?gest=".$objRegistros->idprest."' target='_blank'><img src='../../sav/css/iconeAnexo.png' title='Visualizar Arquivos' alt='Visualizar Arquivos'/></a></td><td>".$editar."</td><td>".$editarRec."</td></tr></table></td>
 </tr>";
   }
 }

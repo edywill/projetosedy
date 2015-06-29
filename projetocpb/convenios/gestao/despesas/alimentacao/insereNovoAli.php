@@ -24,6 +24,9 @@ if(isset($_POST['alm'])){
 if(isset($_POST['jant'])){
 	$jant=1;
 	}
+$vljant=$_POST['vljant'];
+$vlalm=$_POST['vlalm'];
+$vlamb=$_POST['vlambos'];
 $qtdref=$_POST['qtdref'];
 $total=$_POST['total'];
 $tiButton=utf8_encode("ALIMENTA&Ccedil;&Atilde;O");
@@ -38,7 +41,7 @@ if(empty($cidade)){
                <?php
 			   $valida=1;
 	}else{
-	$sqlInsertAli=mysql_query("INSERT INTO convali (idproj,modal,idevento,local,dtin,dtfim,qtdpes,qtdref,alm,jan,ambos,total,qtddias,abrg) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($dtin)."','".trim($dtfim)."','".trim($qtdPes)."','".trim($qtdref)."','".trim($alm)."','".trim($jant)."','1','".trim($total)."','".trim($qtdDias)."','".trim($abrg)."')") or die(mysql_error());
+	$sqlInsertAli=mysql_query("INSERT INTO convali (idproj,modal,idevento,local,dtin,dtfim,qtdpes,qtdref,alm,jan,ambos,total,qtddias,abrg,vlalm,vljant,vlambos) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($dtin)."','".trim($dtfim)."','".trim($qtdPes)."','".trim($qtdref)."','".trim($alm)."','".trim($jant)."','1','".trim($total)."','".trim($qtdDias)."','".trim($abrg)."','".trim($vlalm)."','".trim($vljant)."','".trim($vlamb)."')") or die(mysql_error());
 	if($sqlInsertAli){
 			?>
 			   <script type="text/javascript">

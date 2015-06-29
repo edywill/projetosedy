@@ -210,15 +210,15 @@ $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSU
 		if($numSav>0){
 			$menuE.="<div style='position:relative; top:-30px; left:140px; right:-10px; width:10px;'><img src='imagens/alerta.png'/><DIV style='position:RELATIVE; top:-16px; left:4px; color:white;'><font size='-2'>".$numSav."</font></DIV></div>";
 			}
-		echo "</a></li>";
-	 echo "<br></ul>";
+		$menuE.="</a></li><li> <a href='prestcont/prestacao/aprovPrestGestor.php?usuario=".utf8_encode($nome)."&cigam=$cigam' target='Frame1'>Prest. Contas</a><br></li>";
+	 $menuE.="<br></ul>";
 				}
 					
 					if($prestcont==1){
 	            $menuE.= "<strong>Presta&ccedil;&atilde;o de Contas</strong><br>
   							<ul>
 							<li><a href='sav/prestCont.php?usuario=$nome' target='Frame1'>Gestão SAV</a></li><li><a href='prestcont/index.php?usuario=$nome' target='Frame1'>Autoriza&ccedil;&otilde;es</a></li>
-							<li> <a href='prestcont/passagens/boardingPass.php?usuario=$nome' target='Frame1'>Boarding Pass";
+							<li> <a href='prestcont/passagens/boardingPass.php?usuario=$nome' target='Frame1'>Prestação de Contas";
 
 			$sqlRegBP=mysql_query("select registros.id,registros.datainicial,registros.datafinal,registros.idben from registros LEFT JOIN cia ON registros.idcia=cia.id where registros.bdpass=0 ORDER BY registros.datainicial") or die(mysql_error());
 	    	$numRegistros=0;

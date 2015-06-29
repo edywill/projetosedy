@@ -254,6 +254,9 @@ document.getElementById('total').value= float2moeda(moeda2float(document.getElem
 }
 req.send(null);
 }
+function buscarValorTraT() {
+	document.getElementById('total').value= float2moeda(moeda2float(document.getElementById('vldia').value)*moeda2float(document.getElementById('qtdVeic').value)*moeda2float(document.getElementById('qtdDias').value));
+	}
 </script>
 <script type="text/javascript">
   $().ready(function() {
@@ -315,7 +318,7 @@ $id=$idProj;
 $tipoId=$_POST['tipoId'];
 $titMod=$_POST['titMod'];
 $idEvento=$_POST['idEvento'];
-$idItem=$_POST['idSgv'];
+$idItem=$_POST['idTra'];
 $_SESSION['idItemSession']=$idItem;
 }else{
 $tipoId=$_SESSION['tipoIdSessionConv'];
@@ -345,15 +348,12 @@ if($arrayDadosTra['abrg']=='nac'){
 			$abrg='Local Inexistente';
 			}
 $dtinicio=$arrayDadosTra['dtin'];
+$dtfim=$arrayDadosTra['dtfim'];
 $qtdDias=$arrayDadosTra['qtddias'];
 $qtdVeic=$arrayDadosTra['qtdveic'];;
 $total=$arrayDadosTra['total'];
-$vldia='0,00';
-if($qtdDias>0){
-	if($qtdVeic>0){
-$vldia=$total/($qtdVeic*$qtdDias);
-	}
-}
+$vldia=$arrayDadosTra['vlunit'];
+
 $cidade=utf8_encode($local);
 $titButton='Atualizar';
 echo "<form action='updateTra.php' name='formProjConv' method='post'>";

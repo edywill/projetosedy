@@ -55,8 +55,8 @@ echo "</td></tr>
 <tr><th>Vl. Almo&ccedil;o (&uacute;ltimo dia) (R$)</th><td><input name='vlalm' id='vlalm' type='text' size='40' class='input' value='".$vlAlm."' onblur='buscarValorAliT()'/></td></tr>
 </div>
 <tr><th>Vl. Ambos (demais dias) (R$)</th><td><input name='vlambos' id='vlambos' type='text' size='15' class='input' value='".$vlAmbos."' onblur='buscarValorAliT()'/></td></tr>
-<tr><th>Qtd. Refei&ccedil;&atilde;o</th><td><input name='qtdref' id='qtdref' type='text' size='40' class='input' value='".$qtdRef."'/></td></tr>
-<tr><th>Valor Total (R$):</th><td><input name='total' id='total' type='text' size='40' class='input' value='".$total."' /></td></tr>
+<tr><th>Qtd. Refei&ccedil;&atilde;o</th><td><input name='qtdref' id='qtdref' type='text' size='40' class='input' value='".$qtdRef."' onblur='buscarValorAliT()'/></td></tr>
+<tr><th>Valor Total (R$):</th><td><input name='total' id='total' type='text' size='40' class='input' value='".$total."' onblur='buscarValorAliT()'/></td></tr>
 <tr><td></td><td><input id='ok' type='submit' class='button' value='".$titButton."' name='ok' /></td></tr>
 </table>";
 ?>

@@ -8,7 +8,7 @@ require('../../fpdf/fpdf.php');
 	  require "../../conect.php";
 	  include "../../sav/funcoesGerais.php";
 	  if(!empty($_GET['gest'])){
-		$sqlSavImpressaoGestor=mysql_fetch_array(mysql_query("SELECT savregistros.*,prestsav.obs AS detalhamento FROM savregistros LEFT JOIN prestsav ON prestsav.savid=savregistros.id WHERE prestsav.id='".$_GET['gest']."'"));
+		$sqlSavImpressaoGestor=mysql_fetch_array(mysql_query("SELECT savregistros.*,prestsav.obs AS detalhamento,prestsav.status AS situacaoPrest FROM savregistros LEFT JOIN prestsav ON prestsav.savid=savregistros.id WHERE prestsav.id='".$_GET['gest']."'"));
 		  $_SESSION['numSav']=$sqlSavImpressaoGestor['id'];
 		  $_SESSION['numCiSav']=$sqlSavImpressaoGestor['numci'];
 		   $_SESSION['detalhaPrestSav']=$sqlSavImpressaoGestor['detalhamento'];	  
@@ -36,7 +36,7 @@ require('../../fpdf/fpdf.php');
 		  if(!empty($objDadosAprov->appresi)){
 			  $presi=1;
 			  }
-		  if(!empty($objDadosAprov->apprest)){
+		  if(!empty($objDadosAprov->apprest) || $sqlSavImpressaoGestor['situacaoPrest']=='fi'){
 			  $prestacao=1;
 			  }
 		  }
@@ -128,12 +128,12 @@ $pdf->AliasNbPages();
 	 $pdf->SetFont('Arial','B',11);
 	 $pdf->Cell(30, $altura, utf8_decode(" Nº. Processo: "), 0, 0, 'L',false);
 	 $pdf->SetFont('Arial','',11);
-	 $pdf->Cell(0, $altura, utf8_decode($processo), 0, 0, 'L',false);
+	 $pdf->Cell(0, $altura, $processo, 0, 0, 'L',false);
 		$pdf->Ln(6);
 	 $pdf->SetFont('Arial','B',11);
 	 $pdf->Cell(30, $altura, utf8_decode(" Autorização: "), 0, 0, 'L',false);
 	 $pdf->SetFont('Arial','',11);
-	 $pdf->Cell(0, $altura, utf8_decode($autorizacao), 0, 0, 'L',false);
+	 $pdf->Cell(0, $altura, utf8_encode($autorizacao), 0, 0, 'L',false);
 	   $pdf->Ln(8);
 	 
 	  $pdf->SetFont('Arial','B',11);
@@ -183,14 +183,13 @@ $pdf->AliasNbPages();
 				  	  $voltaImpressao=$objPassagemImp->destino;
 					  }
 		$horarioViagem='';
-		$sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT * FROM prestsavvoo WHERE idpass='".$objPassagemImp->id."'"));
-		$voo=$sqlPassagemRegistro['voo'];
-		$ciaaerea=$sqlPassagemRegistro['cia'];
-		
 	  $countPassagemImpContador++;
 	  if($objPassagemImp->tipo==1){
 		  if($countPassagemImpContador<$countPassagemImp){
-			  $horarioViagem=strtoupper($objPassagemImp->horarioida);
+	  $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id ASC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$horarioViagem=$sqlPassagemRegistro['horario'];
 	  $pdf->Ln(5);
 	  $pdf->SetFont('Arial','B',11);
 	  $pdf->Cell(20, $altura, utf8_decode("IDA"), 0, 0, 'L',false);
@@ -201,8 +200,11 @@ $pdf->AliasNbPages();
 	  $pdf->Cell(25, $altura, utf8_decode($voo), 0, 0, 'C',false);
 	  $pdf->Cell(25, $altura, utf8_decode($ciaaerea), 0, 0, 'C',false);	
 		  }else{
+			  $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id DESC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$horarioViagem=$sqlPassagemRegistro['horario'];
 			$pdf->Ln(5);
-			$horarioViagem=strtoupper($objPassagemImp->horarioida);
 	  $pdf->SetFont('Arial','B',11);
 	  $pdf->SetFont('Arial','B',11);
 	  $pdf->Cell(20, $altura, utf8_decode("IDA"), 0, 0, 'L',false);
@@ -216,7 +218,10 @@ $pdf->AliasNbPages();
 	 	}else{
 			for($i=0;$i<=1;$i++){
 			   if($i==0){	
-			   $horarioViagem=strtoupper($objPassagemImp->horarioida);	   
+			   $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id ASC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$horarioViagem=$sqlPassagemRegistro['horario'];	   
 $pdf->Ln(5);
 	  $pdf->SetFont('Arial','B',11);
 	  $pdf->Cell(20, $altura, utf8_decode("IDA"), 0, 0, 'L',false);
@@ -227,7 +232,10 @@ $pdf->Ln(5);
 	  $pdf->Cell(25, $altura, utf8_decode($voo), 0, 0, 'C',false);
 	  $pdf->Cell(25, $altura, utf8_decode($ciaaerea), 0, 0, 'C',false);	
 			   }else{
-				   $horarioViagem=strtoupper($objPassagemImp->horariovolta);
+				   $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id DESC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$horarioViagem=$sqlPassagemRegistro['horario'];
 $pdf->Ln(5);
 	  $pdf->SetFont('Arial','B',11);
 	  $pdf->Cell(20, $altura, utf8_decode("VOLTA"), 0, 0, 'L',false);
@@ -281,15 +289,14 @@ $pdf->Ln(8);
 					  $idaImpressao=$objPassagemImp->origem;
 				  	  $voltaImpressao=$objPassagemImp->destino;
 					  }
-		$horarioViagem='';
-		$sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT * FROM prestsavvoo WHERE idpass='".$objPassagemImp->id."'"));
-		$voo=$sqlPassagemRegistro['voo'];
-		$ciaaerea=$sqlPassagemRegistro['cia'];
-		$loc=$sqlPassagemRegistro['loc'];
-		
+		$horarioViagem='';		
 	  $countPassagemImpContador++;
 	  if($objPassagemImp->tipo==1){
 		  if($countPassagemImpContador<$countPassagemImp){
+	  $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id ASC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$loc=$sqlPassagemRegistro['loc'];
 	  $pdf->Ln(5);
 	  $pdf->SetFont('Arial','',9);
 	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
@@ -297,6 +304,10 @@ $pdf->Ln(8);
 	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
 	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);
 		  }else{
+			  $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id DESC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$loc=$sqlPassagemRegistro['loc'];
 			$pdf->Ln(5);
 	 $pdf->SetFont('Arial','',9);
 	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
@@ -307,6 +318,10 @@ $pdf->Ln(8);
 	 	}else{
 			for($i=0;$i<=1;$i++){
 			   if($i==0){	
+			   $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id ASC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$loc=$sqlPassagemRegistro['loc'];
 			  $pdf->Ln(5);
 	  $pdf->SetFont('Arial','',9);
 	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
@@ -314,6 +329,10 @@ $pdf->Ln(8);
 	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
 	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);
 			   }else{
+				   $sqlPassagemRegistro=mysql_fetch_array(mysql_query("SELECT prestsavvoo.*,cia.nome FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE idpass='".$objPassagemImp->id."' ORDER BY id DESC"));
+		$voo=$sqlPassagemRegistro['voo'];
+		$ciaaerea=$sqlPassagemRegistro['nome'];
+		$loc=$sqlPassagemRegistro['loc'];
 				   $pdf->Ln(5);
 	  $pdf->SetFont('Arial','',9);
 	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);

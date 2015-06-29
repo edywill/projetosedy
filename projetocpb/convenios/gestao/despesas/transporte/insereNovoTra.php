@@ -17,6 +17,7 @@ $dtin=$_POST['dtinicio'];
 $dtfim=$_POST['dtfim'];
 $qtdDias=$_POST['qtdDias'];
 $qtdVeic=$_POST['qtdVeic'];
+$vlunit=$_POST['vldia'];
 $total=$_POST['total'];
 $tiButton=utf8_encode("TRANSPORTE");
 $valida=0;
@@ -30,7 +31,7 @@ if(empty($cidade)){
                <?php
 			   $valida=1;
 	}else{
-	$sqlInsertTra=mysql_query("INSERT INTO convtra (idproj,modal,idevento,local,dtin,dtfim,total,qtddias,qtdveic,tipo,abrg) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($dtin)."','".trim($dtfim)."','".trim($total)."','".trim($qtdDias)."','".trim($qtdVeic)."','".trim($tipo)."','".trim($abrg)."')") or die(mysql_error());
+	$sqlInsertTra=mysql_query("INSERT INTO convtra (idproj,modal,idevento,local,dtin,dtfim,total,qtddias,qtdveic,tipo,abrg,vlunit) VALUES ('".trim($idproj)."','".trim($tipoId)."','".trim($idEvento)."','".trim(utf8_decode($cidade))."','".trim($dtin)."','".trim($dtfim)."','".trim($total)."','".trim($qtdDias)."','".trim($qtdVeic)."','".trim($tipo)."','".trim($abrg)."','".trim($vlunit)."')") or die(mysql_error());
 	if($sqlInsertTra){
 			?>
 			   <script type="text/javascript">
