@@ -25,7 +25,7 @@ $SqlcidadeUf=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios 
 $cidadeUf=$SqlcidadeUf['municipio']."/".$SqlcidadeUf['uf'];
 }else{
 	$SqlcidadeUf=mysql_fetch_array(mysql_query("SELECT nome,iso FROM paises WHERE iso='".$arrayRegistro['origemida']."'"));
-	$cidadeUf=$SqlcidadeUf['nome']."/".$SqlcidadeUf['iso'];
+	$cidadeUf=substr($SqlcidadeUf['nome'], 0, 30)."/".$SqlcidadeUf['iso'];
 	}
 $SQLCriaCi="insert into COSOLICI
    (
