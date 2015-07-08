@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Ajustar layout
 //Fazer novos testes
 //Incluir with NOLOCK nos selects e deixar (nolock) nos joins
@@ -11,7 +11,7 @@ $_SESSION['numSav']='';
 $_SESSION['numCiSav']='';
 
 if($_SESSION['usuario']=='' || empty($_SESSION['usuario'])){
-	echo "<script>alert('Efetue o login!');top.location.href='loginad.php';</script>"; 
+	echo "<script>alert('Efetue o login!');top.location.href='../loginad.php';</script>"; 
 	}
 	$_SESSION['gerenSavNome']='';
 $_SESSION['gerenSav']='';
@@ -173,7 +173,7 @@ From
   RHPESSOAS with (nolock) INNER JOIN
   RHCONTRATOS with (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA
 Where
-RHPESSOAS.PESSOA='".$objRegistros->funcionario."'"));
+RHPESSOAS.PESSOA='".$objRegistros->funcionario."' AND RHPESSOAS.EMPRESA='0001'"));
 $nomeFuncionario=utf8_encode($sqlFuncionario['NOME']);
 $numeroCi='N/A';
 $status='Elaboração';
