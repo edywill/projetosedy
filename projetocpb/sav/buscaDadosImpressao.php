@@ -37,7 +37,8 @@ From
   RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
-  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$sqlSavImpressao['funcionario']."'";
+  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$sqlSavImpressao['funcionario']."'
+AND RHPESSOAS.EMPRESA='0001'";
   $dadosFuncionario=odbc_fetch_array(odbc_exec($conCab,$sqlFunc));
   //Consulta Tabela de Cargos da SAV e verifica se o cargo em questão pertence a classe I ou II
   $consultaClasse=mysql_fetch_array(mysql_query("SELECT classe FROM savcargos WHERE id='".$dadosFuncionario['CARGO']."'"));

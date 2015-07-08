@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Ajustar layout
 //Fazer novos testes
 //Incluir with NOLOCK nos selects e deixar (nolock) nos joins
@@ -6,7 +6,7 @@
 session_start();
 set_time_limit(0);
 if($_SESSION['usuario']=='' || empty($_SESSION['usuario'])){
-	echo "<script>alert('Efetue o login!');top.location.href='loginad.php';</script>"; 
+	echo "<script>alert('Efetue o login!');top.location.href='../loginad.php';</script>"; 
 	}
 require "../conectsqlserver.php";
 require "conectsqlserversav.php";
@@ -90,7 +90,7 @@ From
   RHCONTRATOS with (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS with (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES with (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS with (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
+  RHCARGOS with (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO LEFT Join
   RHBANCOS with (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
   RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.EMAILCORPORATIVO='".$_SESSION['emailSav']."'";
@@ -241,7 +241,7 @@ From
   RHPESSOAS with (nolock) INNER JOIN
   RHCONTRATOS with (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA
 Where
-RHPESSOAS.PESSOA='".$objRegistros->funcionario."'");
+RHPESSOAS.PESSOA='".$objRegistros->funcionario."' AND RHPESSOAS.EMPRESA='0001'");
 $sqlFuncionario=odbc_fetch_array($queryDadosFunc);
 $nomeFuncionario=utf8_encode($sqlFuncionario['NOME']);
 $numeroCi='N/A';

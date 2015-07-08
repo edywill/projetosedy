@@ -69,10 +69,10 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
-  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$idFunc[0]."'";
+  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$idFunc[0]."' and RHPESSOAS.EMPRESA='0001'";
   $dadosFuncionario=odbc_fetch_array(odbc_exec($conCab,$sqlFunc));
   //Consulta Tabela de Cargos da SAV e verifica se o cargo em questão pertence a classe I ou II
   $consultaClasse=mysql_fetch_array(mysql_query("SELECT classe FROM savcargos WHERE id='".$dadosFuncionario['CARGO']."'"));

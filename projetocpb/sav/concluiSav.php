@@ -102,11 +102,17 @@ if(odbc_commit($conCab2)){
 	$superintendente='';
 	while($objValorSuper=mysql_fetch_object($sqlSuperIntendente)){
 	$arrayVigencia=explode("/",$objValorSuper->dtalt);
+	if(!empty($sqlSavImpressao['dtida'])){
 	$arrayDtIda=explode("/",$sqlSavImpressao['dtida']);
+	}else{
+
+	$arrayDtIda=explode("/",date("d/m/Y"));
+	}
 	if(strtotime($arrayDtIda[2]."-".$arrayDtIda[1]."-".$arrayDtIda[0]) >= strtotime($arrayVigencia[2]."-".$arrayVigencia[1]."-".$arrayVigencia[0])){
 		$superintendente=utf8_encode($objValorSuper->nome);
 	  }
 	}
+echo $sqlSavImpressao['funcionario'];
 	$sqlFunc="Select
   RHPESSOAS.NOME,
   RHPESSOAS.PESSOA,
@@ -125,10 +131,11 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
-  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$sqlSavImpressao['funcionario']."'";
+  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$sqlSavImpressao['funcionario']."'
+AND RHPESSOAS.EMPRESA='0001'";
   $dadosFuncionario=odbc_fetch_array(odbc_exec($conCab,$sqlFunc));
   //Consulta Tabela de Cargos da SAV e verifica se o cargo em questão pertence a classe I ou II
   $consultaClasse=mysql_fetch_array(mysql_query("SELECT classe FROM savcargos WHERE id='".$dadosFuncionario['CARGO']."'"));
@@ -139,7 +146,14 @@ Where
 if($_SESSION['diariaSolSav']=='sim'){
 //Inserir dados de diária
 $selectDadosDiaria=mysql_fetch_array(mysql_query("SELECT id FROM savdiarias WHERE idsav='".$numSav."'"));
+if(empty($selectDadosDiaria['id'])){
 $insereDadosDiaria=mysql_query("UPDATE savdiarias SET qtddias='".$numDiasDiaria."',valortotal='".$valorTotal."' WHERE id='".$selectDadosDiaria['id']."'");
+}else{
+$sqlNumAutMax=mysql_fetch_array(mysql_query("SELECT MAX(nautor)AS autor FROM savdiarias WHERE ano='".date('Y')."'"));
+$nautor=$sqlNumAutMax['autor']+1;
+$anoautor=date('Y');
+$updateDiariasSav=mysql_query("INSERT INTO savdiarias(idsav,nautor,ano) VALUES ('".$_SESSION['numSav']."','".$nautor."','".$anoautor."')");
+    }
 }
 	  $_SESSION['nomeFuncSav']=$dadosFuncionario['NOME'];
 	  $_SESSION['idCargo']=$dadosFuncionario['CARGO'];
