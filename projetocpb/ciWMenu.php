@@ -226,6 +226,8 @@ echo "<table border='0'  width='500px'>
 	</td>
 	<td height='100'>
 		<center><a href='ciVerifica.php?id=".$_GET['id']."'><img width ='30%' src='css/search.png'></img><br/><strong>Consultar<br/>CIs do Setor</strong></a></center> 
+	</td><td height='100'>
+		<center><a href='ciweb/index.php'><img width ='30%' src='css/search.png'></img><br/><strong>PROTÓTIPO</strong></a></center> 
 	</td></tr>";
 
 /*echo "<ul>
