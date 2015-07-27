@@ -1,9 +1,10 @@
 ﻿<?php 
 session_start();
+$_SESSION['usuario']='ADF';
 if($_SESSION['usuario']=='' || empty($_SESSION['usuario'])){
 	echo "<script>alert('Efetue o login!');top.location.href='../loginad.php';</script>"; 
 	}
-require "../conectsqlserver.php";
+//require "../conectsqlserver.php";
 require "../conect.php";
 //Inicializando Variáveis
 
@@ -14,17 +15,39 @@ require "../conect.php";
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="css/estilo.css" rel="stylesheet" type="text/css" media="screen" />
 <link rel="stylesheet" href="../jqueryDown/jquery-ui.css" />
+<link rel="stylesheet" href="../jqueryDown/jquery-1.9.0-ui.css" />
+<link rel="stylesheet" href="../jqueryDown/jquery-ui.css" /> 
+<link rel="stylesheet" type="text/css" href="../jquery.autocomplete.css" />
+  <style>
+  .invisivel { display: none; }
+  .visivel { visibility: visible; }
+  </style>
+  <style type="text/css">
+  .imgpos{
+	  position:absolute;
+	  left:50%;
+	  top:50%;
+	  margin-left:-110px;
+	  margin-top:-60px;
+	  width:200px;
+	  height:200px;
+	  z-index:2;
+	  }
+  </style>
+
 <script src="../jqueryDown/jquery-1.8.2.js"></script> 
 <script src="../jqueryDown/jquery-1.9.0-ui.js"></script>
-<link rel="stylesheet" href="../jqueryDown/jquery-1.9.0-ui.css" />
-
 <script src="../jqueryDown/jquery-ui.js"></script>
 <script src="jquerymensagem/jquery_jui_alert.js"></script>
 <script language="javascript" src="scriptNova.js" type="text/javascript"></script>
 <script type='text/javascript' src='../jquery_price.js'></script>
-<link rel="stylesheet" href="../jqueryDown/jquery-ui.css" /> 
 <script type='text/javascript' src='../jquery.autocomplete.js'></script>
-<link rel="stylesheet" type="text/css" href="../jquery.autocomplete.css" />  
+<script type='text/javascript' src='bpopup.js'></script>
+<script type="text/javascript">
+function clickModal(){
+	$('#popup').bPopup();
+	}
+</script>
 <script>
   function goBack()
 	{
@@ -99,22 +122,6 @@ return true;
 	  }
 	  window.onload=mostra
   </script>
-  <style>
-  .invisivel { display: none; }
-  .visivel { visibility: visible; }
-  </style>
-  <style type="text/css">
-  .imgpos{
-	  position:absolute;
-	  left:50%;
-	  top:50%;
-	  margin-left:-110px;
-	  margin-top:-60px;
-	  width:200px;
-	  height:200px;
-	  z-index:2;
-	  }
-  </style>
   <script type="text/javascript">
 $(document).ready(function(){
     $('#new').change(function(){
@@ -128,7 +135,91 @@ $(document).ready(function(){
     });
 });
 </script>
+<script type="text/javascript">
+function  buscarDados(){
+// Verificando Browser
+if(window.XMLHttpRequest) {
+req = new XMLHttpRequest();
+}
+else if(window.ActiveXObject) {
+req = new ActiveXObject("Microsoft.XMLHTTP");
+}
+// Arquivo PHP juntamente com o valor digitado no campo (método GET)
+var url = "reescreveDados.php";
+
+// Chamada do método open para processar a requisição
+req.open("Get", url, true);
+
+// Quando o objeto recebe o retorno, chamamos a seguinte função;
+req.onreadystatechange = function() {
+
+// Verifica se o Ajax realizou todas as operações corretamente
+if(req.readyState == 4 && req.status == 200) {
+
+// Resposta retornada pelo busca.php
+var resposta = req.responseText;
+
+document.getElementById('registros').innerHTML=resposta;
+}
+}
+req.send(null);
+	}
+function  buscarDadosItem(){
+// Verificando Browser
+if(window.XMLHttpRequest) {
+req = new XMLHttpRequest();
+}
+else if(window.ActiveXObject) {
+req = new ActiveXObject("Microsoft.XMLHTTP");
+}
+// Arquivo PHP juntamente com o valor digitado no campo (método GET)
+var url = "reescreveItem.php";
+
+// Chamada do método open para processar a requisição
+req.open("Get", url, true);
+
+// Quando o objeto recebe o retorno, chamamos a seguinte função;
+req.onreadystatechange = function() {
+
+// Verifica se o Ajax realizou todas as operações corretamente
+if(req.readyState == 4 && req.status == 200) {
+
+// Resposta retornada pelo busca.php
+var resposta = req.responseText;
+
+document.getElementById('caditem').innerHTML=resposta;
+}
+}
+req.send(null);
+	}
+
+</script>
+
 </head>
+<div id="popup" style="display:none; background-color:#FFF">
+        <br /><div align="right"><span class="button b-close"><span>X</span></span></div>
+        <br />
+        <table border='0'>
+		  <tr><td colspan='2'><h2 id="h2">RPA - RECIBO DE PAGAMENTO AUTÔNOMO</h2></td></tr>
+	<div align='right'><font size='-2' color=red>*Campos obrigat&oacute;rios</font></div>
+		  <tr><td><strong><font color=red>*</font>BENEFICIÁRIO:</strong> </td><td colspan='2'> <input class='input' name='rpaCod' id='rpaCod' type='text' size='80' value=''/>
+  </td></tr>
+  <tr><td>
+	<strong>FUNÇÃO:</strong></td><td colspan='2'><input class='input' name='cargoRpa' id='cargoRpa' type='text' size='35' maxlength='39' value='' /><font size='-2'>Preencher somente se quiser alterar a fun&ccedil&atildeo para essa solicita&ccedil;&atilde;o.</font>
+  </td></tr>
+  
+  <tr><td>
+	<strong><font color=red>*</font>INÍCIO:</strong></td><td><input class='input' name='inicioRpa' id='inicioRpa' type='text' size='10' maxlength='10' OnKeyPress=\"formatar(this, '##/##/####')\" readonly value=''/>
+	<strong><font color=red>*</font>FIM:</strong><input class='input' name='fimRpa' id='fimRpa' type='text' size='10' maxlength='10' OnKeyPress=\"formatar(this, '##/##/####')\" readonly  value=''/>
+  </td></tr>
+  <tr><td>
+  <strong><font color=red>*</font>VALOR:</strong></td><td><input class='input' name='valorRpa' id='valorRpa' type='text' value='' size='10' maxlength='11' onkeyup=\"somenteNumeros(this)\"/><br />
+  </td></tr>
+  <tr><td>
+  </td><td align="right"><input type="button" class="button" value="INSERIR" name="inserir" /><br />
+  </td></tr>
+  </table>
+    </div>
 <body onKeyDown="javascript:return bloqueioTeclas();">
 <div id='box3' style="height:auto">
   <div id='lendo' style="padding-top:60px; padding-left:10px">
@@ -144,17 +235,21 @@ $(document).ready(function(){
   <option value="1">EDIÇÃO</option>
 </select>
   <BR /><BR />
-<form action="#" name="sav1" method="post" onSubmit="setarCampos(this); enviarForm('insereSav.php', campos, 'divResultado'); return false; this.elements['ok'].disabled=true;">
+  <div align="right"><input type="button" class="button" name="impress" value="IMPRESSÃO" /></div>
   <div id="hid1" style="display:none">
   <table border="0" width="100%" class="tablesimples">
   <tr><td colspan="2"><h2 id="h2">BUSCAR CI:</h2></td></tr>
-  <tr height="34"><td width="21%"><strong>Nº CI:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="20" maxlength="10" value=''/></td></tr>
-  <tr height="34"><td width="21%"><strong>CONTROLE:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="20" maxlength="10" value=''/></td></tr>
-  <tr height="34"><td width="21%"><strong>DATA DE ELABORAÇÃO:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="20" maxlength="10" value=''/></td></tr>
-  <tr><td colspan="2" align="center"><input type="submit" id='ok' name="ok" class="button" value="BUSCAR" onClick="ButtonClicked()"/></td></tr>
+  <tr height="34"><td width="21%"><strong>Nº CI:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="10" maxlength="10" value=''/></td></tr>
+  <tr height="34"><td width="21%"><strong>CONTROLE:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="10" maxlength="10" value=''/></td></tr>
+  <tr height="34"><td width="21%"><strong>DATA DE ELABORAÇÃO:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="10" maxlength="10" value=''/></td></tr>
+  <tr height="34"><td width="21%"><strong>USUÁRIO DE CRIAÇÃO:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="50" maxlength="10" value=''/></td></tr>
+  <tr height="34"><td width="21%"><strong>CONTÉM O MATERIAL:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="50" maxlength="10" value=''/></td></tr>
+  <tr height="34"><td width="21%"><strong>DESCRIÇÃO:</strong></td><td><input type="text" class="input" name="ci" id="ci" size="50" maxlength="10" value=''/></td></tr>
+  <tr><td colspan="2" align="center"><input type="submit" id='ok' name="ok" class="button" value="BUSCAR" onClick="buscarDados()"/></td></tr>
   </table>
   <hr />
   </div>
+  <div id='registros'>
   <h2 id="h2">DADOS GERAIS</h2>
 <table border="0" width="100%" class="tabelasimples">
 <tr height="34"><td width="21%">
@@ -165,6 +260,8 @@ $(document).ready(function(){
 <strong>GESTOR RESPONSÁVEL:</strong></td><td>
 <select name="gestor" id="gestor">
 <option value="0" selected="selected">Selecione</option>
+<option value="0" >CARLOS VIEIRA</option>
+<option value="0" >EDILSON ALVES</option>
 </select>
 </td></tr>
 <tr height="34"><td colspan="2">
@@ -174,9 +271,10 @@ $(document).ready(function(){
 </td></tr></table>
 <hr />
 <div id="divResultado" align="center" style="backface-visibility:visible; background-color:#FBE5E6; height:auto"></div>
-<div id="itens"></div>
+<BR><BR>
+<div id="caditem">
 <table border="0" width="100%">
-<tr height="34"><td colspan="4"><h2 id="h2">ITENS</h2></td></tr>
+<tr height="34"><td colspan="4"><h2 id="h2"> CADASTRO DE ITENS</h2></td></tr>
 <tr height="34">
   <td width="21%"><strong>MATERIAL:</strong></td><td colspan="3"><input type="text" class="input" name="material" id="material" size="50" maxlength="50" value='' onblur="this.value=this.value.toUpperCase()" style="background: url(css/icone_lupa.png) no-repeat right;" autocomplete='off'/></td></tr>
 <td><strong>QUANTIDADE:</strong></td><td><input type="text" class="input" name="material" id="material" size="20" maxlength="10" value=''/></td><td><strong>VALOR UNITÁRIO :</strong></td><td>R$<input type="text" class="input" name="vlunit" id="vlunit" size="20" maxlength="10" value=''/></td></tr>
@@ -188,6 +286,7 @@ $(document).ready(function(){
 <tr><td colspan="4"><textarea name="justificativa" id="justificativa" cols="74" rows="5" onKeyPress="javascript:limita('objetivo',450);"></textarea></td></tr>
 <tr height="34"><td colspan="2"></td><td colspan="2" align="right"><input type="submit" id='ok' name="ok" class="button" value="INCLUIR ITEM" onClick="ButtonClicked()"/></td></tr>
 </table>
+</DIV>
 <br />
 <table border='0' width="100%">
 <tr><td><a href="../home.php"><input type="button" class="button" name="voltar" value="<<Voltar" /></a></td><td align="right">
@@ -238,45 +337,9 @@ document.onfocus = RestoreSubmitButton;
 </script>
 </td></tr>
 </table>
-</form>
 </div>
 </div>
-<script>
-//Cria a função com os campos para envio via parâmetro
-function setarCampos() {
-	var trans=0;
-	var pass=0;
-	var diar=0;
-	var soldia=0;
-	var radsTrans = document.getElementsByName('trans');
-	var radsPass = document.getElementsByName('passag');
-	var radsDiar = document.getElementsByName('diar');
-	var radsSolDiar = document.getElementsByName('soldia');
-  
-  for(var i = 0; i < radsTrans.length; i++){
-   if(radsTrans[i].checked){
-    trans=radsTrans[i].value;
-   }
-  }
-  for(var i = 0; i < radsPass.length; i++){
-   if(radsPass[i].checked){
-    pass=radsPass[i].value;
-   }
-  }
-  for(var i = 0; i < radsDiar.length; i++){
-   if(radsDiar[i].checked){
-    diar=radsDiar[i].value;
-   }
-  }
-  for(var i = 0; i < radsSolDiar.length; i++){
-   if(radsSolDiar[i].checked){
-    soldia=radsSolDiar[i].value;
-   }
-  }
-	campos = "geren="+encodeURI(document.getElementById('geren').value)+"&gestor="+encodeURI(document.getElementById('gestor').value)+"&evento="+encodeURI(document.getElementById('evento').value)+"&objetivo="+encodeURI(document.getElementById('objetivo').value)+"&passag="+encodeURI(pass)+"&diar="+encodeURI(diar)+"&soldia="+encodeURI(soldia)+"&trans="+encodeURI(trans)+"&observacao="+encodeURI(document.getElementById('observacao').value);
-
-}
-
-</script>
+</div>
+</div>
 </body>
 </html>

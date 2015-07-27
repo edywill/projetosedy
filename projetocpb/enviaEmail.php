@@ -35,7 +35,7 @@ if($pag=='ciweb'){
 }elseif($pag=='sav'){
 	$endRet="aprovacaoGestor.php";
 	}else{
-	$endRet="ciWMenu.php?usuario=".strtoupper($nome);
+	$endRet="home.php";
 	}
 	$assunto=mb_convert_encoding($assunto,"UTF-8","ISO-8859-1");
 	enviaEmail($assunto,$mensagem3,$endRet,$emailDest,$dest,$cont);
