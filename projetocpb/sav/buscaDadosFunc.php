@@ -6,7 +6,7 @@ $sqlBuscaCpfFunc=odbc_exec($conCab,"Select
   RHCONTRATOS WITH(NOLOCK) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA
   Where
   RHPESSOAS.PESSOA = '".$_SESSION['idFuncSav']."' And
-  RHCONTRATOS.DATARESCISAO Is Null") or die("<p>".odbc_errormsg());
+  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.EMPRESA='0001'") or die("<p>".odbc_errormsg());
 $buscaCPFFuncionario=odbc_fetch_array($sqlBuscaCpfFunc);
 $scriptDadosCigam="Select
   GEEMPRES.Cnpj_cpf,

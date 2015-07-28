@@ -100,8 +100,8 @@ Where
 	if(!empty($_POST['ci'])){
 	$numCi=$_POST['ci'];
 	$_SESSION['numCiSav']=$numCi;
-	$titulo="<h2 id='h2'> SAV Criada - CIº <font color='#FF0000'>".$numCi."</font> </h2>";
-	}else{
+	$titulo="<h2 id='h2'> SAV Criada - CIº <font color='#FF0000'>".$numCi."</font> </h2>";	
+}else{
 		$titulo="<h4> SAV em Elaboração </h4>";
 		}
 	$_SESSION['gerenSav']=$sqlSav['cgeren'];
@@ -194,10 +194,10 @@ From
   RHCONTRATOS (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA Inner Join
   RHESCALAS (nolock) On RHCONTRATOS.ESCALA = RHESCALAS.ESCALA Inner Join
   RHSETORES (nolock) On RHCONTRATOS.SETOR = RHSETORES.SETOR Inner Join
-  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO Inner Join
+  RHCARGOS (nolock) On RHCONTRATOS.CARGO = RHCARGOS.CARGO left Join
   RHBANCOS (nolock) On RHCONTRATOS.BANCOCREDOR = RHBANCOS.BANCO
 Where
-  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$_SESSION['idFuncSav']."'"));
+  RHCONTRATOS.DATARESCISAO Is Null AND RHPESSOAS.PESSOA='".$_SESSION['idFuncSav']."' and RHPESSOAS.EMPRESA='0001'"));
 	$consultaClasse=mysql_fetch_array(mysql_query("SELECT classe FROM savcargos WHERE id='".$dadosFuncionario['CARGO']."'"));
   if($consultaClasse['classe']<3){
 	  $tipoFunc="Dirigente";
@@ -394,7 +394,7 @@ echo $titulo;
 <br /><br />
 <table border="0" width="100%" class="tabelasimples">
 <tr height="34"><td width="21%">
-<strong>EVENTO:</strong></td><td width="79%"><input type="text" class="input" name="evento" id="evento" size="40" maxlength="45" value='<?php echo $_SESSION['eventoSav']; ?>' onBlur="this.value=this.value.toUpperCase()"/></td></tr><tr height="34"><td>
+<strong>EVENTO:</strong></td><td width="79%"><input type="text" class="input" name="evento" id="evento" size="40" maxlength="50" value='<?php echo $_SESSION['eventoSav']; ?>' onBlur="this.value=this.value.toUpperCase()"/></td></tr><tr height="34"><td>
 <strong>GESTOR RESPONSÁVEL:</strong></td><td>
 <select name="gestor" id="gestor">
 <?php 

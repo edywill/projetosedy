@@ -5,7 +5,7 @@ function montaMenu($usuarioCk){
 	include "conectsqlserverci.php";
 	include "functionPrazos.php";
 	require "somarDatas.php";
-	$teste=1;
+	$teste=0;
 	if($teste==1){
 	// $conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=EDY-PC\SQLEXPRESS; DATABASE=CIGAM;", "sa","abyz.");
 	$conCab2 = odbc_connect("DRIVER={SQL Server}; SERVER=10.67.16.103; DATABASE=cigamteste;", "sa","abyz.");
@@ -205,7 +205,7 @@ $sqlBuscaGEEMPRES=odbc_fetch_array(odbc_exec($conCab2,"SELECT campo20 FROM GEUSU
 		$menuE.="</a> </li>";
 		$menuE.="<li> <a href='sav/aprovacaoGestor.php?usuario=".trim($sqlBuscaGEEMPRES['campo20'])."&cigam=".trim($cigam)."' target='Frame1'>Aprovar SAV";
 		
-		$sqlSav=mysql_query("SELECT situacao FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Recusada')  AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
+		$sqlSav=mysql_query("SELECT situacao FROM savregistros  WHERE (situacao<>'Aprovada' AND situacao<>'Recusada' AND situacao<>'Cancelada')  AND gestor='".$sqlBuscaGEEMPRES['campo20']."' AND numci<>0") or die(mysql_error());
 		$numSav=mysql_num_rows($sqlSav);
 		if($numSav>0){
 			$menuE.="<div style='position:relative; top:-30px; left:140px; right:-10px; width:10px;'><img src='imagens/alerta.png'/><DIV style='position:RELATIVE; top:-16px; left:4px; color:white;'><font size='-2'>".$numSav."</font></DIV></div>";

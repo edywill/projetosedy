@@ -125,7 +125,7 @@ From
   RHPESSOAS with (nolock) INNER JOIN
   RHCONTRATOS with (nolock) On RHCONTRATOS.PESSOA = RHPESSOAS.PESSOA
 Where
-RHPESSOAS.PESSOA='".$objRegistros->funcionario."'"));
+RHPESSOAS.PESSOA='".$objRegistros->funcionario."' AND RHPESSOAS.EMPRESA='0001'"));
 $nomeFuncionario=utf8_encode($sqlFuncionario['NOME']);
 $numeroCi='N/D';
 $status='Elaboração';
