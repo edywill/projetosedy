@@ -403,7 +403,7 @@ echo "<option selected='selected' value='".$_SESSION['gestorSav']."'>".$_SESSION
 }else{
 	echo "<option value='0' selected='selected'>Selecione o Gestor</option>";
 	}
-	$sqlGestorSav=mysql_query("SELECT * FROM savgestores WHERE codigo<>'".$_SESSION['gestorSav']."' ORDER BY nome");
+	$sqlGestorSav=mysql_query("SELECT * FROM savgestores WHERE codigo<>'".$_SESSION['gestorSav']."' AND status>0 ORDER BY nome");
 	while($objGestorSav=mysql_fetch_object($sqlGestorSav)){
 		echo "<option value='".$objGestorSav->codigo."'>".utf8_encode($objGestorSav->nome)."</option>";
 		}
