@@ -97,7 +97,7 @@ echo '<strong>Deslocamento</strong>
 					}
 			echo " <tr>
     			<td ><strong>VOLTA</strong></td>
-    			<td align='center'><font size='-2'>".$objPassagemImp->dtida."<br>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</font></td>
+    			<td align='center'><font size='-2'>".$objPassagemImp->dtvolta."<br>".utf8_encode($voltaImpressao)." x ".utf8_encode($idaImpressao)."</font></td>
     			<td align='center'><input type='hidden' size='8' class='input' name='idpas".$cont."' value='".$objPassagemImp->id."'/><input type='time' size='8' class='input' name='hora".$cont."' value='".$sqlDadosPassagem['horario']."'/></td>
 				<td align='center'><input type='text' size='8' class='input' name='loc".$cont."' value='".$localizador."'/></td>
 				<td align='center'><input type='text' size='8' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
@@ -178,7 +178,7 @@ echo '<strong>Deslocamento</strong>
 					}
 			echo " <tr>
     			<td ><strong>VOLTA</strong></td>
-    			<td align='center'><font size='-2'>".$objPassagemImp->dtida."<br>".utf8_encode($idaImpressao)." x ".utf8_encode($voltaImpressao)."</font></td>
+    			<td align='center'><font size='-2'>".$objPassagemImp->dtvolta."<br>".utf8_encode($voltaImpressao)." x ".utf8_encode($idaImpressao)."</font></td>
     			<td align='center'><input type='hidden' size='8' class='input' name='idpas".$cont."' value='".$objPassagemImp->id."'/><input type='time' size='8' class='input' name='hora".$cont."' value='".$sqlDadosPassagem['horario']."'/></td>
 				<td align='center'><input type='text' size='8' class='input' name='loc".$cont."' value='".$localizador."'/></td>
 				<td align='center'><input type='text' size='8' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>
@@ -199,6 +199,6 @@ echo '<strong>Deslocamento</strong>
 			   }
 			}
 	  }
-echo "</table></div>";
+echo "<input type='hidden' size='8' class='input' name='cont' value='".$cont."'/></table></div>";
 }
 ?>

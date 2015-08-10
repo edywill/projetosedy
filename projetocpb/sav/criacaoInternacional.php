@@ -38,7 +38,8 @@ if($_SESSION['diariaSolSav']=='sim'){
 		if($valida==0){
 			atualizaDadosFinanceiros($numSav,$solicitacao,$sequenciaPas);
 			include "insertExclusivoPassagem.php";
-			}	
+			}
+		}
 		//Fim da insercao de Passagem
 		//Insere Item de Hospedagem
 		if($_SESSION['diariaSav']=='sim'){
@@ -60,7 +61,7 @@ if($_SESSION['diariaSolSav']=='sim'){
 					$errorMsg.='Erro['.$countError.']: Problema ao inserir o registro exclusivo de hospedagem.\\n';
 			  	}
 			  }
-			}
+		}
 		//Fim do item de hospedagem
 		
 		//Insercao do item de locacao
@@ -77,5 +78,4 @@ if($_SESSION['diariaSolSav']=='sim'){
 				$errorMsg.='Erro['.$countError.']: Problema ao inserir o registro de locação.\\n';
 		}
 	}
-			}
 ?>

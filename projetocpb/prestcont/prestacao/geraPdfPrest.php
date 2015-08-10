@@ -313,7 +313,7 @@ $pdf->Ln(8);
 	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
 	  $pdf->Cell(45, $altura, "LOC: ".utf8_decode($loc), 0, 0, 'C',false);
 	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
-	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);
+	  $pdf->Cell(40, $altura,  "Trecho: ".$voltaImpressao." / ".$idaImpressao, 0,'C',false);
 			}
 	 	}else{
 			for($i=0;$i<=1;$i++){
@@ -338,7 +338,7 @@ $pdf->Ln(8);
 	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
 	  $pdf->Cell(45, $altura, "LOC: ".utf8_decode($loc), 0, 0, 'C',false);
 	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
-	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);			  
+	  $pdf->Cell(40, $altura,  "Trecho: ".$voltaImpressao." / ".$idaImpressao, 0,'C',false);			  
 				   }
 			   }
 			}

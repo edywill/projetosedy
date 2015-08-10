@@ -4,6 +4,7 @@
 		$sqlCotacao=mysql_query("INSERT INTO savcotacao VALUES ('".$numSav."','".$dataCotacao."','".(float)str_replace(",",".",$cotacaoDia)."')");
 		$numDiasPassagem=0;
 		if($_SESSION['passagemSav']=='sim'){
+		
 		$arrayDataPassagemIda[]=0;
 		$arrayDataPassagemVolta[]=0;
 		$arrayValorPassagem[]=0;
@@ -251,7 +252,7 @@
 					  }
 				}
 				}else{
-					$countPassagem=0;
+	$countPassagem=0;
 	$valorPassagem=0;
 	$valorTotal=0;
 					//Caso não haja passagem
@@ -260,5 +261,4 @@
 	 				$arrayValorDia=mysql_fetch_array($sqlValorDia);
 					$valorTotal=($numDiasGeral*($arrayValorDia['valor']*$cotacaoDia))-$descontoVR;
 					}
-
 ?>

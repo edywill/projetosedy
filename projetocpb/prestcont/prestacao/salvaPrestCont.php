@@ -25,7 +25,6 @@ $i = 0;
 if(!empty($_FILES['arquivos']['tmp_name'])){
 #Analisa cada arquivo
 foreach ($_FILES['arquivos']['tmp_name'] as $key => $tmp_name) {
-    echo $tmp_name."<br>";
 	if(!empty($tmp_name)){
 	# Definir o diretório onde salvar os arquivos.
     $destino = "anexos/SAV[".$_POST['sav']."]".utf8_decode(str_replace(" ","",$_FILES["arquivos"]["name"][$key]));
@@ -35,12 +34,10 @@ foreach ($_FILES['arquivos']['tmp_name'] as $key => $tmp_name) {
 			$sqlArquivo=mysql_query("INSERT prestsavarq(idprest,arquivo) VALUES ('".$id."','".$destino."')") or die(mysql_error());
 			if(!$sqlArquivo){
 				$valida=1;
-				echo "-inserido1";
 				};
     #Move o arquivo para o diretório de destino
     if(!move_uploaded_file($_FILES['arquivos']['tmp_name'][$key],$destino)){
 		$valida=1;
-		echo "-inserido2<br>";
 		//echo $_FILES["arquivos"]["error"][$key];
 		};
     #Próximo arquivo a ser analisado

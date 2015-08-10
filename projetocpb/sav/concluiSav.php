@@ -57,22 +57,35 @@ $diaExtra=0;
 $diasUteis=0;
 $descontoVR =0;
 $sqlRegistro=mysql_query("SELECT * FROM savregistros WHERE id='".$numSav."'");
-$arrayRegistro=mysql_fetch_array($sqlRegistro);	
-$numDiasGeral=$arrayRegistro['dtvolta']-$arrayRegistro['dtida'];
+$arrayRegistro=mysql_fetch_array($sqlRegistro);
 $diaExtra=0;
 if($arrayRegistro['horariovolta']=='tarde'){
 	$diaExtra=0.5;
 	}elseif($arrayRegistro['horariovolta']=='noite'){
 		$diaExtra=1;
 		}
- $numDiasGeral=$diaExtra+$numDiasGeral;
- $numDiasDiaria=$numDiasGeral;
+
+$inicioGeral = date_create_from_format('d/m/Y', $arrayRegistro['dtida']);
+$fimGeral = date_create_from_format('d/m/Y', $arrayRegistro['dtvolta']);
+$intervaloGeral = $inicioGeral->diff($fimGeral);
+$qtdDiasGeral=($intervaloGeral->d)+$diaExtra;
+$numDiasGeral=$diaExtra+$qtdDiasGeral;
+$numDiasDiaria=$numDiasGeral;
+
+$sqlValorVr=mysql_query("SELECT * FROM savvalorvr");
+ while($objValorVr=mysql_fetch_object($sqlValorVr)){
+	$arrayVigenciaVr=explode("/",$objValorVr->vigencia);
+	$arrayDataAtVr=explode("/",$arrayRegistro['dtida']);
+	if(strtotime($arrayDataAtVr[2]."-".$arrayDataAtVr[1]."-".$arrayDataAtVr[0]) >= strtotime($arrayVigenciaVr[2]."-".$arrayVigenciaVr[1]."-".$arrayVigenciaVr[0])){
+		$valorVRRef=$objValorVr->valor;
+		  }
+	}
  if(!empty($arrayRegistro['dtida'])){
  $diasUteis = DiasUteis($arrayRegistro['dtida'], $arrayRegistro['dtvolta']);
  if($diaExtra==0){
 	 $diasUteis=$diasUteis-1;
 	 }
-   $descontoVR = $diasUteis*28.5;
+   $descontoVR = $diasUteis*$valorVRRef;
  }
  $valorDia=0;
  $sqlClasse=mysql_query("SELECT classe FROM savcargos WHERE id='".$_SESSION['idCargo']."'");
