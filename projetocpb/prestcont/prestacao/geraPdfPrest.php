@@ -32,8 +32,6 @@ require('../../fpdf/fpdf.php');
 	  while($objDadosAprov=mysql_fetch_object($sqlDadosAprov)){
 		  if(!empty($objDadosAprov->apsuper)){
 			  $super=1;
-			  }
-		  if(!empty($objDadosAprov->appresi)){
 			  $presi=1;
 			  }
 		  if(!empty($objDadosAprov->apprest) || $sqlSavImpressaoGestor['situacaoPrest']=='fi'){
@@ -133,7 +131,7 @@ $pdf->AliasNbPages();
 	 $pdf->SetFont('Arial','B',11);
 	 $pdf->Cell(30, $altura, utf8_decode(" Autorização: "), 0, 0, 'L',false);
 	 $pdf->SetFont('Arial','',11);
-	 $pdf->Cell(0, $altura, utf8_encode($autorizacao), 0, 0, 'L',false);
+	 $pdf->Cell(0, $altura, utf8_encode($autorizacao)."/2015", 0, 0, 'L',false);
 	   $pdf->Ln(8);
 	 
 	  $pdf->SetFont('Arial','B',11);
@@ -207,7 +205,7 @@ $pdf->AliasNbPages();
 			$pdf->Ln(5);
 	  $pdf->SetFont('Arial','B',11);
 	  $pdf->SetFont('Arial','B',11);
-	  $pdf->Cell(20, $altura, utf8_decode("IDA"), 0, 0, 'L',false);
+	  $pdf->Cell(20, $altura, utf8_decode("VOLTA"), 0, 0, 'L',false);
 	  $pdf->SetFont('Arial','',9);
 	  $pdf->Cell(30, $altura,  $idaImpressao." x ".$voltaImpressao, 0,'C',false);
 	  $pdf->Cell(30, $altura, utf8_decode($objPassagemImp->dtida), 0, 0, 'C',false);
@@ -279,7 +277,6 @@ $pdf->Ln(8);
   $countPassagemImp=mysql_num_rows($sqlPassagemImp);
   $countPassagemImpContador=0;
   while($objPassagemImp=mysql_fetch_object($sqlPassagemImp)){
-	  
 	  if($objPassagemImp->inter<>'itn'){
 		  $sqlTrechoNacImpIda=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios WHERE id='".$objPassagemImp->origem."'"));
 				  $sqlTrechoNacImpVolta=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios WHERE id='".$objPassagemImp->destino."'"));
@@ -308,12 +305,12 @@ $pdf->Ln(8);
 		$voo=$sqlPassagemRegistro['voo'];
 		$ciaaerea=$sqlPassagemRegistro['nome'];
 		$loc=$sqlPassagemRegistro['loc'];
-			$pdf->Ln(5);
-	 $pdf->SetFont('Arial','',9);
+	  $pdf->Ln(5);
+	  $pdf->SetFont('Arial','',9);
 	  $pdf->Cell(35, $altura, "Voo: ".utf8_decode($voo), 0, 0, 'C',false);
 	  $pdf->Cell(45, $altura, "LOC: ".utf8_decode($loc), 0, 0, 'C',false);
 	  $pdf->Cell(35, $altura, "Cia: ".utf8_decode($ciaaerea), 0, 0, 'C',false);
-	  $pdf->Cell(40, $altura,  "Trecho: ".$voltaImpressao." / ".$idaImpressao, 0,'C',false);
+	  $pdf->Cell(40, $altura,  "Trecho: ".$idaImpressao." / ".$voltaImpressao, 0,'C',false);
 			}
 	 	}else{
 			for($i=0;$i<=1;$i++){

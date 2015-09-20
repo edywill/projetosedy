@@ -104,7 +104,7 @@ values
    '".$gestor."',                                          --  Cod_cliente  char(6)
    '".$situacao."',                                               --  Situacao  char(1)
    '',                                                --  Cd_condicao_pag  char(3)
-   '[SAV ".$numSav."]: ".$arrayRegistro['evento']."',  --  Desc_cond_pag  char(60)
+   '[SAV".trim($numSav)."]: ".trim($arrayRegistro['evento'])."',  --  Desc_cond_pag  char(60)
    '',                                                --  Projeto  char(12)
    0,                                                 --  Impressa  bit 
    '   ',                                             --  Cd_cancelamento  char(3)

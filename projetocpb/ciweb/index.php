@@ -34,7 +34,6 @@ require "../conect.php";
 	  z-index:2;
 	  }
   </style>
-
 <script src="../jqueryDown/jquery-1.8.2.js"></script> 
 <script src="../jqueryDown/jquery-1.9.0-ui.js"></script>
 <script src="../jqueryDown/jquery-ui.js"></script>
@@ -42,10 +41,23 @@ require "../conect.php";
 <script language="javascript" src="scriptNova.js" type="text/javascript"></script>
 <script type='text/javascript' src='../jquery_price.js'></script>
 <script type='text/javascript' src='../jquery.autocomplete.js'></script>
+<script type="text/javascript">
+jQuery(document).ready(function () {
+    //hide a div after 3 seconds
+    setTimeout( "jQuery('#mensagensArquivo').hide();document.getElementById('mensagensArquivo').innerHTML='';",10000 );
+});
+function mostraDiv(){
+	jQuery('#mensagensArquivo').show();
+	setTimeout( "jQuery('#mensagensArquivo').hide();					 document.getElementById('mensagensArquivo').innerHTML='';",10000 );
+	}
+</script>
 <script type='text/javascript' src='bpopup.js'></script>
 <script type="text/javascript">
 function clickModal(){
-	$('#popup').bPopup();
+	$('#popup').bPopup({
+		follow: [false, false], //x, y
+        position: [25, 700] //x, y
+	});
 	}
 </script>
 <script>
@@ -194,7 +206,6 @@ req.send(null);
 	}
 
 </script>
-
 </head>
 <div id="popup" style="display:none; background-color:#FFF">
         <br /><div align="right"><span class="button b-close"><span>X</span></span></div>
@@ -282,6 +293,11 @@ req.send(null);
 <td><strong>PRAZO DE ENTREGA:</strong></td><td colspan="3"><input type="text" class="input" name="prazo" id="prazo" size="20" maxlength="20" value='' onblur="this.value=this.value.toUpperCase()" style="background: url(css/icone_calendario.png) no-repeat right;"/></td></tr>
 <tr><td><strong>GERENCIAL:</strong></td><td colspan="3"><input type="text" class="input" name="material" id="material" size="50" maxlength="50" value='' onblur="this.value=this.value.toUpperCase()" style="background: url(css/icone_lupa.png) no-repeat right;" autocomplete='off'/></td></tr>
 <tr>
+<td><strong>ARQUIVOS:</strong></td><td colspan="3">
+<form action="upload.php" class="dropzone" enctype="multipart/form-data" method='post'>
+</form>
+</td></tr>
+<tr>
   <td colspan="4"><strong>DETALHAMENTO DO ITEM:</strong></td></tr>
 <tr><td colspan="4"><textarea name="justificativa" id="justificativa" cols="74" rows="5" onKeyPress="javascript:limita('objetivo',450);"></textarea></td></tr>
 <tr height="34"><td colspan="2"></td><td colspan="2" align="right"><input type="submit" id='ok' name="ok" class="button" value="INCLUIR ITEM" onClick="ButtonClicked()"/></td></tr>
@@ -341,5 +357,7 @@ document.onfocus = RestoreSubmitButton;
 </div>
 </div>
 </div>
+<script src="dropzone/dropzone.js"></script>
+<link rel="stylesheet" href="dropzone/dropzone.css">
 </body>
 </html>

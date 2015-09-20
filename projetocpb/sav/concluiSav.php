@@ -159,13 +159,13 @@ AND RHPESSOAS.EMPRESA='0001'";
 if($_SESSION['diariaSolSav']=='sim'){
 //Inserir dados de diária
 $selectDadosDiaria=mysql_fetch_array(mysql_query("SELECT id FROM savdiarias WHERE idsav='".$numSav."'"));
-if(empty($selectDadosDiaria['id'])){
+if(!empty($selectDadosDiaria['id'])){
 $insereDadosDiaria=mysql_query("UPDATE savdiarias SET qtddias='".$numDiasDiaria."',valortotal='".$valorTotal."' WHERE id='".$selectDadosDiaria['id']."'");
 }else{
 $sqlNumAutMax=mysql_fetch_array(mysql_query("SELECT MAX(nautor)AS autor FROM savdiarias WHERE ano='".date('Y')."'"));
 $nautor=$sqlNumAutMax['autor']+1;
 $anoautor=date('Y');
-$updateDiariasSav=mysql_query("INSERT INTO savdiarias(idsav,nautor,ano) VALUES ('".$_SESSION['numSav']."','".$nautor."','".$anoautor."')");
+$updateDiariasSav=mysql_query("INSERT INTO savdiarias(idsav,nautor,ano,qtddias,valortotal) VALUES ('".$_SESSION['numSav']."','".$nautor."','".$anoautor."','".$numDiasDiaria."','".$valorTotal."')");
     }
 }
 	  $_SESSION['nomeFuncSav']=$dadosFuncionario['NOME'];

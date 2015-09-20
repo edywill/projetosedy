@@ -63,7 +63,7 @@ $status2=utf8_decode("Elaboração");
 			//Update
 
 $sqlRegistro="UPDATE savregistros SET dtida='".$_SESSION['dtidaSav10']."', dtvolta='".$_SESSION['dtvoltaSav10']."',origemida='".$arrayDestinoIda[0]."',origemvolta='".$arrayDestinoIda[0]."',cidorigemida='".$_SESSION['ciddestinoidaSav10']."',cidorigemvolta='".$_SESSION['ciddestinoidaSav10']."',destinoida='".$arrayDestinoIda[0]."',destinovolta='".$arrayDestinoIda[0]."',ciddestinoida='".$_SESSION['ciddestinoidaSav10']."',ciddestinovolta='".$_SESSION['ciddestinoidaSav10']."',horarioida='manha',horariovolta='".$_SESSION['horarioVolta10']."' WHERE id='".$_SESSION['numSav']."'";
-			$queryRegistro=mysql_query($sqlRegistro);
+			$queryRegistro=mysql_query($sqlRegistro) or die(mysql_error());
 			if(!$queryRegistro){
 					$valida=1;
 					$countError++;

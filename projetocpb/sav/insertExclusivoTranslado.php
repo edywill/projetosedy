@@ -63,6 +63,9 @@ $consultaPzentLoc="Select
 	$redcontLoc=$arrayCGERENLoc['cd_contabil'];
 	//$valorPassagem=$valorHospedagem/$countPassagem;
 	$sqlLocacao=mysql_query("SELECT * FROM savtranslado WHERE idsav='".$numSav."'");
+	if(empty($countTranslado)){
+		$countTranslado=1;
+		}
 	while($objLocacao=mysql_fetch_object($sqlLocacao)){
 	$sqlInsertItemLoc="insert into COISOLIC
    (

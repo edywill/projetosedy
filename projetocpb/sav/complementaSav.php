@@ -35,7 +35,7 @@ $ciddestinovolta='';
 $horarioida='';
 $horariovolta='';
 $sqlDadosDiaria=mysql_fetch_array(mysql_query("SELECT * FROM savdiarias WHERE idsav='".$_SESSION['numSav']."'"));
-if(!empty($sqlDadosDiaria)){
+if(!empty($sqlDadosDiaria['valortotal'])){
 		$nautor=$sqlDadosDiaria['nautor'];
 		$anoautor=$sqlDadosDiaria['ano'];
 		$qtddias=number_format($sqlDadosDiaria['qtddias'],1,',','.');
@@ -335,14 +335,33 @@ req.send(null);
 	}
 
 </script>
+<?php 
+if($_SESSION['passagemSav']=='sim' && $_SESSION['diariaSav']=='sim'){
+?>
 <script type="text/javascript">
   	function carregaVolta(){
-	  document.getElementById('cidorigemvolta10').value=document.getElementById('ciddestinoida10').value;
-	  document.getElementById('ciddestinovolta10').value=document.getElementById('cidorigemida10').value;
-	  document.getElementById('origemvolta10').value=document.getElementById('destinoida10').value;
-	  document.getElementById('destinovolta10').value=document.getElementById('origemida10').value;
+		//Verificar se ida e volta e selecionado (se sim colcoar data de ida e data de volta para hospedagem)
+		idaevolta=document.getElementById('idaevolta').value;
+	  if(idaevolta==1){
+		  document.getElementById('dtida2').value=document.getElementById('dtida').value;
+		  document.getElementById('dtvolta2').value=document.getElementById('dtvolta').value;
+		  }
+		  
+	  document.getElementById('cidhos').value=document.getElementById('ciddestino').value;
+	  document.getElementById('destinoida2').value=document.getElementById('destinoida').value;
 	  }
   </script>
+<?php 
+}else{
+	
+?>
+<script type="text/javascript">
+  	function carregaVolta(){
+	  }
+  </script>
+<?php
+}
+?>
 </head>
 <body onKeyDown="javascript:return bloqueioTeclas();">
 <div id='box3' style="height:auto">
@@ -587,7 +606,7 @@ echo "<tr height='34'><td><strong>Cidade Origem:</strong></td><td> <input type='
 }else{
 	echo "<tr height='34'><td><input type='hidden' class='input' name='cidorigem' id='cidorigem' size='40' onBlur='carregaVolta()' autocomplete='off'/>";
 	}
-?><strong>Origem:</strong></td><td> <input type="text" class="input" name="origemida" id="origemida" size="30" value='<?php echo $_SESSION['origemidaSav2']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;" autocomplete='off'/><font style="font-size:10px; color:#949292">(*) Selecione na lista</font>
+?><strong>Origem:</strong></td><td> <input type="text" class="input" name="origemida" id="origemida" size="30" value='<?php echo $_SESSION['origemidaSav2']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;" autocomplete='off' onBlur='carregaVolta()'/><font style="font-size:10px; color:#949292">(*) Selecione na lista</font>
 </td></tr>
 <?php 
 if($_SESSION['abrangenciaSav']=='Internacional'){
@@ -598,7 +617,7 @@ echo "<tr height='34'><td><strong>Cidade Destino:</strong></td><td> <input type=
 }else{
 	echo "<tr height='34'><td><input type='hidden' class='input' name='ciddestino' id='ciddestino' size='40' onBlur='carregaVolta()'/>";
 	}
-?><strong>Destino:</strong></td><td> <input type="text" class="input" name="destinoida" id="destinoida" size="30" value='<?php echo $_SESSION['destinoidaSav2']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na lista</font></td></tr>
+?><strong>Destino:</strong></td><td> <input type="text" class="input" name="destinoida" id="destinoida" size="30" value='<?php echo $_SESSION['destinoidaSav2']; ?>' style="background: url(css/icone_lupa.png) no-repeat right;" onBlur='carregaVolta()'/><font style="font-size:10px; color:#949292">(*) Selecione na lista</font></td></tr>
 </table>
 </td></tr><tr><td>
 <br /><strong>Horário</strong><br /><br />
@@ -699,7 +718,7 @@ echo $abrangencia;
 if($abrangencia=='Nacional'){
 	echo "<strong>Cidade</strong><input type='hidden' class='input' name='cidhos' id='cidhos' size='30'/>";
 	}else{
-		echo "<strong>Cidade:</strong> <input type='text' class='input' name='cidhos' id='cidhos' size='30' onBlur='carregaVolta()' value='".$_SESSION['cidHosSav']."'/><br><strong>País</strong>";
+		echo "<strong>Cidade:</strong> <input type='text' class='input' name='cidhos' id='cidhos' size='30' value='".$_SESSION['cidHosSav']."'/><br><strong>País</strong>";
 		}
 ?>: <input type="text" class="input" name="destinoida2" id="destinoida2" size="30" value='<?php echo utf8_encode($_SESSION['destinoidaSav3']); ?>' style="background: url(css/icone_lupa.png) no-repeat right;"/><font style="font-size:10px; color:#949292">(*) Selecione na lista</font></td></tr>
 <tr><td height='34'><strong>Tipo Quarto:</strong>

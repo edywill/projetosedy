@@ -118,13 +118,6 @@ if($executaConsultaLocais2['idqtd']<1){
 		$errorMsg.='Erro['.$countError.']: Destino informado invalido.<br>';
 	}
 }
-$scriptDatasAnteriores=mysql_query("SELECT savpassagem.idsav FROM savpassagem INNER JOIN savregistros ON savpassagem.idsav=savregistros.id WHERE savpassagem.dtida='".$_SESSION['dtidaSav2']."' AND savpassagem.origem='".$arrayOrigemIda[0]."' AND savregistros.funcionario='".$_SESSION['idFuncSav']."' AND savregistros.situacao<>'Cancelada'") or die(mysql_error());
-$sqlDatasAnteriores=mysql_num_rows($scriptDatasAnteriores);
-//if($sqlDatasAnteriores>0){
-	//	$valida=1;
-		//$countError++;
-		//$errorMsg.='Erro['.$countError.']: Já existe pedido de passagem com data e origem iguais. Necessário selecionar outra data ou local de saída.<br>';
-	//}
 if($valida==0){
 	$compl='0';
 	if($abrangencia=='Internacional'){

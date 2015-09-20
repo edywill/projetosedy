@@ -20,6 +20,7 @@ echo '<strong>Deslocamento</strong>
   </tr>';
   $countPassagemImpContador=0;
   $cont=0;
+  $idPassagemAut=0;
   while($objPassagemImp=mysql_fetch_object($sqlPassagemImp)){
 	  if($objPassagemImp->inter<>'itn'){
 				  $sqlTrechoNacImpIda=mysql_fetch_array(mysql_query("SELECT municipio,uf FROM municipios WHERE id='".$objPassagemImp->origem."'"));
@@ -39,8 +40,9 @@ echo '<strong>Deslocamento</strong>
 		  if($countPassagemImpContador<$countPassagemImp || ($countPassagemImp==1 && $objPassagemImp->tipo==1)){
 			  $queryDadosPassagem=mysql_query("SELECT prestsavvoo.*,cia.id AS idcia, cia.nome AS nomecia FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE prestsavvoo.idpass='".$objPassagemImp->id."' ORDER BY prestsavvoo.id ASC");
 			  $sqlDadosPassagem=mysql_fetch_array($queryDadosPassagem);
-			  $queryAut=mysql_query("SELECT registros.localizador,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' ORDER BY registros.id DESC") or die(mysql_error());
-		  $buscaAutorizacao=mysql_fetch_array($queryAut);
+			  $queryAut=mysql_query("SELECT registros.localizador,registros.id AS idreg,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' AND registros.id<>'".$idPassagemAut."' ORDER BY registros.id ASC") or die(mysql_error());
+		$buscaAutorizacao=mysql_fetch_array($queryAut);
+		$idPassagemAut=$buscaAutorizacao['idreg'];
 		if(!empty($sqlDadosPassagem['loc'])){
 			$localizador=$sqlDadosPassagem['loc'];
 			}else{
@@ -78,8 +80,9 @@ echo '<strong>Deslocamento</strong>
 		  }else{
 			  $queryDadosPassagem=mysql_query("SELECT prestsavvoo.*,cia.id AS idcia, cia.nome AS nomecia FROM prestsavvoo LEFT JOIN cia ON cia.id=prestsavvoo.cia WHERE prestsavvoo.idpass='".$objPassagemImp->id."' ORDER BY prestsavvoo.id DESC");
 			  $sqlDadosPassagem=mysql_fetch_array($queryDadosPassagem);
-			  $queryAut=mysql_query("SELECT registros.localizador,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' ORDER BY registros.id DESC") or die(mysql_error());
+			  $queryAut=mysql_query("SELECT registros.localizador,registros.id AS idreg,cia.nome,cia.id AS idcia FROM registros LEFT JOIN cia ON registros.idcia=cia.id WHERE registros.solicitacao='".$objPassagemImp->numci."' AND registros.idben='".$benef."' AND registros.id<>'".$idPassagemAut."' ORDER BY registros.id DESC") or die(mysql_error());
 			  $buscaAutorizacao=mysql_fetch_array($queryAut);
+			  $idPassagemAut=$sqlDadosPassagem['idreg'];
 		if(!empty($sqlDadosPassagem['loc'])){
 			$localizador=$sqlDadosPassagem['loc'];
 			}else{
@@ -95,9 +98,14 @@ echo '<strong>Deslocamento</strong>
 				if(empty($cia)){
 					$cia=0;
 					}
+				if(empty($objPassagemImp->dtvolta)){
+					$voltaData=$objPassagemImp->dtida;
+					}else{
+						$voltaData=$objPassagemImp->dtvolta;
+						}
 			echo " <tr>
     			<td ><strong>VOLTA</strong></td>
-    			<td align='center'><font size='-2'>".$objPassagemImp->dtvolta."<br>".utf8_encode($voltaImpressao)." x ".utf8_encode($idaImpressao)."</font></td>
+    			<td align='center'><font size='-2'>".$voltaData."<br>".utf8_encode($voltaImpressao)." x ".utf8_encode($idaImpressao)."</font></td>
     			<td align='center'><input type='hidden' size='8' class='input' name='idpas".$cont."' value='".$objPassagemImp->id."'/><input type='time' size='8' class='input' name='hora".$cont."' value='".$sqlDadosPassagem['horario']."'/></td>
 				<td align='center'><input type='text' size='8' class='input' name='loc".$cont."' value='".$localizador."'/></td>
 				<td align='center'><input type='text' size='8' class='input' name='voo".$cont."' value='".$sqlDadosPassagem['voo']."'/></td>

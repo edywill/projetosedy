@@ -16,12 +16,17 @@ $numSav=$_SESSION['numSav'];
 //Passagem inicio
 if($_SESSION['passagemSav']=='sim'){
 			$sqlPassagem=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$numSav."' ORDER BY STR_TO_DATE(dtida,'%d/%m/%Y')");
+			$sqlPassagem2=mysql_query("SELECT * FROM savpassagem WHERE idsav='".$numSav."' ORDER BY STR_TO_DATE(dtida,'%d/%m/%Y')");
 			$countPassagem=mysql_num_rows($sqlPassagem);
+			$arrayTipo=mysql_fetch_array($sqlPassagem);
 			if($countPassagem<1){
 				$valida=1;
 				$countError++;
 				$errorMsg.='Erro['.$countError.']: Necessario informar ao menos um item de passagem aerea.<br>';
 				}else{
+				if($countPassagem==1 && $arrayTipo['tipo']==1){
+					//Não atualiza
+					}else{
 				$passagem=1;
 				$dataIda='';
 				$dataVolta='';
@@ -30,8 +35,7 @@ if($_SESSION['passagemSav']=='sim'){
 				$destinoIda='';
 				$horarioVoltaTemp='';
 				$contador=0;
-				while($objPassagem=mysql_fetch_object($sqlPassagem)){
-					//Se for somente uma passagem
+				while($objPassagem=mysql_fetch_object($sqlPassagem2)){									//Se for somente uma passagem
 					if($countPassagem==1){
 						if($objPassagem->tipo==2){
 						$dataIda=$objPassagem->dtida;
@@ -72,7 +76,7 @@ if($_SESSION['passagemSav']=='sim'){
 								}
 							$contador++;
 							}
-					}
+					} 
 				$sqlRegistrosPas=mysql_fetch_array(mysql_query("SELECT dtida,dtvolta,destinoida,horariovolta FROM savregistros WHERE id='".$numSav."'"));
 	if(empty($sqlRegistrosPas['dtida'])||empty($sqlRegistrosPas['dtvolta'])||empty($sqlRegistrosPas['horariovolta'])||empty($sqlRegistrosPas['destinoida'])){
 		             //Atualiza tudo (ida, volta, horario ida, horario volta, cid origem, cid destino, origem e destino (ida e volta)
@@ -94,9 +98,9 @@ if($_SESSION['passagemSav']=='sim'){
 				}
 						}
 				}
+			  }
 			}
 //Passagem FIM
-
 //HOspedagem Inicio
 		if($_SESSION['diariaSav']=='sim'){
 			$sqlHospedagem=mysql_query("SELECT * FROM savhospedagem WHERE idsav='".$numSav."' ORDER BY STR_TO_DATE(dtida,'%d/%m/%Y')");
